@@ -9,31 +9,30 @@ import lombok.*;
 @Getter
 @Setter
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = false)
-@EqualsAndHashCode
-public class Address {
+public class AddressEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "country", nullable = false, length = 255)
+    @Column(name = "country", nullable = false)
     @ToString.Include
     private String country;
 
-    @Column(name = "city", nullable = false, length = 255)
+    @Column(name = "city", nullable = false)
     @ToString.Include
     private String city;
 
-    @Column(name = "zip_code", nullable = false, length = 255)
+    @Column(name = "zip_code", nullable = false)
     private String zipCode;
 
-    @Column(name = "street", nullable = false, length = 255)
+    @Column(name = "street", nullable = false)
     @ToString.Include
     private String street;
 
-    @Column(name = "house_num", nullable = false, length = 255)
+    @Column(name = "house_num", nullable = false)
     private String houseNum;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private AppUser user;
+    private AppUserEntity user;
 }
