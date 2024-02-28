@@ -32,7 +32,4 @@ public class AddressEntity {
 
     @Column(name = "house_num", nullable = false)
     private String houseNum;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private AppUserEntity user;
 }

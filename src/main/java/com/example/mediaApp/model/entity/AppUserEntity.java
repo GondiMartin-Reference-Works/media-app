@@ -43,10 +43,10 @@ public class AppUserEntity {
     private byte[] profilePicture;
 
     @OneToMany(
-            mappedBy = "user",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JoinColumn(name = "user_id")
     private List<AddressEntity> addressList;
 
     @OneToMany(
@@ -98,9 +98,6 @@ public class AppUserEntity {
     )
     private List<CommentLikeEntity> likedComments;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private GroupEntity ledGroup;
-
     @ManyToMany(fetch = FetchType.LAZY)
     private List<GroupEntity> joinedGroups;
 
@@ -114,6 +111,5 @@ public class AppUserEntity {
 
     public void addAddress(AddressEntity address) {
         addressList.add(address);
-        address.setUser(this);
     }
 }
