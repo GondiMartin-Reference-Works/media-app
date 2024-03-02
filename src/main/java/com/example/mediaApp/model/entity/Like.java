@@ -6,22 +6,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity(name = "PostLike")
-@Table(name = "post_like")
+@Entity(name = "Like")
+@Table(name = "like")
 @Setter
 @Getter
 @NoArgsConstructor
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = false)
-public class PostLike {
+public class Like {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Post post;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private AppUser user;
 }

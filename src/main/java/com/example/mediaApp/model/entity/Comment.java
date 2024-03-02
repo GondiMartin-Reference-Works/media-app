@@ -24,17 +24,13 @@ public class Comment {
     @ToString.Include
     private String text;
 
+    // Unidirectional
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private AppUser user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Post post;
-
-    @OneToMany(
-            mappedBy = "id",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<CommentLike> likes;
+    // Unidirectional
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "comment_id")
+    private List<Like> likes;
 }

@@ -33,18 +33,14 @@ public class Post {
     @Column(length = 1000000)
     private byte[] image;
 
-    @OneToMany(
-            mappedBy = "id",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<PostLike> likes;
+    // Unidirectional
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "post_id")
+    private List<Like> likes;
 
-    @OneToMany(
-            mappedBy = "id",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    // Unidirectional
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "post_id")
     private List<Comment> comments;
 
     @OneToMany(
