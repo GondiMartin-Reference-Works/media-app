@@ -7,7 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity(name = "Like")
-@Table(name = "like")
+@Table(name = "_like")
 @Setter
 @Getter
 @NoArgsConstructor

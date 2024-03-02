@@ -39,31 +39,31 @@ class MediaAppApplicationTests {
 		user.setLastName("Rideg");
 
 		// assert
-		assertEquals("AppUserEntity(Vilmos, Rideg)", user.toString());
+		assertEquals("AppUser(Vilmos, Rideg)", user.toString());
 	}
 
 	@Test
 	void testAddingAddressSuccess(){
 		// arrange
 		user = new AppUser();
-		user.setAddressList(new ArrayList<>());
+		user.setAddresses(new ArrayList<>());
 
 		// act
 		user.addAddress(home);
 
 		// assert
-		Address address = user.getAddressList().stream()
+		Address address = user.getAddresses().stream()
 				.findAny()
 				.orElse(null);
 		assertNotNull(address);
-		assertEquals("AddressEntity(Hungary, Budapest, Ördögmalom)", address.toString());
+		assertEquals("Address(Hungary, Budapest, Ördögmalom)", address.toString());
 	}
 
 	@Test
 	void testReferenceDoesNotThrowException(){
 		// arrange
 		user = new AppUser();
-		user.setAddressList(new ArrayList<>());
+		user.setAddresses(new ArrayList<>());
 
 		// act
 		user.addAddress(home);
@@ -88,12 +88,14 @@ class MediaAppApplicationTests {
 		friend.setLastName("Rideg");
 		FriendRequest friendRequest = new FriendRequest();
 
+		// act
 		friendRequest.setSenderUser(user);
 		friendRequest.setReceiverUser(friend);
-		user.setFriendRequest(List.of(friendRequest));
-		friend.setFriendRequest(List.of(friendRequest));
+		user.setFriendRequests(List.of(friendRequest));
+		friend.setFriendRequests(List.of(friendRequest));
+
+		// assert
 		assertDoesNotThrow(user::toString);
 		assertDoesNotThrow(friend::toString);
-
 	}
 }
