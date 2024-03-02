@@ -21,6 +21,7 @@ public class Story {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    // Bidirectional
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @ToString.Include
