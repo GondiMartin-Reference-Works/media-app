@@ -1,10 +1,6 @@
 package com.example.mediaApp.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,7 +17,7 @@ public class Weather {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    //Változhat a formátum
+    @Column(name = "report")
     @ToString.Include
     private String report;
 }
