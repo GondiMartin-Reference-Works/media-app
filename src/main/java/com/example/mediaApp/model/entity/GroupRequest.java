@@ -18,10 +18,12 @@ public class GroupRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    // Bidirectional
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
 
+    // Unidirectional
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_user_id")
     private AppUser senderUser;
