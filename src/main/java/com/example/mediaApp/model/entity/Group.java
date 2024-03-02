@@ -20,40 +20,38 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "description")
     private String description;
 
     @Lob
-    @Column(length = 1000000)
+    @Column(name = "image", length = 1000000)
     private byte[] image;
 
-    @ManyToOne(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
-    )
+    // Unidirectional
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_user_id")
     private AppUser adminUser;
 
+    // Bidirectional
     @ManyToMany
     @JoinTable(
             name = "group_participant",
             joinColumns = @JoinColumn(name = "group_id"),
-            inverseJoinColumns = @JoinColumn(name = "participant_user_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "participant_user_id"))
     private List<AppUser> participantUsers;
 
+    // Bidirectional
     @OneToMany(
             mappedBy = "group",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+            orphanRemoval = true)
     private List<GroupRequest> groupRequests;
 
+    // Bidirectional
     @OneToMany(
             mappedBy = "group",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+            orphanRemoval = true)
     private List<Post> posts;
 }
