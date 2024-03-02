@@ -18,11 +18,13 @@ public class FriendRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    // Unidirectional
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_user_id")
     @ToString.Include
     private AppUser senderUser;
 
+    // Bidirectional
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_user_id")
     @ToString.Include
