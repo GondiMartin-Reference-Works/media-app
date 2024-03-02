@@ -20,18 +20,21 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    // Bidirectional
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private AppUser user;
 
+    // Bidirectional
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
 
+    @Column(name = "text")
     private String text;
 
     @Lob
-    @Column(length = 1000000)
+    @Column(name = "image", length = 1000000)
     private byte[] image;
 
     // Unidirectional
@@ -44,10 +47,9 @@ public class Post {
     @JoinColumn(name = "post_id")
     private List<Comment> comments;
 
+    // Bidirectional
     @OneToMany(
-            mappedBy = "id",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+            mappedBy = "post",
+            orphanRemoval = true)
     private List<Report> reports;
 }
