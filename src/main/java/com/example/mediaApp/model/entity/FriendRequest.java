@@ -1,13 +1,6 @@
 package com.example.mediaApp.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,16 +12,19 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = false)
-public class FriendRequestEntity {
+public class FriendRequest {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ToString.Include
     @ManyToOne(fetch = FetchType.LAZY)
-    private AppUserEntity senderUser;
+    @JoinColumn(name = "sender_user_id")
+    @ToString.Include
+    private AppUser senderUser;
 
-    @ToString.Include
     @ManyToOne(fetch = FetchType.LAZY)
-    private AppUserEntity receiverUser;
+    @JoinColumn(name = "receiver_user_id")
+    @ToString.Include
+    private AppUser receiverUser;
 }

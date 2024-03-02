@@ -1,8 +1,8 @@
 package com.example.mediaApp;
 
-import com.example.mediaApp.model.entity.AddressEntity;
-import com.example.mediaApp.model.entity.AppUserEntity;
-import com.example.mediaApp.model.entity.FriendRequestEntity;
+import com.example.mediaApp.model.entity.Address;
+import com.example.mediaApp.model.entity.AppUser;
+import com.example.mediaApp.model.entity.FriendRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,12 +18,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 class MediaAppApplicationTests {
 
-	private AppUserEntity user;
-	private AddressEntity home;
+	private AppUser user;
+	private Address home;
 
 	@BeforeEach
 	void contextLoads() {
-		home = new AddressEntity();
+		home = new Address();
 		home.setCountry("Hungary");
 		home.setCity("Budapest");
 		home.setStreet("Ördögmalom");
@@ -32,7 +32,7 @@ class MediaAppApplicationTests {
 	@Test
 	void testUserSuccess(){
 		// arrange
-		user = new AppUserEntity();
+		user = new AppUser();
 
 		// act
 		user.setFirstName("Vilmos");
@@ -45,31 +45,28 @@ class MediaAppApplicationTests {
 	@Test
 	void testAddingAddressSuccess(){
 		// arrange
-		user = new AppUserEntity();
+		user = new AppUser();
 		user.setAddressList(new ArrayList<>());
 
 		// act
 		user.addAddress(home);
-		home.setUser(user);
 
 		// assert
-		AddressEntity addressEntity = user.getAddressList().stream()
-				.filter(addr -> addr.getUser().equals(user))
+		Address address = user.getAddressList().stream()
 				.findAny()
 				.orElse(null);
-		assertNotNull(addressEntity);
-		assertEquals("AddressEntity(Hungary, Budapest, Ördögmalom)", addressEntity.toString());
+		assertNotNull(address);
+		assertEquals("AddressEntity(Hungary, Budapest, Ördögmalom)", address.toString());
 	}
 
 	@Test
 	void testReferenceDoesNotThrowException(){
 		// arrange
-		user = new AppUserEntity();
+		user = new AppUser();
 		user.setAddressList(new ArrayList<>());
 
 		// act
 		user.addAddress(home);
-		home.setUser(user);
 
 		// assert
 		assertDoesNotThrow(() -> user.toString());
@@ -79,17 +76,17 @@ class MediaAppApplicationTests {
 	@Test
 	void testFriendRequest(){
 		// arrange
-		user = new AppUserEntity();
+		user = new AppUser();
 		user.setId(1L);
 		user.setEmail("martin.gondocs@gmail.com");
 		user.setFirstName("Martin");
 		user.setLastName("Göndöcs");
-		AppUserEntity friend = new AppUserEntity();
+		AppUser friend = new AppUser();
 		friend.setId(2L);
 		friend.setEmail("rideg.vili@gmail.com");
 		friend.setFirstName("Vilmos");
 		friend.setLastName("Rideg");
-		FriendRequestEntity friendRequest = new FriendRequestEntity();
+		FriendRequest friendRequest = new FriendRequest();
 
 		friendRequest.setSenderUser(user);
 		friendRequest.setReceiverUser(friend);

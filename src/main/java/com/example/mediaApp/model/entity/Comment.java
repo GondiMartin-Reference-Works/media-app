@@ -1,14 +1,6 @@
 package com.example.mediaApp.model.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,25 +14,27 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = false)
-public class CommentEntity {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "text")
     @ToString.Include
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private AppUserEntity user;
+    @JoinColumn(name = "user_id")
+    private AppUser user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private PostEntity post;
+    private Post post;
 
     @OneToMany(
             mappedBy = "id",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<CommentLikeEntity> likes;
+    private List<CommentLike> likes;
 }

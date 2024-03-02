@@ -12,21 +12,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity(name = "CommentLike")
-@Table(name = "comment_like")
+@Entity(name = "Report")
+@Table(name = "report")
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = false)
-public class CommentLikeEntity {
+public class Report {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private AppUserEntity user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private CommentEntity comment;
+    private Post post;
 }

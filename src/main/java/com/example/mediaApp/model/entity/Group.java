@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = false)
-public class GroupEntity {
+public class Group {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,27 +33,27 @@ public class GroupEntity {
             fetch = FetchType.LAZY
     )
     @JoinColumn(name = "admin_user_id")
-    private AppUserEntity adminUser;
+    private AppUser adminUser;
 
     @ManyToMany
     @JoinTable(
-            name = "group_members",
+            name = "group_participant",
             joinColumns = @JoinColumn(name = "group_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
+            inverseJoinColumns = @JoinColumn(name = "participant_user_id")
     )
-    private List<AppUserEntity> participantUsers;
+    private List<AppUser> participantUsers;
 
     @OneToMany(
             mappedBy = "group",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<GroupRequestEntity> groupRequests;
+    private List<GroupRequest> groupRequests;
 
     @OneToMany(
             mappedBy = "group",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<PostEntity> posts;
+    private List<Post> posts;
 }
