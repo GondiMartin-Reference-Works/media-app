@@ -37,7 +37,7 @@ public class AppUserEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private RoleEntity roleEntity;
+    private Role role;
 
     @Lob
     @Column(name = "profile_picture", length = 1000000)
