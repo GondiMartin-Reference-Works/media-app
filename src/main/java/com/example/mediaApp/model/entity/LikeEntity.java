@@ -6,25 +6,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity(name = "GroupRequest")
-@Table(name = "group_request")
-@Getter
+@Entity(name = "Like")
+@Table(name = "_like")
 @Setter
+@Getter
 @NoArgsConstructor
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = false)
-public class GroupRequest {
+public class LikeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    // Bidirectional
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    private Group group;
-
     // Unidirectional
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sender_user_id")
-    private AppUser senderUser;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private AppUserEntity user;
 }

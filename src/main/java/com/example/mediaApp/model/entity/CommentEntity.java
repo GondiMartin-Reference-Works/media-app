@@ -6,27 +6,31 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity(name = "FriendConnection")
-@Table(name = "friend_connection")
+import java.util.List;
+
+@Entity(name = "Comment")
+@Table(name = "comment")
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = false)
-public class FriendConnection {
+public class CommentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    // Bidirectional
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @Column(name = "text")
     @ToString.Include
-    private AppUser user;
+    private String text;
 
     // Unidirectional
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "friend_id")
-    @ToString.Include
-    private AppUser friend;
+    @JoinColumn(name = "user_id")
+    private AppUserEntity user;
+
+    // Unidirectional
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "comment_id")
+    private List<LikeEntity> likes;
 }

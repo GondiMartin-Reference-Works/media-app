@@ -6,18 +6,25 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity(name = "Weather")
-@Table(name = "weather")
+@Entity(name = "GroupRequest")
+@Table(name = "group_request")
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = false)
-public class Weather {
+public class GroupRequestEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "report")
-    @ToString.Include
-    private String report;
+    // Bidirectional
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
+    private GroupEntity group;
+
+    // Unidirectional
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender_user_id")
+    private AppUserEntity senderUser;
 }

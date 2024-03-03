@@ -1,5 +1,5 @@
 package com.example.mediaApp.model.entity;
 
-public enum Role {
+public enum RoleEntity {
     USER, ADMIN
 }

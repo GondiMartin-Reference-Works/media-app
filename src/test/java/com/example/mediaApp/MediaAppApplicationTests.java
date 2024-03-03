@@ -11,18 +11,18 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class MediaAppApplicationTests {
 
-	private AppUser user;
-	private Address home;
+	private AppUserEntity user;
+	private AddressEntity home;
 
 	@BeforeEach
 	void contextLoads() {
 		// arrange (home)
-		home = new Address();
+		home = new AddressEntity();
 		home.setCountry("Hungary");
 		home.setCity("Budapest");
 		home.setStreet("Ördögmalom");
 		// arrange (user)
-		user = new AppUser();
+		user = new AppUserEntity();
 		user.setId(1L);
 		user.setEmail("martin.gondocs@gmail.com");
 		user.setFirstName("Martin");
@@ -31,7 +31,7 @@ class MediaAppApplicationTests {
 
 	@Test
 	void testUserSuccess(){
-		assertEquals("AppUser(Martin, Göndöcs)", user.toString());
+		assertEquals("AppUserEntity(Martin, Göndöcs)", user.toString());
 	}
 
 	@Test
@@ -40,11 +40,11 @@ class MediaAppApplicationTests {
 		user.setAddresses(List.of(home));
 
 		// assert
-		Address address = user.getAddresses().stream()
+		AddressEntity addressEntity = user.getAddresses().stream()
 				.findAny()
 				.orElse(null);
-		assertNotNull(address);
-		assertEquals("Address(Hungary, Budapest, Ördögmalom)", address.toString());
+		assertNotNull(addressEntity);
+		assertEquals("AddressEntity(Hungary, Budapest, Ördögmalom)", addressEntity.toString());
 	}
 
 	@Test
@@ -60,18 +60,18 @@ class MediaAppApplicationTests {
 	@Test
 	void testFriendRequest(){
 		// arrange
-		AppUser friend = new AppUser();
+		AppUserEntity friend = new AppUserEntity();
 		friend.setId(2L);
 		friend.setEmail("rideg.vili@gmail.com");
 		friend.setFirstName("Vilmos");
 		friend.setLastName("Rideg");
-		FriendRequest friendRequest = new FriendRequest();
+		FriendRequestEntity friendRequestEntity = new FriendRequestEntity();
 
 		// act
-		friendRequest.setSenderUser(user);
-		friendRequest.setReceiverUser(friend);
-		user.setFriendRequests(List.of(friendRequest));
-		friend.setFriendRequests(List.of(friendRequest));
+		friendRequestEntity.setSenderUser(user);
+		friendRequestEntity.setReceiverUser(friend);
+		user.setFriendRequests(List.of(friendRequestEntity));
+		friend.setFriendRequests(List.of(friendRequestEntity));
 
 		// assert
 		assertDoesNotThrow(user::toString);
@@ -81,20 +81,20 @@ class MediaAppApplicationTests {
 	@Test
 	void testGroupRequestApproveSuccess(){
 		// arrange
-		Group group = new Group();
-		group.setName("Media app group");
-		GroupRequest request = new GroupRequest();
-		request.setGroup(group);
+		GroupEntity groupEntity = new GroupEntity();
+		groupEntity.setName("Media app group");
+		GroupRequestEntity request = new GroupRequestEntity();
+		request.setGroup(groupEntity);
 		request.setSenderUser(user);
 
 		// act
-		group.setGroupRequests(List.of(request));
+		groupEntity.setGroupRequests(List.of(request));
 
 		// assert
-		AppUser groupRequestSender = (group.getGroupRequests().stream()
+		AppUserEntity groupRequestSender = (groupEntity.getGroupRequests().stream()
 					.filter(gRequest -> gRequest.getSenderUser().equals(user))
 					.findFirst()
-					.orElse(new GroupRequest()))
+					.orElse(new GroupRequestEntity()))
 					.getSenderUser();
 		assertEquals(groupRequestSender, user);
 	}
@@ -102,15 +102,15 @@ class MediaAppApplicationTests {
 	@Test
 	void testGroupParticipantAddingSuccess(){
 		// arrange
-		Group group = new Group();
-		group.setName("Media app group");
+		GroupEntity groupEntity = new GroupEntity();
+		groupEntity.setName("Media app group");
 
 		// act
-		group.setParticipantUsers(List.of(user));
-		user.setJoinedGroups(List.of(group));
+		groupEntity.setParticipantUsers(List.of(user));
+		user.setJoinedGroups(List.of(groupEntity));
 
 		// assert
-		assertTrue(group.getParticipantUsers().contains(user));
-		assertTrue(user.getJoinedGroups().contains(group));
+		assertTrue(groupEntity.getParticipantUsers().contains(user));
+		assertTrue(user.getJoinedGroups().contains(groupEntity));
 	}
 }

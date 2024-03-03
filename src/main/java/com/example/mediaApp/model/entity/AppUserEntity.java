@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = false)
-public class AppUser {
+public class AppUserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +37,7 @@ public class AppUser {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private Role role;
+    private RoleEntity roleEntity;
 
     @Lob
     @Column(name = "profile_picture", length = 1000000)
@@ -46,36 +46,36 @@ public class AppUser {
     // Unidirectional
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "user_id")
-    private List<Address> addresses;
+    private List<AddressEntity> addresses;
 
     // Bidirectional
     // Storing friend-requests only from other users
     @OneToMany(
             mappedBy = "receiverUser",
             orphanRemoval = true)
-    private List<FriendRequest> friendRequests;
+    private List<FriendRequestEntity> friendRequests;
 
     // Bidirectional
     @OneToMany(
             mappedBy = "user",
             orphanRemoval = true)
-    private List<FriendConnection> friendConnections;
+    private List<FriendConnectionEntity> friendConnections;
 
     // Bidirectional
     @OneToMany(
             mappedBy = "user",
             orphanRemoval = true)
-    private List<Story> stories;
+    private List<StoryEntity> stories;
 
     // Bidirectional
     @OneToMany(
             mappedBy = "user",
             orphanRemoval = true)
-    private List<Post> posts;
+    private List<PostEntity> posts;
 
     // Bidirectional
     @ManyToMany(
             fetch = FetchType.LAZY,
             mappedBy = "participantUsers")
-    private List<Group> joinedGroups;
+    private List<GroupEntity> joinedGroups;
 }
