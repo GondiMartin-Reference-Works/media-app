@@ -4,8 +4,6 @@ import com.example.mediaApp.model.entity.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -96,7 +94,7 @@ class MediaAppApplicationTests {
 		AppUser groupRequestSender = (group.getGroupRequests().stream()
 					.filter(gRequest -> gRequest.getSenderUser().equals(user))
 					.findFirst()
-					.orElse(null))
+					.orElse(new GroupRequest()))
 					.getSenderUser();
 		assertEquals(groupRequestSender, user);
 	}
