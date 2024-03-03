@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = false)
 public class AppUserEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -42,78 +43,39 @@ public class AppUserEntity {
     @Column(name = "profile_picture", length = 1000000)
     private byte[] profilePicture;
 
+    // Unidirectional
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "user_id")
+    private List<AddressEntity> addresses;
+
+    // Bidirectional
+    // Storing friend-requests only from other users
+    @OneToMany(
+            mappedBy = "receiverUser",
+            orphanRemoval = true)
+    private List<FriendRequestEntity> friendRequests;
+
+    // Bidirectional
     @OneToMany(
             mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<AddressEntity> addressList;
+            orphanRemoval = true)
+    private List<FriendConnectionEntity> friendConnections;
 
+    // Bidirectional
     @OneToMany(
-            mappedBy = "id",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<FriendRequestEntity> friendRequest;
-
-    @OneToMany(
-            mappedBy = "id",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<FriendConnectionEntity> friendConnection;
-
-    @OneToMany(
-            mappedBy = "id",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+            mappedBy = "user",
+            orphanRemoval = true)
     private List<StoryEntity> stories;
 
+    // Bidirectional
     @OneToMany(
-            mappedBy = "id",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<PostEntity> post;
+            mappedBy = "user",
+            orphanRemoval = true)
+    private List<PostEntity> posts;
 
-    @OneToMany(
-            mappedBy = "id",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<PostLikeEntity> likedPosts;
-
-    @OneToMany(
-            mappedBy = "id",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<CommentEntity> comments;
-
-    @OneToMany(
-            mappedBy = "id",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<CommentLikeEntity> likedComments;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private GroupEntity ledGroup;
-
-    @ManyToMany(fetch = FetchType.LAZY)
+    // Bidirectional
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "participantUsers")
     private List<GroupEntity> joinedGroups;
-
-    @OneToMany(
-            mappedBy = "id",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<GroupRequestEntity> groupRequests;
-
-
-    public void addAddress(AddressEntity address) {
-        addressList.add(address);
-        address.setUser(this);
-    }
 }

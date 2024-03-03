@@ -1,19 +1,12 @@
 package com.example.mediaApp;
 
-import com.example.mediaApp.model.entity.AddressEntity;
-import com.example.mediaApp.model.entity.AppUserEntity;
-import com.example.mediaApp.model.entity.FriendRequestEntity;
+import com.example.mediaApp.model.entity.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class MediaAppApplicationTests {
@@ -23,38 +16,31 @@ class MediaAppApplicationTests {
 
 	@BeforeEach
 	void contextLoads() {
+		// arrange (home)
 		home = new AddressEntity();
 		home.setCountry("Hungary");
 		home.setCity("Budapest");
 		home.setStreet("Ördögmalom");
+		// arrange (user)
+		user = new AppUserEntity();
+		user.setId(1L);
+		user.setEmail("martin.gondocs@gmail.com");
+		user.setFirstName("Martin");
+		user.setLastName("Göndöcs");
 	}
 
 	@Test
 	void testUserSuccess(){
-		// arrange
-		user = new AppUserEntity();
-
-		// act
-		user.setFirstName("Vilmos");
-		user.setLastName("Rideg");
-
-		// assert
-		assertEquals("AppUserEntity(Vilmos, Rideg)", user.toString());
+		assertEquals("AppUserEntity(Martin, Göndöcs)", user.toString());
 	}
 
 	@Test
 	void testAddingAddressSuccess(){
-		// arrange
-		user = new AppUserEntity();
-		user.setAddressList(new ArrayList<>());
-
 		// act
-		user.addAddress(home);
-		home.setUser(user);
+		user.setAddresses(List.of(home));
 
 		// assert
-		AddressEntity addressEntity = user.getAddressList().stream()
-				.filter(addr -> addr.getUser().equals(user))
+		AddressEntity addressEntity = user.getAddresses().stream()
 				.findAny()
 				.orElse(null);
 		assertNotNull(addressEntity);
@@ -63,13 +49,8 @@ class MediaAppApplicationTests {
 
 	@Test
 	void testReferenceDoesNotThrowException(){
-		// arrange
-		user = new AppUserEntity();
-		user.setAddressList(new ArrayList<>());
-
 		// act
-		user.addAddress(home);
-		home.setUser(user);
+		user.setAddresses(List.of(home));
 
 		// assert
 		assertDoesNotThrow(() -> user.toString());
@@ -79,24 +60,57 @@ class MediaAppApplicationTests {
 	@Test
 	void testFriendRequest(){
 		// arrange
-		user = new AppUserEntity();
-		user.setId(1L);
-		user.setEmail("martin.gondocs@gmail.com");
-		user.setFirstName("Martin");
-		user.setLastName("Göndöcs");
 		AppUserEntity friend = new AppUserEntity();
 		friend.setId(2L);
 		friend.setEmail("rideg.vili@gmail.com");
 		friend.setFirstName("Vilmos");
 		friend.setLastName("Rideg");
-		FriendRequestEntity friendRequest = new FriendRequestEntity();
+		FriendRequestEntity friendRequestEntity = new FriendRequestEntity();
 
-		friendRequest.setSenderUser(user);
-		friendRequest.setReceiverUser(friend);
-		user.setFriendRequest(List.of(friendRequest));
-		friend.setFriendRequest(List.of(friendRequest));
+		// act
+		friendRequestEntity.setSenderUser(user);
+		friendRequestEntity.setReceiverUser(friend);
+		user.setFriendRequests(List.of(friendRequestEntity));
+		friend.setFriendRequests(List.of(friendRequestEntity));
+
+		// assert
 		assertDoesNotThrow(user::toString);
 		assertDoesNotThrow(friend::toString);
+	}
 
+	@Test
+	void testGroupRequestApproveSuccess(){
+		// arrange
+		GroupEntity groupEntity = new GroupEntity();
+		groupEntity.setName("Media app group");
+		GroupRequestEntity request = new GroupRequestEntity();
+		request.setGroup(groupEntity);
+		request.setSenderUser(user);
+
+		// act
+		groupEntity.setGroupRequests(List.of(request));
+
+		// assert
+		AppUserEntity groupRequestSender = (groupEntity.getGroupRequests().stream()
+					.filter(gRequest -> gRequest.getSenderUser().equals(user))
+					.findFirst()
+					.orElse(new GroupRequestEntity()))
+					.getSenderUser();
+		assertEquals(groupRequestSender, user);
+	}
+
+	@Test
+	void testGroupParticipantAddingSuccess(){
+		// arrange
+		GroupEntity groupEntity = new GroupEntity();
+		groupEntity.setName("Media app group");
+
+		// act
+		groupEntity.setParticipantUsers(List.of(user));
+		user.setJoinedGroups(List.of(groupEntity));
+
+		// assert
+		assertTrue(groupEntity.getParticipantUsers().contains(user));
+		assertTrue(user.getJoinedGroups().contains(groupEntity));
 	}
 }

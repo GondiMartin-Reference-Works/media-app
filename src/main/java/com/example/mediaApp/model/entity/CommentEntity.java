@@ -1,14 +1,6 @@
 package com.example.mediaApp.model.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,19 +20,17 @@ public class CommentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "text")
     @ToString.Include
     private String text;
 
+    // Unidirectional
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private AppUserEntity user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private PostEntity post;
-
-    @OneToMany(
-            mappedBy = "id",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<CommentLikeEntity> likes;
+    // Unidirectional
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "comment_id")
+    private List<LikeEntity> likes;
 }
