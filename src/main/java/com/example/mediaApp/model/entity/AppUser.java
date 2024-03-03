@@ -78,8 +78,4 @@ public class AppUser {
             fetch = FetchType.LAZY,
             mappedBy = "participantUsers")
     private List<Group> joinedGroups;
-
-    public void addAddress(Address address) {
-        addresses.add(address);
-    }
 }
