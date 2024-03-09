@@ -9,13 +9,18 @@ import { RegisterUser } from '../models/register-user';
 })
 export class UserService implements IUserService{
 
-  private APIUrl: string = "http://localhost:8080/api/v1/auth/register"
+  private RegisterAPIUrl: string = "http://localhost:8080/api/v1/auth/register"
+  private LoginAPIUrl: string = "http://localhost:8080/api/v1/auth/authenticate"
 
   constructor(
     private http: HttpClient
   ) { }
 
-  create(newUser: RegisterUser): Observable<String>{
-    return this.http.post<String>(this.APIUrl, newUser);
+  create(newUser: RegisterUser): Observable<string>{
+    return this.http.post<string>(this.RegisterAPIUrl, newUser);
+  }
+
+  login(user: RegisterUser): Observable<string>{
+    return this.http.post<string>(this.LoginAPIUrl, user);
   }
 }

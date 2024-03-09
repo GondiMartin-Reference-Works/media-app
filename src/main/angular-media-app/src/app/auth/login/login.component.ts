@@ -15,10 +15,20 @@ export class LoginComponent {
     private userService: UserService,
     private router: Router
   ){
-
   }
 
   ngOnInit(): void {}
 
-  
+  loginUser(){
+    this.userService.login(this.user).subscribe((token) => {
+      alert("User Logged Successfully");
+      console.log(token);
+      localStorage.setItem('current-user-token', token);
+      window.location.reload();
+    })
+  }
+
+  goToMainPage(){
+    this.router.navigate(['/main-page']);
+  }
 }
