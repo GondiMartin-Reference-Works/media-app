@@ -11,12 +11,12 @@
                             <form>
 
                                 <div class="form-outline mb-4">
-                                    <input name="email" type="email" id="label_email" class="form-control form-control-lg"/>
+                                    <input name="email" type="email" id="label_email" class="form-control form-control-lg" [(ngModel)]="user.email"/>
                                     <label class="form-label" for="label_email">Your Email</label>
                                 </div>
 
                                 <div class="form-outline mb-4">
-                                    <input name="password" type="password" id="label_password" class="form-control form-control-lg"/>
+                                    <input name="password" type="password" id="label_password" class="form-control form-control-lg" [(ngModel)]="user.password"/>
                                     <label class="form-label" for="label_password">Password</label>
                                 </div>
 
