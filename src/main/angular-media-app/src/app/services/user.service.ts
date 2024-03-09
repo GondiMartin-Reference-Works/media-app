@@ -15,14 +15,7 @@ export class UserService implements IUserService{
     private http: HttpClient
   ) { }
 
-
-  getAll(): Observable<RegisterUser[]>{
-    return this.http.get<RegisterUser[]>(this.APIUrl);
-  }
-
   create(newUser: RegisterUser): Observable<RegisterUser>{
     return this.http.post<RegisterUser>(this.APIUrl, newUser);
   }
-
-
 }
