@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 export class RegistrationComponent implements OnInit {
 
   user: RegisterUser = new RegisterUser();
-  userList: RegisterUser[] = [];
   validEmailAddress: boolean = true;
 
   constructor(
@@ -23,8 +22,9 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void { }
 
   createUser(){
-    this.userService.create(this.user).subscribe(() => {
+    this.userService.create(this.user).subscribe((token) => {
       alert("User Added Successfully");
+      console.log(token);
       this.goToLogin();
     })   
   }

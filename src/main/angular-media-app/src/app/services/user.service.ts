@@ -9,13 +9,13 @@ import { RegisterUser } from '../models/register-user';
 })
 export class UserService implements IUserService{
 
-  private APIUrl: string = "https://localhost:3306/database/valami"
+  private APIUrl: string = "http://localhost:8080/api/v1/auth/register"
 
   constructor(
     private http: HttpClient
   ) { }
 
-  create(newUser: RegisterUser): Observable<RegisterUser>{
-    return this.http.post<RegisterUser>(this.APIUrl, newUser);
+  create(newUser: RegisterUser): Observable<String>{
+    return this.http.post<String>(this.APIUrl, newUser);
   }
 }

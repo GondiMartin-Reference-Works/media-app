@@ -8,8 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { Router } from '@angular/router';
-import { environment } from './environments/environment.prod';
-
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,16 +16,14 @@ import { environment } from './environments/environment.prod';
     PageNotFoundComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     CommonModule,
     FormsModule,
     AuthModule,
     AppRoutingModule
   ],
-  bootstrap: [ AppComponent ],
-  providers: [
-    ...environment.providers
-  ]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { 
   constructor(router: Router){

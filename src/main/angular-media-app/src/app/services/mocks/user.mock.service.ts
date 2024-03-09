@@ -12,14 +12,12 @@ export class UserService implements IUserService{
         {
             firstName: "Martin",
             lastName: "Göndöcs",
-            birthDate: null,
             email: "martin@youtellme.hu",
             password: "123"
         },
         {
             firstName: "Vilmos",
             lastName: "Rideg",
-            birthDate: null,
             email: "vilmos@youtellme.hu",
             password: "456"
         }
@@ -29,10 +27,10 @@ export class UserService implements IUserService{
         return of(this.mockUsers);
     }
 
-    create(newUser: RegisterUser): Observable<RegisterUser> {
+    create(newUser: RegisterUser): Observable<String> {
         this.mockUsers.push({
             ...newUser
         });
-        return of(newUser);
+        return of("newUser");
     }
 }
