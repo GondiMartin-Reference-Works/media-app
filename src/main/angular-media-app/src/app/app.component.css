@@ -1,3 +1,19 @@
-footer{
+footer {
     margin-top: auto;
+}
+
+.container-fluid{
+    padding: auto;
+    margin: auto;
+    border: 1px solid red;
+    background-color: red;
+}
+
+.row{
+    background-color: yellow;
+}
+
+.col-12{
+    background-color: aqua;
+    border: 1px solid red;
 }
