@@ -22,14 +22,34 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void { }
 
   createUser(){
-    this.userService.create(this.user).subscribe((token) => {
-      alert("User Added Successfully");
-      console.log(token);
-      this.goToLogin();
-    })   
+    if(this.isValidInput()){
+      this.userService.create(this.user).subscribe((token) => {
+        alert("User Added Successfully");
+        console.log(token);
+        this.goToLogin();
+      })   
+    }
   }
 
   goToLogin(){
     this.router.navigate(['/login']);
+  }
+
+  isValidInput(): boolean{
+    let email: string = this.user.email;
+    let emailRegex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if(!emailRegex.test(email)){
+      alert("Invalid Email");
+      throw new Error("Invalid Email");
+    }
+
+    let password: string = this.user.password;
+    let passwordRegex: RegExp = /[a-zA-Z0-9]+/;
+    if(!passwordRegex.test(password)){
+      alert("Invalid Password");
+      throw new Error("Invalid Password");
+    }
+
+    return true;
   }
 }
