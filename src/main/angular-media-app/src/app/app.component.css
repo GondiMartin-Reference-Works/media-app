@@ -1,19 +1,13 @@
-footer {
-    margin-top: auto;
+.navbar-nav{
+    overflow: hidden;
 }
 
-.container-fluid{
-    padding: auto;
-    margin: auto;
-    border: 1px solid red;
-    background-color: red;
+.mediapp-footer{
+    padding-top: 10px;
 }
 
-.row{
-    background-color: yellow;
-}
-
-.col-12{
-    background-color: aqua;
-    border: 1px solid red;
+@media all and (max-width: 600px) {
+    nav {
+      text-align: center;
+    }
 }
