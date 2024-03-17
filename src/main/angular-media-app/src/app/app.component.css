@@ -1,3 +1,13 @@
-footer{
-    margin-top: auto;
+.navbar-nav{
+    overflow: hidden;
+}
+
+.mediapp-footer{
+    padding-top: 10px;
+}
+
+@media all and (max-width: 600px) {
+    nav {
+      text-align: center;
+    }
 }
