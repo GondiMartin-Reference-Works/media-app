@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../services/user.service';
 import { RegisterUser } from '../../models/register-user';
 import { Router } from '@angular/router';
 
@@ -30,6 +30,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   goToLogin(){
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
 }
