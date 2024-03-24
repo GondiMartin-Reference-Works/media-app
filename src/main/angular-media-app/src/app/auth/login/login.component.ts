@@ -25,7 +25,6 @@ export class LoginComponent {
     if(this.isValidInput()){
       this.userService.login(this.user).subscribe((token) => {
         localStorage.setItem('current-user-token', token);
-        this.authService.checkLoging();
         this.goToMainPage();
       });
     }

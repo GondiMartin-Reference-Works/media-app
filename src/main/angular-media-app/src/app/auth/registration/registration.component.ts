@@ -24,8 +24,6 @@ export class RegistrationComponent implements OnInit {
   createUser(){
     if(this.isValidInput()){
       this.userService.create(this.user).subscribe((token) => {
-        alert("User Added Successfully");
-        console.log(token);
         this.goToLogin();
       })   
     }
