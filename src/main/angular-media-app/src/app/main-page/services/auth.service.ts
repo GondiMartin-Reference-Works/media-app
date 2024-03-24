@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class AuthService {
 
-  isLoggedIn  = true;
+  isLoggedIn  = false;
 
   checkLoging(): void{
     this.isLoggedIn = localStorage.getItem("current-user-token") != null;
