@@ -22,14 +22,36 @@ export class LoginComponent {
   ngOnInit(): void {}
 
   logInUser(){
-    this.userService.login(this.user).subscribe((token) => {
-      localStorage.setItem('current-user-token', token);
-      this.authService.checkLoging();
-      this.goToMainPage();
-    })
+    if(this.isValidInput()){
+      this.userService.login(this.user).subscribe((token) => {
+        localStorage.setItem('current-user-token', token);
+        this.authService.checkLoging();
+        this.goToMainPage();
+      });
+    }
+
   }
 
   goToMainPage(){
     this.router.navigate(['/main']);
   }
+
+  isValidInput(): boolean{
+    let email: string = this.user.email;
+    let emailRegex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if(!emailRegex.test(email)){
+      alert("Invalid Email");
+      throw new Error("Invalid Email");
+    }
+
+    let password: string = this.user.password;
+    let passwordRegex: RegExp = /[a-zA-Z0-9]+/;
+    if(!passwordRegex.test(password)){
+      alert("Invalid Password");
+      throw new Error("Invalid Password");
+    }
+
+    return true;
+  }
+
 }

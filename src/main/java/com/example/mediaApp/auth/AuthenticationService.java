@@ -7,6 +7,7 @@ import com.example.mediaApp.repository.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,15 +37,16 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthencticationRequest request) {
-        authenticationManager.authenticate(
+        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
-        AppUserEntity user = repository.findByEmail(request.getEmail()).orElseThrow();
+        AppUserEntity user = (AppUserEntity) authentication.getPrincipal();
 
         String jwtToken = jwtService.generateToken(user);
         return new AuthenticationResponse(jwtToken);
     }
+
 }
