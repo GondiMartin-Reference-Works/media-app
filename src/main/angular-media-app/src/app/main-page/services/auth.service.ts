@@ -5,19 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class AuthService {
 
-  isLoggedIn  = false;
+  isLoggedIn  = true;
 
   checkLoging(): void{
     this.isLoggedIn = localStorage.getItem("current-user-token") != null;
   }
-  // redirectUrl: string | null = null;
-
-  // login(): void {
-  //   this.isLoggedIn = true;
-  // }
-
-  // logout(): void {
-  //   this.isLoggedIn = false;
-  //   window.location.reload();
-  // }
 }
