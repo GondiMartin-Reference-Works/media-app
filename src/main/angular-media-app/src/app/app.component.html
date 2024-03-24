@@ -2,28 +2,49 @@
 
     <div class="row">
         <div class="col-lg-12 px-0">
-            <nav class="mediapp-navbar navbar navbar-expand-sm navbar-dark bg-dark">
-                <a class="navbar-brand" href="/main">Media app</a>
-                <div class="navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li *ngIf="!authService.isLoggedIn" class="nav-item" routerLinkActive="active">
+            <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+
+                <a class="navbar-brand" [routerLink]="['/main']">Media app</a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse mr-auto" style="width: 100%;" id="navbarSupportedContent">
+                    <ul class="navbar-nav mb-lg-0">
+                        <li *ngIf="!authService.isLoggedIn()" class="nav-item" routerLinkActive="active">
                             <a class="nav-link" routerLink="/auth/login">Login</a>
                         </li>
-                        <li *ngIf="!authService.isLoggedIn" class="nav-item" routerLinkActive="active">
+                        <li *ngIf="!authService.isLoggedIn()" class="nav-item" routerLinkActive="active">
                             <a class="nav-link" routerLink="/auth/registration">Registration</a>
                         </li>
-                        <li *ngIf="authService.isLoggedIn" class="nav-item" routerLinkActive="active">
+                        <li *ngIf="authService.isLoggedIn()" class="nav-item" routerLinkActive="active">
                             <a class="nav-link" routerLink="/main">Main Page</a>
                         </li>
-                        <li *ngIf="authService.isLoggedIn" class="nav-item">
-                            <button type="button"
-                                    (click)="userService.logout()"
-                                    class="btn btn-secondary btn-block btn-sm gradient-custom-4 text-body mt-1">
-                                    Logout
-                            </button>
-                        </li>
                     </ul>
+
+                    <div *ngIf="authService.isLoggedIn()" class="mr-auto">
+                        <input type="text" name="search" class="form-control form-control-md ml-2"
+                            placeholder="Search" autocomplete="off" #filter
+                            (keyup)="filterResults(filter.value)">
+                    </div>
+
+                    <div class="search-result" *ngIf="!windowOpen">
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let user of filteredUsers">{{user.lastName}} {{user.firstName}}</li>
+                        </ul>
+                    </div>
+
+                    <div *ngIf="authService.isLoggedIn()">
+                        <button type="button" (click)="userService.logout()"
+                            class="btn btn-secondary btn-block btn-sm text-body mt-2 mb-2 ml-2 mr-1">
+                            Logout
+                        </button>
+                    </div>
                 </div>
+
             </nav>
         </div>
     </div>

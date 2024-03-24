@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IUserService } from './interfaces/iuser-service';
-import { RegisterUser } from '../../models/register-user';
-import { LoginUser } from '../../models/login-user';
+import { IUserService } from '../auth/services/interfaces/iuser-service';
+import { RegisterUser } from '../models/register-user';
+import { LoginUser } from '../models/login-user';
+import { SearchedUser } from '../models/searched-user';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import { LoginUser } from '../../models/login-user';
 export class UserService implements IUserService{
 
   private APIURL: string = "http://localhost:8080/api/v1/auth/";
+  private APIUserURL: string = "http://localhost:8080/api/v1/user";
 
   constructor(
     private http: HttpClient
@@ -25,7 +27,11 @@ export class UserService implements IUserService{
   }
 
   logout(){
-    localStorage.removeItem("current-user-token");
+    sessionStorage.removeItem("current-user-token");
     window.location.reload();
+  }
+
+  getAll(): Observable<SearchedUser[]>{
+    return this.http.get<SearchedUser[]>(this.APIUserURL);
   }
 }
