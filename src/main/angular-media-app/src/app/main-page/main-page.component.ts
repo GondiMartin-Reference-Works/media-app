@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
+import { AuthService } from '../auth/services/auth.service';
 
 @Component({
   selector: 'app-main-page',
@@ -8,10 +9,14 @@ import { AppComponent } from '../app.component';
 })
 export class MainPageComponent implements OnInit{
 
-  constructor(private appComponent: AppComponent) { }
+  constructor(
+    private appComponent: AppComponent,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.appComponent.getAllUser();
+    if (this.authService.isLoggedIn()){
+      this.appComponent.getAllUser();
+    }
   }
 
 }
