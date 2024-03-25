@@ -21,15 +21,16 @@ export class LoginComponent {
 
   logInUser(){
     if(this.isValidInput()){
-      this.userService.login(this.user).subscribe((token) => {
-        sessionStorage.setItem('current-user-token', token);
+      this.userService.login(this.user).subscribe((response) => {
+        const json = JSON.stringify(response.token);
+        sessionStorage.setItem('current-user-token', json);
         this.goToMainPage();
       });
     }
   }
 
   goToMainPage(){
-    this.router.navigate(['/main']);
+    this.router.navigate(['/main']); 
   }
 
   isValidInput(): boolean{

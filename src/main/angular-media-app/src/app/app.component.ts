@@ -10,7 +10,7 @@ import { SearchedUser } from './models/searched-user';
 })
 export class AppComponent implements OnInit{
   title = 'angular-media-app';
-  windowOpen: boolean = false;
+  term: string = "";
 
   users: SearchedUser[] = [];
   filteredUsers: SearchedUser[] = [];
@@ -25,7 +25,6 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    
   }
 
   getAllUser(){
@@ -36,21 +35,20 @@ export class AppComponent implements OnInit{
 
   filterResults(text: string){
     if (!text) {
-      this.filteredUsers = this.users;
-      this.windowOpen = false;
+      this.filteredUsers = [];
       return;
     }
 
-    this.windowOpen = true;
+    if (text === ""){
+      this.filteredUsers = [];
+      return;
+    }
 
     this.filteredUsers = this.users.filter(
       user => {
-        let name = user.firstName + " " + user.lastName;
-        name.includes(text);
+        let name = user.firstName.toLowerCase() + " " + user.lastName.toLowerCase();
+        return name.includes(text.toLowerCase());
       }
-    )
-
-    console.log(this.users);
-    //console.log(this.filteredUsers);
+    );
   }
 }

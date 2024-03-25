@@ -25,16 +25,15 @@
                         </li>
                     </ul>
 
-                    <div *ngIf="authService.isLoggedIn()" class="mr-auto">
-                        <input type="text" name="search" class="form-control form-control-md ml-2"
-                            placeholder="Search" autocomplete="off" #filter
-                            (keyup)="filterResults(filter.value)">
-                    </div>
+                    <div class="search-container mr-auto" *ngIf="authService.isLoggedIn()">
+                        <input type="text" name="search" class="form-control form-control-md ml-2" placeholder="Search"
+                            autocomplete="off" [(ngModel)]="term" (keyup)="filterResults(term)">
 
-                    <div class="search-result" *ngIf="!windowOpen">
-                        <ul class="list-group">
-                            <li class="list-group-item" *ngFor="let user of filteredUsers">{{user.lastName}} {{user.firstName}}</li>
-                        </ul>
+                        <div class="search-results ml-2" *ngIf="filteredUsers.length > 0">
+                            <ul class="list-group">
+                                <li class="list-group-item" *ngFor="let user of filteredUsers">{{user.lastName}} {{user.firstName}}</li>
+                            </ul>
+                        </div>
                     </div>
 
                     <div *ngIf="authService.isLoggedIn()">
