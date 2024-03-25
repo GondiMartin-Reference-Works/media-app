@@ -3,8 +3,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    padding: 20px 0px;
+    height: 100%;
+    padding: 20px 0;
 }
 
 .flex-parent-start{
@@ -13,7 +13,7 @@
     justify-content: flex-start;
     align-items: center;
     height: 100%;
-    padding: 20px 0px;
+    padding: 20px 0;
 }
 
 .mediapp-viewport-w-h-full{

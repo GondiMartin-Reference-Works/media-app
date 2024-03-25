@@ -7,3 +7,22 @@
       text-align: center;
     }
 }
+
+.search-results div:hover {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.search-results {
+  position: absolute;
+  z-index: 100;
+  background-color: white;
+  border: 1px solid black;
+  padding: 5px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.search-container {
+  position: relative;
+}

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { UserService } from '../services/user.service';
+import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { LoginUser } from '../../models/login-user';
-import { AuthService } from '../../main-page/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +13,6 @@ export class LoginComponent {
 
   constructor(
     private userService: UserService,
-    private authService: AuthService,
     private router: Router
   ){
   }
@@ -23,16 +21,16 @@ export class LoginComponent {
 
   logInUser(){
     if(this.isValidInput()){
-      this.userService.login(this.user).subscribe((token) => {
-        localStorage.setItem('current-user-token', token);
+      this.userService.login(this.user).subscribe((response) => {
+        const json = JSON.stringify(response.token);
+        sessionStorage.setItem('current-user-token', json);
         this.goToMainPage();
       });
     }
-
   }
 
   goToMainPage(){
-    this.router.navigate(['/main']);
+    this.router.navigate(['/main']); 
   }
 
   isValidInput(): boolean{
