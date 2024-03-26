@@ -1,4 +1,4 @@
-import { UserService as MockUserService } from "../services/mocks/user.mock.service";
+import { UserService as MockUserService } from "../auth/services/mocks/user.mock.service";
 import { UserService } from "../services/user.service";
 
 export const environment = {

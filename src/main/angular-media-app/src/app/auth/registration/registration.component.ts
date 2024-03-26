@@ -16,23 +16,21 @@ export class RegistrationComponent implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router
-  ){ 
+  ){
   }
 
   ngOnInit(): void { }
 
   createUser(){
     if(this.isValidInput()){
-      this.userService.create(this.user).subscribe((token) => {
-        alert("User Added Successfully");
-        console.log(token);
+      this.userService.create(this.user).subscribe(() => {
         this.goToLogin();
-      })   
+      })
     }
   }
 
   goToLogin(){
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
 
   isValidInput(): boolean{

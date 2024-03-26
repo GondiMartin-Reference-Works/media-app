@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { RegisterUser } from '../../models/register-user';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
+import { LoginUser } from '../../models/login-user';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  user: RegisterUser = new RegisterUser();
+  user: LoginUser = new LoginUser();
 
   constructor(
     private userService: UserService,
@@ -19,20 +19,18 @@ export class LoginComponent {
 
   ngOnInit(): void {}
 
-  loginUser(){
-
+  logInUser(){
     if(this.isValidInput()){
-      this.userService.login(this.user).subscribe((token) => {
-        alert("User Logged Successfully");
-        console.log(token);
-        localStorage.setItem('current-user-token', token);
-        window.location.reload();
-      })
+      this.userService.login(this.user).subscribe((response) => {
+        const json = JSON.stringify(response.token);
+        sessionStorage.setItem('current-user-token', json);
+        this.goToMainPage();
+      });
     }
   }
 
   goToMainPage(){
-    this.router.navigate(['/main-page']);
+    this.router.navigate(['/main']); 
   }
 
   isValidInput(): boolean{
@@ -52,5 +50,5 @@ export class LoginComponent {
 
     return true;
   }
-  
+
 }

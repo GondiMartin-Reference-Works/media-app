@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { MainPageModule } from './main-page/main-page.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     FormsModule,
     AuthModule,
+    MainPageModule,
     AppRoutingModule
   ],
   bootstrap: [ AppComponent ]

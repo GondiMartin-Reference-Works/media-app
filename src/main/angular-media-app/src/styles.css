@@ -1,0 +1,22 @@
+.flex-parent-center{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 20px 0;
+}
+
+.flex-parent-start{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    padding: 20px 0;
+}
+
+.mediapp-viewport-w-h-full{
+    height: 100%;
+    width: 100%;
+}
