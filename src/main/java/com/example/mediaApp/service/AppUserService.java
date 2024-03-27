@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,8 +19,18 @@ public class AppUserService {
                 .stream().map(user -> new AppUserDTO(
                         user.getId(),
                         user.getFirstName(),
-                        user.getLastName()
+                        user.getLastName(),
+                        user.getEmail()
                 ))
                 .toList();
+    }
+
+    public Optional<AppUserDTO> getByEmail(String email){
+        return repository.findByEmail(email).map(user -> new AppUserDTO(
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail()
+        ));
     }
 }
