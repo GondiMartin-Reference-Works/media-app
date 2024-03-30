@@ -16,3 +16,14 @@ main{
     padding: 15px;
     margin-bottom: 60px;
 }
+
+#create-form{
+    border: 3px solid darkcyan;
+    border-radius: 5px;
+    background-color: antiquewhite;
+    margin-bottom: 30px;
+}
+
+.float-right{
+    float: right;
+}

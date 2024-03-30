@@ -4,6 +4,29 @@
             <div class="row justify-content-center">
                 <div class="col-12">
                     <main class="bg-dark">
+
+                        <div class="row pb-3">
+                            <div class="mx-auto">
+                                <button class="btn btn-info" type="button"
+                                (click)="createForm()">+ Create new post</button>
+                              </div>
+                        </div>
+
+                        <div *ngIf="createFormButton" id="create-form">
+                            <div class="row">
+                                <div class="col-12 mx-auto">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button class="btn btn-danger float-right" type="button"
+                                                    (click)="closeForm()">X</button>
+                                        </div>
+                                    </div>
+                                    <p style="text-align:center;">hello</p>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <div class="posts">
                             <article>
                                 <h1>First post</h1>
@@ -38,6 +61,8 @@
                                 <p>Hello, I'm new here too!</p>
                             </article>
                         </div>
+
+
                     </main>
                 </div>
             </div>
