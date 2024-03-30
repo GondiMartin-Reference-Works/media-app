@@ -14,7 +14,7 @@ main{
     background-color: antiquewhite;
     border-radius: 15px;
     padding: 15px;
-    margin-bottom: 60px;
+    margin-bottom: 30px;
 }
 
 #create-form{
@@ -26,4 +26,10 @@ main{
 
 .float-right{
     float: right;
+}
+
+.block-button{
+    display: block;
+    width: 100%;
+    text-align: center;
 }
