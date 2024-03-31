@@ -33,3 +33,42 @@ main{
     width: 100%;
     text-align: center;
 }
+
+#main-page-col{
+    max-width: 60%;
+}
+
+.count-section{
+    padding-left: 24px;
+    padding-top: 10px;
+}
+
+.profile > img{
+    float: left;
+    display: inline;
+    width: 70px;
+    height: 70px;
+    margin-right: 10px;
+    border-radius: 60px;
+}
+
+.profile > a:link, 
+.profile > a:visited,
+.profile > a:active{
+    text-decoration: none;
+    color: black;
+}
+.profile > a:hover{
+    text-decoration: underline;
+    color: black;
+}
+
+.profile > a > h5{
+    margin-bottom: 0px;
+}
+
+.profile{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
