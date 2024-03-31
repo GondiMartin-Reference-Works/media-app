@@ -52,7 +52,7 @@ main{
     border-radius: 60px;
 }
 
-.profile > a:link, 
+.profile > a:link,
 .profile > a:visited,
 .profile > a:active{
     text-decoration: none;
@@ -64,7 +64,7 @@ main{
 }
 
 .profile > a > h5{
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .profile{
