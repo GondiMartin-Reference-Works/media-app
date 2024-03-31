@@ -30,7 +30,7 @@ public class PostEntity {
     @JoinColumn(name = "group_id")
     private GroupEntity group;
 
-    @Column(name = "text")
+    @Column(name = "text", nullable = false)
     private String text;
 
     @Lob

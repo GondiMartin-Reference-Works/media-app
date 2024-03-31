@@ -1,6 +1,7 @@
 package com.example.mediaApp.service;
 
 import com.example.mediaApp.model.dto.AppUserDTO;
+import com.example.mediaApp.model.entity.AppUserEntity;
 import com.example.mediaApp.repository.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,5 +22,11 @@ public class AppUserService {
                         user.getLastName()
                 ))
                 .toList();
+    }
+
+    public AppUserEntity find(Long id){
+        return repository
+                .findById(id)
+                .orElse(null);
     }
 }
