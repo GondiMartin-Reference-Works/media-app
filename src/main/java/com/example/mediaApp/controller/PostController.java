@@ -70,7 +70,47 @@ public class PostController {
     }
 
     @PostMapping()
-    public ResponseEntity<PostEntity> create(@RequestBody PostDTO post){
-        return ResponseEntity.ok(service.create(post));
+    public ResponseEntity<PostDTO> create(@RequestBody PostDTO post){
+        PostEntity newPostEntity = service.create(post);
+        PostDTO postDTO = new PostDTO(
+                newPostEntity.getUser() != null
+                        ? new AppUserDTO(
+                        newPostEntity.getUser().getId(),
+                        newPostEntity.getUser().getFirstName(),
+                        newPostEntity.getUser().getLastName())
+                        : null,
+                newPostEntity.getGroup() != null
+                        ? new GroupDTO(
+                        newPostEntity.getGroup().getId(),
+                        newPostEntity.getGroup().getName())
+                        : null,
+                newPostEntity.getText(),
+                newPostEntity.getImage(),
+                newPostEntity.getLikes()
+                        .stream()
+                        .map(like -> new LikeDTO(
+                                new AppUserDTO(
+                                        like.getUser().getId(),
+                                        like.getUser().getFirstName(),
+                                        like.getUser().getLastName()
+                                )
+                        ))
+                        .toList(),
+                newPostEntity.getComments()
+                        .stream()
+                        .map(comment -> new CommentDTO(
+                                comment.getText(),
+                                new AppUserDTO(
+                                        comment.getUser().getId(),
+                                        comment.getUser().getFirstName(),
+                                        comment.getUser().getLastName()
+                                )
+                        ))
+                        .toList()
+        );
+
+        // TODO: Create converter between DTO and Entity
+
+        return ResponseEntity.ok(postDTO);
     }
 }

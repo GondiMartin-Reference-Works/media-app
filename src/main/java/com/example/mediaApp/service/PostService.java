@@ -43,6 +43,8 @@ public class PostService {
             newPost.setComments(new ArrayList<>());
         //TODO: else part -> finding all comment from commentService
 
+        repository.save(newPost);
+
         return newPost;
     }
 }
