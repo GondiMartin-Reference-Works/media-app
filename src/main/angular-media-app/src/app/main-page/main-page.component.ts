@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AppComponent } from '../app.component';
-import { AuthService } from '../auth/services/auth.service';
-import { Post } from '../models/post';
-import { PostService } from '../services/post.service';
+import {Component, OnInit} from '@angular/core';
+import {AppComponent} from '../app.component';
+import {AuthService} from '../auth/services/auth.service';
+import {Post} from '../models/post';
+import {PostService} from '../services/post.service';
 
 @Component({
   selector: 'app-main-page',
@@ -39,8 +39,7 @@ export class MainPageComponent implements OnInit{
   sendForm(){
     const json = sessionStorage.getItem("current-user");
     if (json != null){
-      const user = JSON.parse(json);
-      this.newPost.user = user;
+      this.newPost.user = JSON.parse(json);
       this.newPost.group = null;
       this.newPost.likes = [];
       this.newPost.comments = [];
@@ -50,7 +49,7 @@ export class MainPageComponent implements OnInit{
         window.location.reload();
       });
     }
-    
+
   }
 
   // Hides the form

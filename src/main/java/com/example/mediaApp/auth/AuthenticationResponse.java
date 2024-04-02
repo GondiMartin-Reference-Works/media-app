@@ -1,7 +1,6 @@
 package com.example.mediaApp.auth;
 
 import com.example.mediaApp.model.dto.AppUserDTO;
-import com.example.mediaApp.model.entity.AppUserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

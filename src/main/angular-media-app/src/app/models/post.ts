@@ -14,7 +14,7 @@ export class Post {
     constructor(){
         this.user = new User();
         this.group = new Group();
-        this.text = "",
+        this.text = "";
         this.image = new Int8Array();
         this.likes = [];
         this.comments = [];
