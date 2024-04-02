@@ -34,6 +34,7 @@ import java.util.List;
 public class AppUserEntity implements UserDetails {
 
     @Id
+    @ToString.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

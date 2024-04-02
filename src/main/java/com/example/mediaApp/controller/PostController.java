@@ -29,6 +29,7 @@ public class PostController{
         return ResponseEntity.ok(service.getAll()
                 .stream().map(converter::convertFromEntityToDTO)
                 .toList()
+                .reversed()
         );
     }
 

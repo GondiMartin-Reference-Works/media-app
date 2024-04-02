@@ -1,6 +1,7 @@
 package com.example.mediaApp.auth;
 
 import com.example.mediaApp.config.JwtService;
+import com.example.mediaApp.converter.AppUserConverter;
 import com.example.mediaApp.model.entity.AppUserEntity;
 import com.example.mediaApp.model.entity.Role;
 import com.example.mediaApp.repository.AppUserRepository;
@@ -23,6 +24,8 @@ public class AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
 
+    private final AppUserConverter appUserConverter;
+
 
     public AuthenticationResponse register(RegisterRequest request) {
         AppUserEntity user = new AppUserEntity();
@@ -33,7 +36,7 @@ public class AuthenticationService {
         user.setRole(Role.USER);
         repository.save(user);
         String jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken);
+        return new AuthenticationResponse(jwtToken, appUserConverter.convertFromEntityToDTO(user));
     }
 
     public AuthenticationResponse authenticate(AuthencticationRequest request) {
@@ -46,7 +49,7 @@ public class AuthenticationService {
         AppUserEntity user = (AppUserEntity) authentication.getPrincipal();
 
         String jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken);
+        return new AuthenticationResponse(jwtToken, appUserConverter.convertFromEntityToDTO(user));
     }
 
 }

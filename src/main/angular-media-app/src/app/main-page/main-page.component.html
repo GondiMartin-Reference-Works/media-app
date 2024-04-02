@@ -26,14 +26,16 @@
                                     <form action="post" class="p-3">
                                         <div class="form-group">
                                             <label for="postText">Add text:</label>
-                                            <textarea class="form-control" id="postText" rows="3"></textarea>
+                                            <textarea class="form-control" id="postText" rows="3"
+                                                [(ngModel)]="newPost.text" name="text"></textarea>
                                         </div>
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">Upload image</span>
                                             </div>
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="postImage">
+                                                <input type="file" class="custom-file-input" id="postImage"
+                                                    [(ngModel)]="newPost.image" name="image">
                                                 <label class="custom-file-label" for="postImage">Choose
                                                     file</label>
                                             </div>
@@ -51,73 +53,51 @@
                         </div>
 
 
-                        <div class="posts">
-                            <article>
-                                <div class="card">
-                                    <div class="card-body profile">
-                                        <img alt="profile picture"
-                                            title="Post's writer name"
-                                            src="https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912">
-                                        <a href="google.hu">
-                                            <h5 class="card-title">Post writer's name</h5>
-                                        </a>
-                                    </div>
-                                    <div class="card-body">
-                                        <p class="card-text">Post's text</p>
-                                    </div>
-                                    <img *ngIf="true" class="card-img-bottom" title="Post's image"
-                                        src="https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912"
-                                        alt="Card image cap">
-                                    <div class="count-section">
-                                        <i class="fa fa-thumbs-up pr-3"> 42</i>
-                                        <i class="fa fa-comment"> 24</i>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-12 col-md-6 pb-2">
-                                                <button type="button" class="btn btn-dark block-button"><i
-                                                        class="fa fa-thumbs-o-up"></i> Like</button>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <button type="button" class="btn btn-dark block-button"><i
-                                                        class="fa fa-comment-o"></i> Comment</button>
+                        <div *ngIf="posts.length > 0">
+                            <div *ngFor="let post of posts" class="posts">
+                                <article>
+                                    <div class="card">
+                                        <div class="card-body profile">
+                                            <img alt="profile picture" title="Post's writer name"
+                                                src="https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912">
+                                            <a href="google.hu">
+                                                <h5 class="card-title">{{post.user?.firstName}}
+                                                    {{post.user?.lastName}}</h5>
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text">{{post.text}}</p>
+                                        </div>
+                                        <img *ngIf="post.image != null" class="card-img-bottom" title="Post's image"
+                                            src="https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912"
+                                            alt="Card image cap">
+                                        <div class="count-section">
+                                            <i class="fa fa-thumbs-up pr-3"> {{post.likes.length}}</i>
+                                            <i class="fa fa-comment"> {{post.comments.length}}</i>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12 col-md-6 pb-2">
+                                                    <button type="button" class="btn btn-dark block-button"><i
+                                                            class="fa fa-thumbs-o-up"></i> Like</button>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <button type="button" class="btn btn-dark block-button"><i
+                                                            class="fa fa-comment-o"></i> Comment</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </article>
+                                </article>
+                            </div>
 
-                            <article>
-                                <h1>Second post</h1>
-                                <p>Hello, I'm new here too!</p>
-                            </article>
-                            <article>
-                                <h1>Second post</h1>
-                                <p>Hello, I'm new here too!</p>
-                            </article>
-                            <article>
-                                <h1>Second post</h1>
-                                <p>Hello, I'm new here too!</p>
-                            </article>
-                            <article>
-                                <h1>Second post</h1>
-                                <p>Hello, I'm new here too!</p>
-                            </article>
-                            <article>
-                                <h1>Second post</h1>
-                                <p>Hello, I'm new here too!</p>
-                            </article>
-                            <article>
-                                <h1>Second post</h1>
-                                <p>Hello, I'm new here too!</p>
-                            </article>
-                            <article>
-                                <h1>Second post</h1>
-                                <p>Hello, I'm new here too!</p>
-                            </article>
                         </div>
-
-
+                        
+                        <div *ngIf="posts.length == 0">
+                            <div class="card bg-warning text-white">
+                                <div class="card-body text-center">No current posts at this time.</div>
+                            </div>
+                        </div>
                     </main>
                 </div>
             </div>

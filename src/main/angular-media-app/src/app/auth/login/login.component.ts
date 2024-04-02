@@ -22,8 +22,10 @@ export class LoginComponent {
   logInUser(){
     if(this.isValidInput()){
       this.userService.login(this.user).subscribe((response) => {
-        const json = JSON.stringify(response.token);
-        sessionStorage.setItem('current-user-token', json);
+        const tokenJson = JSON.stringify(response.token);
+        sessionStorage.setItem('current-user-token', tokenJson);
+        const userJson = JSON.stringify(response.user);
+        sessionStorage.setItem('current-user', userJson);
         this.goToMainPage();
       });
     }
