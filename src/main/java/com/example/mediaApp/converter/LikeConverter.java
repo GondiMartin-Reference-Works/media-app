@@ -14,7 +14,8 @@ public class LikeConverter implements IGenericConverter<LikeEntity, LikeDTO> {
     @Override
     public LikeDTO convertFromEntityToDTO(LikeEntity entity) {
         return new LikeDTO(
-          appUserConverter.convertFromEntityToDTO(entity.getUser())
+                entity.getId(),
+                appUserConverter.convertFromEntityToDTO(entity.getUser())
         );
     }
 }

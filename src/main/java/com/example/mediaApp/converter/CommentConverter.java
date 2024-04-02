@@ -14,6 +14,7 @@ public class CommentConverter implements IGenericConverter<CommentEntity, Commen
     @Override
     public CommentDTO convertFromEntityToDTO(CommentEntity entity) {
         return new CommentDTO(
+                entity.getId(),
                 entity.getText(),
                 appUserConverter.convertFromEntityToDTO(entity.getUser())
         );

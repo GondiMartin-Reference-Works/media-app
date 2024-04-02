@@ -1,10 +1,6 @@
 package com.example.mediaApp.controller;
 
 import com.example.mediaApp.converter.PostConverter;
-import com.example.mediaApp.model.dto.AppUserDTO;
-import com.example.mediaApp.model.dto.CommentDTO;
-import com.example.mediaApp.model.dto.GroupDTO;
-import com.example.mediaApp.model.dto.LikeDTO;
 import com.example.mediaApp.model.dto.PostDTO;
 import com.example.mediaApp.model.entity.PostEntity;
 import com.example.mediaApp.service.PostService;

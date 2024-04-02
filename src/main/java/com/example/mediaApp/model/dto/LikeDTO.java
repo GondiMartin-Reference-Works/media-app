@@ -10,5 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LikeDTO {
+    private long id;
     private AppUserDTO user;
 }

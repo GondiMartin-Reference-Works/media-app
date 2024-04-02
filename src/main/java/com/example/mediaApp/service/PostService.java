@@ -16,6 +16,8 @@ public class PostService {
     private final PostRepository repository;
     private final AppUserService userService;
     private final GroupService groupService;
+    private final LikeService likeService;
+    private final CommentService commentService;
 
     public List<PostEntity> getAll(){
         return repository.findAll();
@@ -38,10 +40,21 @@ public class PostService {
 
         if (post.getLikes() == null)
             newPost.setLikes(new ArrayList<>());
-        //TODO: else part -> finding all like from likeService
+        else
+            newPost.setLikes(
+                    post.getLikes().stream().map(like ->
+                        likeService.get(like.getId())
+                    ).toList()
+            );
+
         if (post.getComments() == null)
             newPost.setComments(new ArrayList<>());
-        //TODO: else part -> finding all comment from commentService
+        else
+            newPost.setComments(
+                    post.getComments().stream().map(comment ->
+                        commentService.get(comment.getId())
+                    ).toList()
+            );
 
         repository.save(newPost);
 
