@@ -3,7 +3,6 @@ import {AppComponent} from '../app.component';
 import {AuthService} from '../auth/services/auth.service';
 import {Post} from '../models/post';
 import {PostService} from '../services/post.service';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-main-page',
