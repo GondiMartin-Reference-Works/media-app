@@ -19,8 +19,7 @@ export class MainPageComponent implements OnInit{
   constructor(
     private appComponent: AppComponent,
     private authService: AuthService,
-    private postService: PostService,
-    private sanitizer: DomSanitizer) {
+    private postService: PostService) {
       this.createFormButton = false;
   }
 

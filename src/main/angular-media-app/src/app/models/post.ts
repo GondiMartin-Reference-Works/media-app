@@ -2,7 +2,6 @@ import { User } from "./user";
 import { Group } from "./group";
 import { Like } from "./like";
 import { Comment } from "./comment";
-import { SafeUrl } from "@angular/platform-browser";
 
 export class Post {
     user: User | null;
