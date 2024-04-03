@@ -7,7 +7,7 @@ export class Post {
     user: User | null;
     group: Group | null;
     text: string;
-    image: Blob | null;
+    image: number[] | null;
     likes: Like[];
     comments: Comment[];
 
@@ -18,5 +18,12 @@ export class Post {
         this.image = null;
         this.likes = [];
         this.comments = [];
+    }
+
+    getImageSrc(): string{
+        if(this.image){
+            return 'data:image/jpeg;base64,' + this.image;
+        }
+        return '';
     }
 }

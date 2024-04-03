@@ -14,6 +14,7 @@ export class MainPageComponent implements OnInit{
   createFormButton: boolean;
   posts: Post[] = [];
   newPost: Post = new Post();
+  selectedFile: string = "";
 
   constructor(
     private appComponent: AppComponent,
@@ -51,6 +52,21 @@ export class MainPageComponent implements OnInit{
 
   }
 
+  onFileSelected(event: any): void{
+    const file: File = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+  
+      reader.onload = (e: any) => {
+        const arrayBuffer: ArrayBuffer = e.target.result;
+        const byteArray = new Uint8Array(arrayBuffer);
+        this.newPost.image = Array.from(byteArray);
+      };
+  
+      reader.readAsArrayBuffer(file);
+    }
+  }
+
   // Hides the form
   closeForm(){
     this.createFormButton = false;
@@ -58,8 +74,16 @@ export class MainPageComponent implements OnInit{
 
   loadPosts(){
     this.postService.getAll().subscribe(posts =>{
-      this.posts = posts;
+      this.posts = posts.map(postData => Object.assign(new Post(), postData));
     });
+    
+  }
+
+  onFileNameChanged(event: any){
+    const file: File = event.target.files[0];
+    if(file){
+      this.selectedFile = file.name;
+    }
   }
 
 }

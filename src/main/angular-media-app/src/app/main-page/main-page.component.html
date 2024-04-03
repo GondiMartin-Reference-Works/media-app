@@ -35,9 +35,8 @@
                                             </div>
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input" id="postImage"
-                                                    [(ngModel)]="newPost.image" name="image">
-                                                <label class="custom-file-label" for="postImage">Choose
-                                                    file</label>
+                                                    (change)="onFileSelected($event); onFileNameChanged($event)" name="image">
+                                                <label class="custom-file-label" for="postImage">{{selectedFile || 'Choose file'}}</label>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -69,7 +68,7 @@
                                             <p class="card-text">{{post.text}}</p>
                                         </div>
                                         <img *ngIf="post.image != null" class="card-img-bottom" title="Post's image"
-                                            src="{{post.image}}"
+                                            [src]="post.getImageSrc()"
                                             alt="Card image cap">
                                         <div class="count-section">
                                             <i class="fa fa-thumbs-up pr-3"> {{post.likes.length}}</i>
