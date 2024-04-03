@@ -3,6 +3,7 @@ import {AppComponent} from '../app.component';
 import {AuthService} from '../auth/services/auth.service';
 import {Post} from '../models/post';
 import {PostService} from '../services/post.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-main-page',
@@ -18,7 +19,8 @@ export class MainPageComponent implements OnInit{
   constructor(
     private appComponent: AppComponent,
     private authService: AuthService,
-    private postService: PostService) {
+    private postService: PostService,
+    private sanitizer: DomSanitizer) {
       this.createFormButton = false;
   }
 
@@ -43,7 +45,6 @@ export class MainPageComponent implements OnInit{
       this.newPost.group = null;
       this.newPost.likes = [];
       this.newPost.comments = [];
-      this.newPost.image = null; // TODO: Image deszerializáció
       this.postService.create(this.newPost).subscribe(_ => {
         this.createFormButton = false;
         window.location.reload();

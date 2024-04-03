@@ -2,12 +2,13 @@ import { User } from "./user";
 import { Group } from "./group";
 import { Like } from "./like";
 import { Comment } from "./comment";
+import { SafeUrl } from "@angular/platform-browser";
 
 export class Post {
     user: User | null;
     group: Group | null;
     text: string;
-    image: Int8Array | null;
+    image: Blob | null;
     likes: Like[];
     comments: Comment[];
 
@@ -15,7 +16,7 @@ export class Post {
         this.user = new User();
         this.group = new Group();
         this.text = "";
-        this.image = new Int8Array();
+        this.image = null;
         this.likes = [];
         this.comments = [];
     }
