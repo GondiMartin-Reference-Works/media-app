@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IUserService } from '../auth/services/interfaces/iuser-service';
@@ -6,6 +6,8 @@ import { RegisterUser } from '../models/register-user';
 import { LoginUser } from '../models/login-user';
 import { SearchedUser } from '../models/searched-user';
 import { AuthResponse } from '../models/auth-response';
+import { FriendRequest } from '../models/friend-request';
+import { Emails } from '../models/email';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,8 @@ export class UserService implements IUserService{
 
   private APIURL: string = "http://localhost:8080/api/v1/auth/";
   private APIUserURL: string = "http://localhost:8080/api/v1/user";
-  private headers : HttpHeaders = new HttpHeaders();
+  private FriendRequestButtonURL: string = "http://localhost:8080/request/friendListWithIsFriend";
+  public headers : HttpHeaders = new HttpHeaders();
 
   constructor(
     private http: HttpClient
@@ -30,12 +33,14 @@ export class UserService implements IUserService{
 
   logout(){
     sessionStorage.removeItem("current-user-token");
+    sessionStorage.removeItem("current-user-email");
     window.location.reload();
   }
 
   getAll(): Observable<SearchedUser[]>{
     this.validateHeaders();
-    return this.http.get<SearchedUser[]>(this.APIUserURL, { headers: this.headers});
+    const params : HttpParams = new HttpParams().set('email', JSON.parse(sessionStorage.getItem('current-user-email') ?? ''));
+    return this.http.get<SearchedUser[]>(this.FriendRequestButtonURL, { headers: this.headers, params: params });
   }
 
   validateHeaders(): void{
@@ -48,4 +53,8 @@ export class UserService implements IUserService{
       });
     }
   }
+
+  
+
+
 }

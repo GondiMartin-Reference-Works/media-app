@@ -1,8 +1,12 @@
 package com.example.mediaApp.service;
 
-import com.example.mediaApp.model.dto.AppUserDTO;
+import com.example.mediaApp.model.dto.AppFriendUserDTO;
+import com.example.mediaApp.model.entity.AppUserEntity;
+import com.example.mediaApp.model.entity.FriendConnectionEntity;
 import com.example.mediaApp.repository.AppUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,23 +18,43 @@ public class AppUserService {
 
     private final AppUserRepository repository;
 
-    public List<AppUserDTO> getAll(){
-        return repository.findAll()
-                .stream().map(user -> new AppUserDTO(
-                        user.getId(),
-                        user.getFirstName(),
-                        user.getLastName(),
-                        user.getEmail()
-                ))
-                .toList();
+    private static final Logger LOGGER = LogManager.getLogger(AppUserService.class);
+
+    public List<AppUserEntity> getAll(){
+        return repository.findAll();
     }
 
-    public Optional<AppUserDTO> getByEmail(String email){
-        return repository.findByEmail(email).map(user -> new AppUserDTO(
-                user.getId(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail()
-        ));
+    public List<AppFriendUserDTO> getAllWithIsFriend(String email){
+        Optional<AppUserEntity> maybeCurrentUser = repository.findByEmail(email);
+        List<AppUserEntity> allUsers = repository.findAll();
+        if(maybeCurrentUser.isEmpty()){
+            LOGGER.warn("Error querying user with email \"{}\"", email);
+            return List.of();
+        }
+
+        return allUsers.stream().map(entity -> new AppFriendUserDTO(
+                entity.getId(),
+                entity.getFirstName(),
+                entity.getLastName(),
+                entity.getEmail(),
+                entity.getFriendConnections().stream()
+                        .map(FriendConnectionEntity::getFriend)
+                        .map(AppUserEntity::getEmail)
+                        .anyMatch(email::equals)
+        )).toList();
     }
-}
+
+    public Optional<AppUserEntity> getByEmail(String email){
+        return repository.findByEmail(email);
+    }
+
+    public Optional<AppUserEntity> getEntityByEmail(String email){
+        return repository.findByEmail(email);
+    }
+
+    public Optional<AppUserEntity> changeUser(long id, AppUserEntity newUser){
+        newUser.setId(id);
+        return Optional.of(repository.save(newUser));
+    }
+
+ }

@@ -21,6 +21,15 @@ public class AppUserController {
 
     @GetMapping()
     public ResponseEntity<List<AppUserDTO>> getAll(){
-        return ResponseEntity.ok(service.getAll());
+        return ResponseEntity.ok(service.getAll().stream().map(entity -> new AppUserDTO(
+                entity.getId(),
+                entity.getFirstName(),
+                entity.getLastName(),
+                entity.getEmail(),
+                entity.getFriendConnections().size(),
+                entity.getFriendRequests().size()
+        )).toList());
     }
+
+
 }

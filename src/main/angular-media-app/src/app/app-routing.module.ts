@@ -19,6 +19,14 @@ const routes: Routes = [
     redirectTo: '/main',
     pathMatch: 'full'},
   {
+    path: 'friend-requests',
+    loadChildren: () => import('./friend-request/friend-request.module').then(m => m.FriendRequestModule) ,
+    canMatch: [authGuard]
+  },
+  { path: 'manage-friends', 
+    loadChildren: () => import('./manage-friends/manage-friends.module').then(m => m.ManageFriendsModule) 
+  },
+  {
     path: '**',
     title: "Page Not Found",
     component: PageNotFoundComponent }
