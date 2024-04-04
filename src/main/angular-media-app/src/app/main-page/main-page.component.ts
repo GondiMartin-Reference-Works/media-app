@@ -70,6 +70,8 @@ export class MainPageComponent implements OnInit{
   // Hides the form
   closeForm(){
     this.createFormButton = false;
+    this.newPost = new Post();
+    this.selectedFile = "";
   }
 
   loadPosts(){
