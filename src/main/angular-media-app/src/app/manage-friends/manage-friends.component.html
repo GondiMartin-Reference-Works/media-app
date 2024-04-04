@@ -1,0 +1,19 @@
+<div class="mediapp-viewport-w-h-full bimage container-fluid">
+    <div class="flex-parent-start">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <h1>Friend list</h1>
+                    <main class="bg-dark">
+                        <div class="posts" *ngIf="authService.isLoggedIn() && connections.length > 0">
+                            <article *ngFor="let friend of connections" >
+                                {{friend.firstName}} {{friend.lastName}}
+                                <button (click)="friendService.deleteFriend(friend.email)">Delete</button>
+                            </article>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

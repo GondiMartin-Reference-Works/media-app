@@ -9,11 +9,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AppUserDTO {
-    private Long id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private int numOfConnections;
-    private int numOfRequests;
+public class FriendRequestDTO {
+    private long id;
+    private long senderId;
+    private String senderEmail;
+    private String senderName;
+    private long receiverId;
+    private String receiverEmail;
 }

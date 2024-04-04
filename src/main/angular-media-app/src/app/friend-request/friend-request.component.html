@@ -1,0 +1,22 @@
+<div class="mediapp-viewport-w-h-full bimage container-fluid">
+    <div class="flex-parent-start">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <h1>Friend requests</h1>
+                    <main class="bg-dark">
+                        <div class="posts" *ngIf="authService.isLoggedIn() && requests.length > 0">
+                            <article *ngFor="let request of requests" >
+                                {{
+                                    request.senderName
+                                }}
+                                <button (click)="requestService.acceptRequest(request.receiverEmail)">Accept</button>
+                                <button (click)="requestService.rejectRequest(request.receiverEmail)">Reject</button>
+                            </article>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

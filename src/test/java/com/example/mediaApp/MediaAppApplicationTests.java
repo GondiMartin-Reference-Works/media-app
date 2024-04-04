@@ -1,12 +1,20 @@
 package com.example.mediaApp;
 
-import com.example.mediaApp.model.entity.*;
+import com.example.mediaApp.model.entity.AddressEntity;
+import com.example.mediaApp.model.entity.AppUserEntity;
+import com.example.mediaApp.model.entity.FriendRequestEntity;
+import com.example.mediaApp.model.entity.GroupEntity;
+import com.example.mediaApp.model.entity.GroupRequestEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class MediaAppApplicationTests {

@@ -33,7 +33,7 @@ public class AuthenticationService {
         user.setRole(Role.USER);
         repository.save(user);
         String jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken);
+        return new AuthenticationResponse(jwtToken, request.getEmail());
     }
 
     public AuthenticationResponse authenticate(AuthencticationRequest request) {
@@ -46,7 +46,7 @@ public class AuthenticationService {
         AppUserEntity user = (AppUserEntity) authentication.getPrincipal();
 
         String jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken);
+        return new AuthenticationResponse(jwtToken, request.getEmail());
     }
 
 }

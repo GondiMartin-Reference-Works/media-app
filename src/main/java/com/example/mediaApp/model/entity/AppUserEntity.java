@@ -65,38 +65,38 @@ public class AppUserEntity implements UserDetails {
     // Unidirectional
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "user_id")
-    private List<AddressEntity> addresses;
+    private List<AddressEntity> addresses = List.of();
 
     // Bidirectional
     // Storing friend-requests only from other users
     @OneToMany(
             mappedBy = "receiverUser",
             orphanRemoval = true)
-    private List<FriendRequestEntity> friendRequests;
+    private List<FriendRequestEntity> friendRequests = List.of();
 
     // Bidirectional
     @OneToMany(
             mappedBy = "user",
             orphanRemoval = true)
-    private List<FriendConnectionEntity> friendConnections;
+    private List<FriendConnectionEntity> friendConnections = List.of();
 
     // Bidirectional
     @OneToMany(
             mappedBy = "user",
             orphanRemoval = true)
-    private List<StoryEntity> stories;
+    private List<StoryEntity> stories = List.of();
 
     // Bidirectional
     @OneToMany(
             mappedBy = "user",
             orphanRemoval = true)
-    private List<PostEntity> posts;
+    private List<PostEntity> posts = List.of();
 
     // Bidirectional
     @ManyToMany(
             fetch = FetchType.LAZY,
             mappedBy = "participantUsers")
-    private List<GroupEntity> joinedGroups;
+    private List<GroupEntity> joinedGroups = List.of();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

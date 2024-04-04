@@ -23,6 +23,12 @@
                         <li *ngIf="authService.isLoggedIn()" class="nav-item" routerLinkActive="active">
                             <a class="nav-link" routerLink="/main">Main Page</a>
                         </li>
+                        <li *ngIf="authService.isLoggedIn()" class="nav-item" routerLinkActive="active">
+                            <a class="nav-link" routerLink="/friend-requests">Friend requests</a>
+                        </li>
+                        <li *ngIf="authService.isLoggedIn()" class="nav-item" routerLinkActive="active">
+                            <a class="nav-link" routerLink="/manage-friends">Friends</a>
+                        </li>
                     </ul>
 
                     <div class="search-container mr-auto" *ngIf="authService.isLoggedIn()">
@@ -31,7 +37,10 @@
 
                         <div class="search-results ml-2" *ngIf="filteredUsers.length > 0">
                             <ul class="list-group">
-                                <li class="list-group-item" *ngFor="let user of filteredUsers">{{user.lastName}} {{user.firstName}}</li>
+                                <li class="list-group-item" *ngFor="let user of filteredUsers">{{user.lastName}} {{user.firstName}}
+                                    <button *ngIf="!user.friend" (click)="requestService.addFriend(user.email)">Add friend</button>
+                                </li>
+
                             </ul>
                         </div>
                     </div>
