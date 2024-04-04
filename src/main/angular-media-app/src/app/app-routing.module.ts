@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { PreloadAllModules } from '@angular/router';
+import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { authGuard } from './auth/guards/auth.guard';
 
@@ -23,8 +22,9 @@ const routes: Routes = [
     loadChildren: () => import('./friend-request/friend-request.module').then(m => m.FriendRequestModule) ,
     canMatch: [authGuard]
   },
-  { path: 'manage-friends', 
-    loadChildren: () => import('./manage-friends/manage-friends.module').then(m => m.ManageFriendsModule) 
+  { path: 'manage-friends',
+    loadChildren: () => import('./manage-friends/manage-friends.module').then(m => m.ManageFriendsModule),
+    canMatch: [authGuard]
   },
   {
     path: '**',
