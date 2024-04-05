@@ -3,39 +3,37 @@ import { FriendListElement } from "../models/friend-list-element";
 import { Observable } from "rxjs/internal/Observable";
 import { UserService } from "./user.service";
 import { HttpClient, HttpParams } from "@angular/common/http";
+import {BaseService} from "./base-service";
 
 @Injectable({
     providedIn: 'root'
   })
-  export class FriendService{
+  export class FriendService extends BaseService{
 
     private getFriendsURL = "http://localhost:8080/friend";
     private deleteFriendsURL = "http://localhost:8080/friend";
 
     constructor(
-        private userService: UserService,
         private http: HttpClient
-    ){}
+    ){
+      super();
+    }
 
     public getFriends(): Observable<FriendListElement[]>{
-        this.userService.validateHeaders();
-
         const email = JSON.parse(sessionStorage.getItem('current-user-email') ?? '');
         const params = new HttpParams()
         .set('email', email);
-        return this.http.get<FriendListElement[]>(this.getFriendsURL, {headers: this.userService.headers, params: params});
+        return this.http.get<FriendListElement[]>(this.getFriendsURL, {headers: this.getHeaders(), params: params});
     }
 
     public deleteFriend(email: string): void{
-        this.userService.validateHeaders();
-        
         const loggedInUserEmail = JSON.parse(sessionStorage.getItem('current-user-email') ?? '');
         const toBeDeletedUserEmail = email;
         const params = new HttpParams()
         .set('loggedInUserEmail', loggedInUserEmail)
         .set('toBeDeletedUserEmail', toBeDeletedUserEmail);
-        
-            
-        this.http.delete(this.deleteFriendsURL, {headers: this.userService.headers, params: params}).subscribe();
+
+
+        this.http.delete(this.deleteFriendsURL, {headers: this.getHeaders(), params: params}).subscribe();
     }
   }

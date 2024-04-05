@@ -56,9 +56,6 @@ public class AppUserService {
         newUser.setId(id);
         return Optional.of(repository.save(newUser));
     }
-
- }
-
     public AppUserEntity find(Long id){
         return repository
                 .findById(id)

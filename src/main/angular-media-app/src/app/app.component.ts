@@ -32,7 +32,6 @@ export class AppComponent implements OnInit{
   getAllUser(){
     this.userService.getAll().subscribe((users) => {
       this.users = users;
-      
     });
   }
 

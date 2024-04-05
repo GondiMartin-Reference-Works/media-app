@@ -18,7 +18,6 @@ export class UserService extends BaseService implements IUserService{
   private APIURL: string = "http://localhost:8080/api/v1/auth/";
   private APIUserURL: string = "http://localhost:8080/api/v1/user";
   private FriendRequestButtonURL: string = "http://localhost:8080/request/friendListWithIsFriend";
-  public headers : HttpHeaders = new HttpHeaders();
 
   constructor(
     private http: HttpClient
@@ -41,6 +40,7 @@ export class UserService extends BaseService implements IUserService{
   }
 
   getAll(): Observable<SearchedUser[]>{
-    return this.http.get<SearchedUser[]>(this.APIUserURL, { headers: this.getHeaders()});
+    const params : HttpParams = new HttpParams().set('email', JSON.parse(sessionStorage.getItem('current-user-email') ?? ''));
+    return this.http.get<SearchedUser[]>(this.FriendRequestButtonURL, { headers: this.getHeaders(), params: params });
   }
 }
