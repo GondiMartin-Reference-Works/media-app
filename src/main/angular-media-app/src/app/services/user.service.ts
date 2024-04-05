@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IUserService } from '../auth/services/interfaces/iuser-service';
@@ -6,8 +6,6 @@ import { RegisterUser } from '../models/register-user';
 import { LoginUser } from '../models/login-user';
 import { SearchedUser } from '../models/searched-user';
 import { AuthResponse } from '../models/auth-response';
-import { FriendRequest } from '../models/friend-request';
-import { Emails } from '../models/email';
 import { BaseService } from './base-service';
 
 @Injectable({
@@ -16,7 +14,6 @@ import { BaseService } from './base-service';
 export class UserService extends BaseService implements IUserService{
 
   private APIURL: string = "http://localhost:8080/api/v1/auth/";
-  private APIUserURL: string = "http://localhost:8080/api/v1/user";
   private FriendRequestButtonURL: string = "http://localhost:8080/request/friendListWithIsFriend";
 
   constructor(

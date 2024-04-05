@@ -1,14 +1,8 @@
 import { Injectable } from "@angular/core";
 import { FriendRequest } from "../models/friend-request";
-import { IUserService } from "../auth/services/interfaces/iuser-service";
 import { Observable } from "rxjs";
-import { AuthResponse } from "../models/auth-response";
-import { LoginUser } from "../models/login-user";
-import { RegisterUser } from "../models/register-user";
-import { UserService } from "./user.service";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Emails } from "../models/email";
-import { SearchedUser } from "../models/searched-user";
 import {BaseService} from "./base-service";
 
 @Injectable({

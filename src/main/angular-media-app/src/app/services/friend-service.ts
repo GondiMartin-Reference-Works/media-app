@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { FriendListElement } from "../models/friend-list-element";
 import { Observable } from "rxjs/internal/Observable";
-import { UserService } from "./user.service";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import {BaseService} from "./base-service";
 
