@@ -8,7 +8,7 @@
                         <div class="posts" *ngIf="authService.isLoggedIn() && connections.length > 0">
                             <article *ngFor="let friend of connections" >
                                 {{friend.firstName}} {{friend.lastName}}
-                                <button (click)="friendService.deleteFriend(friend.email)">Delete</button>
+                                <button (click)="deleteFriend(friend.email)">Delete</button>
                             </article>
                         </div>
                     </main>
