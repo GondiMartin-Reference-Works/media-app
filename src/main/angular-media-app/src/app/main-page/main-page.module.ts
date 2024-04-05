@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MainPageRoutingModule } from './main-page-routing.module';
 import { MainPageComponent } from './main-page.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import { MainPageComponent } from './main-page.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     MainPageRoutingModule
   ]
 })

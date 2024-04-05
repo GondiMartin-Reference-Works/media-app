@@ -14,5 +14,79 @@ main{
     background-color: antiquewhite;
     border-radius: 15px;
     padding: 15px;
-    margin-bottom: 60px;
+    margin-bottom: 30px;
+}
+
+#create-form{
+    border: 3px solid darkcyan;
+    border-radius: 5px;
+    background-color: antiquewhite;
+    margin-bottom: 30px;
+}
+
+.float-right{
+    float: right;
+}
+
+.block-button{
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+#main-page-col{
+    max-width: 60%;
+}
+
+.count-section{
+    padding-left: 24px;
+    padding-top: 10px;
+}
+
+.profile > img{
+    float: left;
+    display: inline;
+    width: 70px;
+    height: 70px;
+    margin-right: 10px;
+    border-radius: 60px;
+}
+
+.profile > a:link,
+.profile > a:visited,
+.profile > a:active{
+    text-decoration: none;
+    color: black;
+}
+.profile > a:hover{
+    text-decoration: underline;
+    color: black;
+}
+
+.profile > a > h5{
+    margin-bottom: 0;
+}
+
+.profile{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+@media only screen and (max-width: 1200px) {
+    #main-page-col{
+        max-width: 80%;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    #main-page-col{
+        max-width: 90%;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    #main-page-col{
+        max-width: 100%;
+    }
 }

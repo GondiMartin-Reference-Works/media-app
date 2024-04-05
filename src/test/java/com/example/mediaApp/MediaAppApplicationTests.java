@@ -39,7 +39,7 @@ class MediaAppApplicationTests {
 
 	@Test
 	void testUserSuccess(){
-		assertEquals("AppUserEntity(Martin, Göndöcs)", user.toString());
+		assertEquals("AppUserEntity(1, Martin, Göndöcs)", user.toString());
 	}
 
 	@Test

@@ -22,7 +22,10 @@ export class LoginComponent {
   logInUser(){
     if(this.isValidInput()){
       this.userService.login(this.user).subscribe((response) => {
-        sessionStorage.setItem('current-user-token', JSON.stringify(response.token));
+        const tokenJson = JSON.stringify(response.token);
+        sessionStorage.setItem('current-user-token', tokenJson);
+        const userJson = JSON.stringify(response.user);
+        sessionStorage.setItem('current-user', userJson);
         sessionStorage.setItem('current-user-email', JSON.stringify(this.user.email));
         this.goToMainPage();
       });

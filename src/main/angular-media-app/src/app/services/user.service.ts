@@ -8,11 +8,12 @@ import { SearchedUser } from '../models/searched-user';
 import { AuthResponse } from '../models/auth-response';
 import { FriendRequest } from '../models/friend-request';
 import { Emails } from '../models/email';
+import { BaseService } from './base-service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService implements IUserService{
+export class UserService extends BaseService implements IUserService{
 
   private APIURL: string = "http://localhost:8080/api/v1/auth/";
   private APIUserURL: string = "http://localhost:8080/api/v1/user";
@@ -21,7 +22,9 @@ export class UserService implements IUserService{
 
   constructor(
     private http: HttpClient
-  ) {}
+  ) {
+    super();
+  }
 
   create(newUser: RegisterUser): Observable<AuthResponse>{
     return this.http.post<AuthResponse>(this.APIURL + "register", newUser);
@@ -38,23 +41,6 @@ export class UserService implements IUserService{
   }
 
   getAll(): Observable<SearchedUser[]>{
-    this.validateHeaders();
-    const params : HttpParams = new HttpParams().set('email', JSON.parse(sessionStorage.getItem('current-user-email') ?? ''));
-    return this.http.get<SearchedUser[]>(this.FriendRequestButtonURL, { headers: this.headers, params: params });
+    return this.http.get<SearchedUser[]>(this.APIUserURL, { headers: this.getHeaders()});
   }
-
-  validateHeaders(): void{
-    const json = sessionStorage.getItem("current-user-token") ?? "";
-    if (json != ""){
-      const auth_token = JSON.parse(json);
-      this.headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${auth_token}`
-      });
-    }
-  }
-
-  
-
-
 }

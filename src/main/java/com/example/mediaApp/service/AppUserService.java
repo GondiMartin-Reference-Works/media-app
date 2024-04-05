@@ -58,3 +58,10 @@ public class AppUserService {
     }
 
  }
+
+    public AppUserEntity find(Long id){
+        return repository
+                .findById(id)
+                .orElse(null);
+    }
+}
