@@ -22,15 +22,6 @@ export class FriendRequestComponent implements OnInit{
       this.requests = request;
       console.log(request);
     });
-  }
 
-  acceptRequest(receiverEmail: string): void{
-    this.requestService.acceptRequest(receiverEmail);
-    window.location.reload();
-  }
-
-  rejectRequest(receiverEmail: string): void{
-    this.requestService.rejectRequest(receiverEmail);
-    window.location.reload();
   }
 }
