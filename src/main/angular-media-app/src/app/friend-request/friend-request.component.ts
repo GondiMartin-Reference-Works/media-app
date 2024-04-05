@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../services/user.service';
 import { AuthService } from '../auth/services/auth.service';
 import { FriendRequest } from '../models/friend-request';
 import { FriendRequestService } from '../services/friend-request.service';

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {  FriendListElement } from '../models/friend-list-element';
-import { FriendRequestService } from '../services/friend-request.service';
 import { AuthService } from '../auth/services/auth.service';
 import { FriendService } from '../services/friend-service';
 
