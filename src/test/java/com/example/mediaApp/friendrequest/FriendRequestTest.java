@@ -60,7 +60,7 @@ public class FriendRequestTest {
         authService.register(new RegisterRequest(receiver.getFirstName(), receiver.getLastName(), receiver.getEmail(), receiver.getPassword()));
         request = requestService.create(new FriendRequestController.Emails(sender.getEmail(), receiver.getEmail())).orElse(new FriendRequestEntity());
 
-        System.out.println("");
+        System.out.println();
         assertThat(userService.getEntityByEmail("sender@gmail.com")).map(AppUserEntity::getFriendRequests).isNotEmpty();
         assertThat(userService.getEntityByEmail("receiver@gmail.com")).map(AppUserEntity::getFriendRequests).isNotEmpty();
     }

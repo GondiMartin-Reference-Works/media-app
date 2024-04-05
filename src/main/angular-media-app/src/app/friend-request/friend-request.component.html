@@ -10,8 +10,8 @@
                                 {{
                                     request.senderName
                                 }}
-                                <button (click)="requestService.acceptRequest(request.receiverEmail)">Accept</button>
-                                <button (click)="requestService.rejectRequest(request.receiverEmail)">Reject</button>
+                                <button (click)="acceptRequest(request.senderEmail)">Accept</button>
+                                <button (click)="rejectRequest(request.senderEmail)">Reject</button>
                             </article>
                         </div>
                     </main>

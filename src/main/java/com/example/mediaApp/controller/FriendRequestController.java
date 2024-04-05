@@ -1,5 +1,8 @@
 package com.example.mediaApp.controller;
 
+import com.example.mediaApp.converter.AppFriendUserConverter;
+import com.example.mediaApp.converter.FriendConnectionConverter;
+import com.example.mediaApp.converter.FriendRequestConverter;
 import com.example.mediaApp.model.dto.AppFriendUserDTO;
 import com.example.mediaApp.model.dto.FriendConnectionDTO;
 import com.example.mediaApp.model.dto.FriendRequestDTO;
@@ -25,62 +28,48 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200/")
 public class FriendRequestController {
+
     private final FriendRequestService service;
     private final AppUserService userService;
+    private final AppFriendUserConverter appFriendUserConverter;
+    private final FriendRequestConverter friendRequestConverter;
+    private final FriendConnectionConverter friendConnectionConverter;
 
     @GetMapping()
     public ResponseEntity<List<FriendRequestDTO>> getAll(){
         return ResponseEntity.ok(service.getAll().stream()
-                .map(friendRequestEntity -> new FriendRequestDTO(
-                    friendRequestEntity.getId(),
-                    friendRequestEntity.getSenderUser().getId(),
-                    friendRequestEntity.getSenderUser().getEmail(),
-                        STR."\{friendRequestEntity.getSenderUser().getFirstName()} \{friendRequestEntity.getSenderUser().getLastName()}",
-                    friendRequestEntity.getReceiverUser().getId(),
-                    friendRequestEntity.getReceiverUser().getEmail()
-                ))
+                .map(friendRequestConverter::convertFromEntityToDTO)
                 .toList());
     }
 
     @PostMapping
     public ResponseEntity<FriendRequestDTO> create(@RequestBody Emails ids){
         return ResponseEntity.ok(service.create(ids)
-                .map(request -> new FriendRequestDTO(
-                    request.getId(),
-                    request.getSenderUser().getId(),
-                    request.getSenderUser().getEmail(),
-                    STR."\{request.getSenderUser().getFirstName()} \{request.getSenderUser().getLastName()}",
-                    request.getReceiverUser().getId(),
-                    request.getReceiverUser().getEmail()))
+                .map(friendRequestConverter::convertFromEntityToDTO)
                 .orElse(new FriendRequestDTO()));
     }
 
     @GetMapping("/received")
     public ResponseEntity<List<FriendRequestDTO>> getReceivedRequests(@RequestParam String email){
         return ResponseEntity.ok(service.getReceivedRequests(email).stream()
-                .map(request -> new FriendRequestDTO(
-                    request.getId(),
-                    request.getReceiverUser().getId(),
-                    request.getReceiverUser().getEmail(),
-                    STR."\{request.getSenderUser().getFirstName()} \{request.getSenderUser().getLastName()}",
-                    request.getSenderUser().getId(),
-                    request.getSenderUser().getEmail()
-                ))
+                .map(friendRequestConverter::convertFromEntityToDTO)
                 .toList());
     }
 
     @GetMapping("/friendListWithIsFriend")
     public ResponseEntity<List<AppFriendUserDTO>> getAll(@RequestParam String email){
-        return ResponseEntity.ok(userService.getAllWithIsFriend(email));
+        return ResponseEntity.ok(userService.getAllWithIsFriend(email)
+                .stream().map(entity -> appFriendUserConverter
+                        .email(email)
+                        .convertFromEntityToDTO(entity))
+                .toList());
     }
 
     @PutMapping("/accept")
     public ResponseEntity<FriendConnectionDTO> acceptRequest(@RequestParam String receiverEmail, @RequestParam String senderEmail){
         return ResponseEntity.ok(service.acceptRequest(receiverEmail, senderEmail)
-                .map(result -> new FriendConnectionDTO(
-                        result.getUser().getEmail(),
-                        result.getFriend().getEmail()
-                        )).orElse(new FriendConnectionDTO()));
+                .map(friendConnectionConverter::convertFromEntityToDTO)
+                .orElse(new FriendConnectionDTO()));
     }
 
     @PutMapping("/reject")
@@ -88,7 +77,6 @@ public class FriendRequestController {
     public void rejectRequest(@RequestBody Emails emails){
         service.rejectRequest(emails);
     }
-
 
     public record Emails(String senderEmail, String receiverEmail){}
 }

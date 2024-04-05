@@ -1,5 +1,6 @@
 package com.example.mediaApp.controller;
 
+import com.example.mediaApp.converter.FriendListElementConverter;
 import com.example.mediaApp.model.dto.FriendListElementDTO;
 import com.example.mediaApp.model.entity.FriendConnectionEntity;
 import com.example.mediaApp.service.FriendConnectionService;
@@ -19,16 +20,14 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200/")
 public class FriendConnectionController {
+
     private final FriendConnectionService service;
+    private final FriendListElementConverter friendListElementConverter;
 
     @GetMapping
     public ResponseEntity<List<FriendListElementDTO>> getAllForEmail(@RequestParam String email){
         return ResponseEntity.ok(service.getAllForEmail(email).stream()
-                .map(connection -> new FriendListElementDTO(
-                        connection.getFriend().getEmail(),
-                        connection.getFriend().getFirstName(),
-                        connection.getFriend().getLastName()
-                ))
+                .map(friendListElementConverter::convertFromEntityToDTO)
                 .toList());
     }
 

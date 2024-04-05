@@ -1,8 +1,6 @@
 package com.example.mediaApp.service;
 
-import com.example.mediaApp.model.dto.AppFriendUserDTO;
 import com.example.mediaApp.model.entity.AppUserEntity;
-import com.example.mediaApp.model.entity.FriendConnectionEntity;
 import com.example.mediaApp.repository.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -24,28 +22,14 @@ public class AppUserService {
         return repository.findAll();
     }
 
-    public List<AppFriendUserDTO> getAllWithIsFriend(String email){
+    public List<AppUserEntity> getAllWithIsFriend(String email){
         Optional<AppUserEntity> maybeCurrentUser = repository.findByEmail(email);
         List<AppUserEntity> allUsers = repository.findAll();
         if(maybeCurrentUser.isEmpty()){
             LOGGER.warn("Error querying user with email \"{}\"", email);
             return List.of();
         }
-
-        return allUsers.stream().map(entity -> new AppFriendUserDTO(
-                entity.getId(),
-                entity.getFirstName(),
-                entity.getLastName(),
-                entity.getEmail(),
-                entity.getFriendConnections().stream()
-                        .map(FriendConnectionEntity::getFriend)
-                        .map(AppUserEntity::getEmail)
-                        .anyMatch(email::equals)
-        )).toList();
-    }
-
-    public Optional<AppUserEntity> getByEmail(String email){
-        return repository.findByEmail(email);
+        return allUsers;
     }
 
     public Optional<AppUserEntity> getEntityByEmail(String email){
@@ -56,6 +40,7 @@ public class AppUserService {
         newUser.setId(id);
         return Optional.of(repository.save(newUser));
     }
+
     public AppUserEntity find(Long id){
         return repository
                 .findById(id)

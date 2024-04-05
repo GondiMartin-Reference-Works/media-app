@@ -1,5 +1,6 @@
 package com.example.mediaApp.controller;
 
+import com.example.mediaApp.converter.AppUserConverter;
 import com.example.mediaApp.model.dto.AppUserDTO;
 import com.example.mediaApp.service.AppUserService;
 import lombok.RequiredArgsConstructor;
@@ -18,15 +19,13 @@ import java.util.List;
 public class AppUserController {
 
     private final AppUserService service;
+    private final AppUserConverter appUserConverter;
 
     @GetMapping()
     public ResponseEntity<List<AppUserDTO>> getAll(){
-        return ResponseEntity.ok(service.getAll().stream().map(entity -> new AppUserDTO(
-                entity.getId(),
-                entity.getFirstName(),
-                entity.getLastName()
-        )).toList());
+        return ResponseEntity.ok(service.getAll().stream()
+                .map(appUserConverter::convertFromEntityToDTO)
+                .toList()
+        );
     }
-
-
 }

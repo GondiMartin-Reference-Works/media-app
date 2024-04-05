@@ -22,4 +22,9 @@ export class ManageFriendsComponent implements OnInit{
       this.friendService.getFriends().subscribe(friends => this.connections = friends);
     }
   }
+
+  deleteFriend(email: string): void{
+    this.friendService.deleteFriend(email);
+    window.location.reload();
+  }
 }
