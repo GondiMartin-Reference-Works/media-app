@@ -1,6 +1,10 @@
 package com.example.mediaApp.service;
 
+import com.example.mediaApp.converter.AppUserConverter;
+import com.example.mediaApp.model.dto.LikeDTO;
 import com.example.mediaApp.model.dto.PostDTO;
+import com.example.mediaApp.model.entity.AppUserEntity;
+import com.example.mediaApp.model.entity.LikeEntity;
 import com.example.mediaApp.model.entity.PostEntity;
 import com.example.mediaApp.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +23,7 @@ public class PostService {
     private final GroupService groupService;
     private final LikeService likeService;
     private final CommentService commentService;
+    private final AppUserConverter userConverter;
 
     public List<PostEntity> getAll(){
         return repository.findAll();
@@ -59,5 +65,30 @@ public class PostService {
         repository.save(newPost);
 
         return newPost;
+    }
+
+    public Optional<PostEntity> likePostById(long id, Long userId){
+        PostEntity post = repository.findById(id).orElse(null);
+        AppUserEntity likingUser = userService.find(userId);
+
+        if (post == null || likingUser == null)
+            return Optional.empty();
+
+        if (!isLikedByUser(post, likingUser)){
+            LikeEntity like = likeService.create(new LikeDTO(
+                    0,
+                    userConverter.convertFromEntityToDTO(likingUser)
+            ));
+            post.getLikes().add(like);
+
+            repository.save(post);
+        }
+
+        return Optional.of(post);
+    }
+
+    private boolean isLikedByUser(PostEntity post, AppUserEntity user){
+        return post.getLikes().stream()
+                .anyMatch(like -> like.getUser().equals(user));
     }
 }

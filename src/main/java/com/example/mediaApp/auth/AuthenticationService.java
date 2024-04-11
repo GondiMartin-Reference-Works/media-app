@@ -5,7 +5,10 @@ import com.example.mediaApp.converter.AppUserConverter;
 import com.example.mediaApp.model.entity.AppUserEntity;
 import com.example.mediaApp.model.entity.Role;
 import com.example.mediaApp.repository.AppUserRepository;
+import com.example.mediaApp.service.FriendConnectionService;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,6 +28,8 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     private final AppUserConverter appUserConverter;
+
+    private static final Logger LOGGER = LogManager.getLogger(FriendConnectionService.class);
 
 
     public AuthenticationResponse register(RegisterRequest request) {
@@ -49,6 +54,7 @@ public class AuthenticationService {
         AppUserEntity user = (AppUserEntity) authentication.getPrincipal();
 
         String jwtToken = jwtService.generateToken(user);
+        LOGGER.info(STR."Current user's (\{user.getFirstName()} \{user.getLastName()}) token: \{jwtToken}");
         return new AuthenticationResponse(jwtToken, appUserConverter.convertFromEntityToDTO(user), request.getEmail());
     }
 

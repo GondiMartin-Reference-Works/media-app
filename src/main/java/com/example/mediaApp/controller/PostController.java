@@ -5,6 +5,7 @@ import com.example.mediaApp.model.dto.PostDTO;
 import com.example.mediaApp.model.entity.PostEntity;
 import com.example.mediaApp.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,11 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("${base.backend.url}/post")
+@RequestMapping("${base.backend.url}")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "${base.frontend.url}")
 public class PostController{
@@ -24,7 +27,7 @@ public class PostController{
     private final PostService service;
     private final PostConverter converter;
 
-    @GetMapping()
+    @GetMapping(value = "/post")
     public ResponseEntity<List<PostDTO>> getAll(){
         return ResponseEntity.ok(service.getAll()
                 .stream().map(converter::convertFromEntityToDTO)
@@ -33,10 +36,19 @@ public class PostController{
         );
     }
 
-    @PostMapping()
+    @PostMapping("/post")
     public ResponseEntity<PostDTO> create(@RequestBody PostDTO post){
         PostEntity newPostEntity = service.create(post);
         PostDTO newPostDTO = converter.convertFromEntityToDTO(newPostEntity);
         return ResponseEntity.ok(newPostDTO);
+    }
+
+    @PostMapping(value = "/post/{postId}/like")
+    public ResponseEntity<PostDTO> getById(@PathVariable long postId, @RequestBody long userId){
+        Optional<PostEntity> postEntity = service.likePostById(postId, userId);
+
+        return postEntity.map(entity ->
+                ResponseEntity.ok(converter.convertFromEntityToDTO(entity)))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

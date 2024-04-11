@@ -88,4 +88,8 @@ export class MainPageComponent implements OnInit{
     }
   }
 
+  likePost(){
+    console.log("post is liked");
+  }
+
 }
