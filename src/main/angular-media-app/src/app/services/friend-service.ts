@@ -3,14 +3,15 @@ import { FriendListElement } from "../models/friend-list-element";
 import { Observable } from "rxjs/internal/Observable";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import {BaseService} from "./base-service";
+import { baseUrl } from "../environments/environment.prod";
 
 @Injectable({
     providedIn: 'root'
   })
   export class FriendService extends BaseService{
 
-    private getFriendsURL = "http://localhost:8080/friend";
-    private deleteFriendsURL = "http://localhost:8080/friend";
+    private getFriendsURL = baseUrl + "/friend";
+    private deleteFriendsURL = baseUrl + "/friend";
 
     constructor(
         private http: HttpClient

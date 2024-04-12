@@ -13,7 +13,5 @@ spring:
         format-sql: true
       database: mysql
 base:
-  backend:
-    url: "/api/v1"
   frontend:
-    url: "http://localhost:4200/"
+    url: "http://localhost:4200"
