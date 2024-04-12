@@ -24,4 +24,18 @@ export class PostService extends BaseService{
   getAll(): Observable<Post[]>{
     return this.http.get<Post[]>(this.APIURL, { headers: this.getHeaders()});
   }
+
+  likePost(postId: number, userId: number): Observable<Post>{
+    return this.http.post<Post>(
+      `${this.APIURL}/${postId}/like`,
+      userId,
+      { headers: this.getHeaders()})
+  }
+
+  unLikePost(postId: number, userId: number): Observable<Post>{
+    return this.http.post<Post>(
+      `${this.APIURL}/${postId}/unlike`,
+      userId,
+      { headers: this.getHeaders()});
+  }
 }

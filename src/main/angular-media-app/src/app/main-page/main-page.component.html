@@ -77,8 +77,14 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-12 col-md-6 pb-2">
-                                                    <button type="button" class="btn btn-dark block-button" (click)="likePost()"><i
+                                                    <div *ngIf=!post.isLikedByUser>
+                                                        <button type="button" class="btn btn-dark block-button" (click)="likePost(post)"><i
                                                             class="fa fa-thumbs-o-up"></i> Like</button>
+                                                    </div>
+                                                    <div *ngIf=post.isLikedByUser>
+                                                        <button type="button" class="btn btn-info block-button" (click)="unlikePost(post)"><i
+                                                            class="fa fa-thumbs-up"></i> Like</button>
+                                                    </div>
                                                 </div>
                                                 <div class="col-12 col-md-6">
                                                     <button type="button" class="btn btn-dark block-button"><i
@@ -91,7 +97,7 @@
                             </div>
 
                         </div>
-                        
+
                         <div *ngIf="posts.length == 0">
                             <div class="card bg-warning text-white">
                                 <div class="card-body text-center">No current posts at this time.</div>

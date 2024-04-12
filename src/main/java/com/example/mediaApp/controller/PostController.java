@@ -44,17 +44,25 @@ public class PostController{
         return ResponseEntity.ok(newPostDTO);
     }
 
-    @PostMapping(value = "/post/{postId}/{method}")
+    @PostMapping(value = "/post/{postId}/like")
     public ResponseEntity<PostDTO> likePostById(@PathVariable long postId,
-                                                @PathVariable PostLike method,
                                                 @RequestBody long userId){
-        if (method.equals(PostLike.NUll))
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        Optional<PostEntity> postEntity = service.likeOrUnlikePostById(postId, userId, method);
+        Optional<PostEntity> postEntity = service.likeOrUnlikePostById(postId, userId, PostLike.LIKE);
 
         return postEntity.map(entity ->
                 ResponseEntity.ok(postConverter.convertFromEntityToDTO(entity)))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping(value = "/post/{postId}/unlike")
+    public ResponseEntity<PostDTO> unlikePostById(@PathVariable long postId,
+                                                  @RequestBody long userId){
+
+        Optional<PostEntity> postEntity = service.likeOrUnlikePostById(postId, userId, PostLike.UNLIKE);
+
+        return postEntity.map(entity ->
+                        ResponseEntity.ok(postConverter.convertFromEntityToDTO(entity)))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
