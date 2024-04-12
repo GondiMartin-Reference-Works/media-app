@@ -6,6 +6,7 @@ import com.example.mediaApp.model.dto.PostDTO;
 import com.example.mediaApp.model.entity.AppUserEntity;
 import com.example.mediaApp.model.entity.LikeEntity;
 import com.example.mediaApp.model.entity.PostEntity;
+import com.example.mediaApp.model.enums.PostLike;
 import com.example.mediaApp.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -67,28 +68,47 @@ public class PostService {
         return newPost;
     }
 
-    public Optional<PostEntity> likePostById(long id, Long userId){
+    public Optional<PostEntity> likeOrUnlikePostById(long id, Long userId, PostLike method){
         PostEntity post = repository.findById(id).orElse(null);
-        AppUserEntity likingUser = userService.find(userId);
+        AppUserEntity user = userService.find(userId);
 
-        if (post == null || likingUser == null)
+        if (post == null || user == null)
             return Optional.empty();
 
-        if (!isLikedByUser(post, likingUser)){
-            LikeEntity like = likeService.create(new LikeDTO(
-                    0,
-                    userConverter.convertFromEntityToDTO(likingUser)
-            ));
-            post.getLikes().add(like);
+        LikeEntity like = getLikeByPostIdAndUserId(post, user);
 
-            repository.save(post);
+        switch (method){
+            case LIKE -> {
+                if (like == null){
+                    like = likeService.create(new LikeDTO(
+                            0,
+                            userConverter.convertFromEntityToDTO(user)
+                    ));
+                    post.getLikes().add(like);
+
+                    repository.save(post);
+                }
+            }
+            case UNLIKE -> {
+                if (like != null){
+                    likeService.delete(like);
+                    post.getLikes().remove(like);
+
+                    repository.save(post);
+                }
+            }
+            case null, default -> {
+                // Do nothing.
+            }
         }
 
         return Optional.of(post);
     }
 
-    private boolean isLikedByUser(PostEntity post, AppUserEntity user){
+    private LikeEntity getLikeByPostIdAndUserId(PostEntity post, AppUserEntity user){
         return post.getLikes().stream()
-                .anyMatch(like -> like.getUser().equals(user));
+                .filter(like -> like.getUser().equals(user))
+                .findFirst()
+                .orElse(null);
     }
 }

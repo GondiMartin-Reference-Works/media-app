@@ -31,4 +31,8 @@ public class LikeService {
 
         return newLike;
     }
+
+    public void delete(LikeEntity like){
+        repository.delete(like);
+    }
 }

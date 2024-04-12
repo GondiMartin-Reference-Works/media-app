@@ -3,6 +3,7 @@ package com.example.mediaApp.controller;
 import com.example.mediaApp.converter.PostConverter;
 import com.example.mediaApp.model.dto.PostDTO;
 import com.example.mediaApp.model.entity.PostEntity;
+import com.example.mediaApp.model.enums.PostLike;
 import com.example.mediaApp.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,12 +26,12 @@ import java.util.Optional;
 public class PostController{
 
     private final PostService service;
-    private final PostConverter converter;
+    private final PostConverter postConverter;
 
     @GetMapping(value = "/post")
     public ResponseEntity<List<PostDTO>> getAll(){
         return ResponseEntity.ok(service.getAll()
-                .stream().map(converter::convertFromEntityToDTO)
+                .stream().map(postConverter::convertFromEntityToDTO)
                 .toList()
                 .reversed()
         );
@@ -39,16 +40,21 @@ public class PostController{
     @PostMapping("/post")
     public ResponseEntity<PostDTO> create(@RequestBody PostDTO post){
         PostEntity newPostEntity = service.create(post);
-        PostDTO newPostDTO = converter.convertFromEntityToDTO(newPostEntity);
+        PostDTO newPostDTO = postConverter.convertFromEntityToDTO(newPostEntity);
         return ResponseEntity.ok(newPostDTO);
     }
 
-    @PostMapping(value = "/post/{postId}/like")
-    public ResponseEntity<PostDTO> getById(@PathVariable long postId, @RequestBody long userId){
-        Optional<PostEntity> postEntity = service.likePostById(postId, userId);
+    @PostMapping(value = "/post/{postId}/{method}")
+    public ResponseEntity<PostDTO> likePostById(@PathVariable long postId,
+                                                @PathVariable PostLike method,
+                                                @RequestBody long userId){
+        if (method.equals(PostLike.NUll))
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        Optional<PostEntity> postEntity = service.likeOrUnlikePostById(postId, userId, method);
 
         return postEntity.map(entity ->
-                ResponseEntity.ok(converter.convertFromEntityToDTO(entity)))
+                ResponseEntity.ok(postConverter.convertFromEntityToDTO(entity)))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
