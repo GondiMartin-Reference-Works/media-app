@@ -1,6 +1,6 @@
 package com.example.mediaApp.model.enums;
 
-public enum PostLike{
+public enum Liking {
     LIKE,
     UNLIKE,
 }
