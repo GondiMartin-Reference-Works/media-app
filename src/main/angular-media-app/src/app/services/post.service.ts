@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Post } from '../models/post';
 import { BaseService } from './base-service';
-import { baseUrl } from '../environments/environment.prod';
+import { environment } from '../../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService extends BaseService{
 
-  private APIURL: string = baseUrl + "/post";
+  private APIURL: string = environment.API_URL + "/post";
 
   constructor(
     private http: HttpClient

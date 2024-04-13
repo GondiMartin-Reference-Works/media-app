@@ -7,15 +7,15 @@ import { LoginUser } from '../models/login-user';
 import { SearchedUser } from '../models/searched-user';
 import { AuthResponse } from '../models/auth-response';
 import { BaseService } from './base-service';
-import { baseUrl } from '../environments/environment.prod';
+import { environment } from '../../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService extends BaseService implements IUserService{
 
-  private APIURL: string = baseUrl + "/auth/";
-  private FriendRequestButtonURL: string = baseUrl + "/request/friendListWithIsFriend";
+  private APIURL: string = environment.API_URL + "/auth/";
+  private FriendRequestButtonURL: string = environment.API_URL + "/request/friendListWithIsFriend";
 
   constructor(
     private http: HttpClient
