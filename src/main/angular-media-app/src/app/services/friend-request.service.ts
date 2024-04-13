@@ -4,15 +4,16 @@ import { Observable } from "rxjs";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Emails } from "../models/email";
 import {BaseService} from "./base-service";
+import { environment } from "../../environment";
 
 @Injectable({
     providedIn: 'root'
   })
   export class FriendRequestService extends BaseService{
-    private getRequestsURL: string = "http://localhost:8080/request/received";
-    private addFriendURL: string = "http://localhost:8080/request";
-    private acceptRequestURL: string = "http://localhost:8080/request/accept";
-    private rejectRequestURL: string = "http://localhost:8080/request/reject";
+    private getRequestsURL: string = environment.API_URL + "/request/received";
+    private addFriendURL: string = environment.API_URL + "/request";
+    private acceptRequestURL: string = environment.API_URL + "/request/accept";
+    private rejectRequestURL: string = environment.API_URL + "/request/reject";
 
     constructor(
       private http: HttpClient
