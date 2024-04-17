@@ -6,7 +6,6 @@ import { PostService } from '../services/post.service';
 import { Like } from '../models/like';
 import { User } from '../models/user';
 import { Comment } from "../models/comment";
-import { ReloadService } from '../services/reload.service';
 
 @Component({
   selector: 'app-main-page',
