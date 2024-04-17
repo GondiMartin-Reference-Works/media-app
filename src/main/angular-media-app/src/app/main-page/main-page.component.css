@@ -73,11 +73,19 @@ main{
 
 .profile > a:link,
 .profile > a:visited,
-.profile > a:active{
+.profile > a:active,
+.comment-profile > a:link,
+.comment-profile > a:visited,
+.comment-profile > a:active,
+.comment-like:link,
+.comment-like:visited,
+.comment-like:active{
     text-decoration: none;
     color: black;
 }
-.profile > a:hover{
+.profile > a:hover,
+.comment-profile > a:hover,
+.comment-like:hover{
     text-decoration: underline;
     color: black;
 }
@@ -121,17 +129,6 @@ main{
 .comment-text > a:hover{
     text-decoration: underline;
     color: white;
-}
-
-.comment-profile > a:link,
-.comment-profile > a:visited,
-.comment-profile > a:active{
-    text-decoration: none;
-    color: black;
-}
-.comment-profile > a:hover{
-    text-decoration: underline;
-    color: black;
 }
 
 @media only screen and (max-width: 1200px) {

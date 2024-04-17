@@ -31,6 +31,8 @@ public class PostService {
         return repository.findAll();
     }
 
+    public void deleteAll() { repository.deleteAll(); }
+
     public PostEntity create (PostDTO post){
         PostEntity newPost = new PostEntity();
 

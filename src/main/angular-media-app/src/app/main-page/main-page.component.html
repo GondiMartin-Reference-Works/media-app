@@ -59,7 +59,7 @@
                                 <article>
                                     <div class="card">
                                         <div class="card-body profile">
-                                            <img alt="profile picture" title="Post's writer name"
+                                            <img alt="profile picture" title="{{post.user?.firstName}} {{post.user?.lastName}}"
                                                 src="https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912">
                                             <a href="google.hu">
                                                 <h5 class="card-title"><b>{{post.user?.firstName}}
@@ -70,7 +70,7 @@
                                             <p class="card-text">{{post.text}}</p>
                                         </div>
                                         <img *ngIf="post.image != null" class="card-img-bottom" title="Post's image"
-                                            [src]="post.getImageSrc()" alt="Card image cap">
+                                            [src]="post.imgSrc" alt="Card image cap">
                                         <div class="count-section">
                                             <i class="fa fa-thumbs-up pr-3"> {{post.likes.length}}</i>
                                             <i class="fa fa-comment"> {{post.comments.length}}</i>
@@ -78,12 +78,12 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-12 col-md-6 pb-2">
-                                                    <div *ngIf=!post.isLikedByUser>
+                                                    <div *ngIf=!isLikedByUser(post)>
                                                         <button type="button" class="btn btn-dark block-button"
                                                             (click)="likePost(post)"><i class="fa fa-thumbs-o-up"></i>
                                                             Like</button>
                                                     </div>
-                                                    <div *ngIf=post.isLikedByUser>
+                                                    <div *ngIf=isLikedByUser(post)>
                                                         <button type="button" class="btn btn-info block-button"
                                                             (click)="unlikePost(post)"><i class="fa fa-thumbs-up"></i>
                                                             Like</button>
@@ -95,38 +95,38 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <hr>
-                                        <div class="card-body">
-                                            <div class="comments">
-                                                <div class="comment comment-profile">
-                                                    <a href="google.hu">
-                                                        <img alt="profile picture" title="Post's writer name"
-                                                            src="https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912">
-                                                    </a>
-                                                    <div class="card text-white bg-secondary comment-text">
-                                                        <a href="google.hu">
-                                                            <h6 class="card-title"><b>Comment writer's name</b></h6>
-                                                        </a> 
-                                                        <p class="card-text">
-                                                            hellodfsggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-                                                        </p>
+
+                                        <!-- Comments -->
+                                        <div *ngIf="post.comments.length > 0">
+                                            <hr>
+                                            <div class="card-body">
+                                                <div class="comments">
+                                                    <div *ngFor="let comment of post.comments">
+                                                        <div class="comment comment-profile">
+                                                            <a href="google.hu">
+                                                                <img alt="profile picture" title="{{comment.user.firstName}} {{comment.user.lastName}}"
+                                                                    src="https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912">
+                                                            </a>
+                                                            <div class="card text-white bg-secondary comment-text">
+                                                                <a href="google.hu">
+                                                                    <h6 class="card-title"><b>{{comment.user.firstName}}
+                                                                        {{comment.user.lastName}}</b></h6>
+                                                                </a> 
+                                                                <p class="card-text">
+                                                                    {{comment.text}}
+                                                                </p>
+                                                            </div>
+                                                            <div *ngIf=!isCommentLikedByUser(comment) class="p-0">
+                                                                <a class="comment-like" href="like.hu"><i>Like </i></a>
+                                                                <i class="fa fa-thumbs-up pt-1 pr-3 float-right"> {{comment.likes.length}}</i>
+                                                            </div>
+                                                            <div *ngIf=isCommentLikedByUser(comment) class="p-0">
+                                                                <a class="comment-like" href="like.hu"><i>Unlike </i></a>
+                                                                <i class="fa fa-thumbs-up pt-1 pr-3 float-right"> {{comment.likes.length}}</i>
+                                                            </div>
+                                                            
+                                                        </div>
                                                     </div>
-                                                    <a class="comment-like" href="like.hu"><i>Like </i></a>
-                                                </div>
-                                                <div class="comment comment-profile">
-                                                    <a href="google.hu">
-                                                        <img alt="profile picture" title="Post's writer name"
-                                                            src="https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912">
-                                                    </a>
-                                                    <div class="card text-white bg-secondary comment-text">
-                                                        <a href="google.hu">
-                                                            <h6 class="card-title"><b>Comment writer's name</b></h6>
-                                                        </a> 
-                                                        <p class="card-text">
-                                                            hellodfsggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-                                                        </p>
-                                                    </div>
-                                                    <a class="comment-like" href="like.hu"><i>Like </i></a>
                                                 </div>
                                             </div>
                                         </div>

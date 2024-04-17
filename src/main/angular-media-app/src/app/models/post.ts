@@ -11,7 +11,7 @@ export class Post {
     image: number[] | null;
     likes: Like[];
     comments: Comment[];
-    isLikedByUser: boolean;
+    imgSrc: string;
 
     constructor(){
         this.id = 0;
@@ -21,7 +21,7 @@ export class Post {
         this.image = null;
         this.likes = [];
         this.comments = [];
-        this.isLikedByUser = false;
+        this.imgSrc = '';
     }
 
     getImageSrc(): string{

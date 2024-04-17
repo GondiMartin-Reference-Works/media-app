@@ -5,6 +5,7 @@ import { Post } from '../models/post';
 import { PostService } from '../services/post.service';
 import { Like } from '../models/like';
 import { User } from '../models/user';
+import { Comment } from "../models/comment";
 import { ReloadService } from '../services/reload.service';
 
 @Component({
@@ -22,15 +23,16 @@ export class MainPageComponent implements OnInit {
   constructor(
     private appComponent: AppComponent,
     private authService: AuthService,
-    private postService: PostService,
-    private reloadService: ReloadService
+    private postService: PostService
   ) {
     this.createFormButton = false;
+    if (this.authService.isLoggedIn()) {
+      this.loadPosts();
+    }
   }
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
-      this.loadPosts();
       this.appComponent.getAllUser();
     }
   }
@@ -51,7 +53,7 @@ export class MainPageComponent implements OnInit {
       this.newPost.comments = [];
       this.postService.create(this.newPost).subscribe(_ => {
         this.createFormButton = false;
-        window.location.reload();
+        this.ngOnInit();
       });
     }
 
@@ -83,7 +85,7 @@ export class MainPageComponent implements OnInit {
     this.postService.getAll().subscribe(posts => {
       this.posts = posts.map(postData => {
         let post = Object.assign(new Post(), postData);
-        post.isLikedByUser = this.isLikedByUser(post);
+        post.imgSrc = post.getImageSrc();
         return post;
       });
     });
@@ -98,21 +100,35 @@ export class MainPageComponent implements OnInit {
 
   likePost(post: Post) {
     const currentUser: User = JSON.parse(sessionStorage.getItem('current-user') ?? '');
-    this.postService.likePost(post.id, currentUser.id).subscribe(_ => {
-      this.reloadService.reloadComponent(false, "/main");
+    this.postService.likePost(post.id, currentUser.id).subscribe(mp => {
+      const index = this.posts.findIndex(p => p.id === post.id);
+      const imgSrc = this.posts[index].imgSrc;
+      this.posts[index] = mp;
+      this.posts[index].imgSrc = imgSrc;
+      this.ngOnInit();
     });
   }
 
   unlikePost(post: Post) {
     const currentUser: User = JSON.parse(sessionStorage.getItem('current-user') ?? '');
-    this.postService.unLikePost(post.id, currentUser.id).subscribe(_ => {
-      this.reloadService.reloadComponent(false, "/main");
+    this.postService.unLikePost(post.id, currentUser.id).subscribe(mp => {
+      const index = this.posts.findIndex(p => p.id === post.id);
+      const imgSrc = this.posts[index].imgSrc;
+      this.posts[index] = mp;
+      this.posts[index].imgSrc = imgSrc;
+      this.ngOnInit();
     });
   }
 
   isLikedByUser(post: Post): boolean {
     const currentUser = JSON.parse(sessionStorage.getItem('current-user') ?? '');
     let like: Like | undefined = post.likes.find(l => l.user.id === currentUser.id);
+    return !!like;
+  }
+
+  isCommentLikedByUser(comment: Comment): boolean {
+    const currentUser = JSON.parse(sessionStorage.getItem('current-user') ?? '');
+    let like: Like | undefined = comment.likes.find(l => l.user.id === currentUser.id);
     return !!like;
   }
 }

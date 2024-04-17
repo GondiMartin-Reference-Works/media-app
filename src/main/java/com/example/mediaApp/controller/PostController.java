@@ -46,6 +46,11 @@ public class PostController{
         return ResponseEntity.ok(newPostDTO);
     }
 
+    @DeleteMapping(value = "/post")
+    public void deleteAll(){
+        service.deleteAll();
+    }
+
     @DeleteMapping("/post/{postId}")
     public void delete(@PathVariable long postId){
         service.delete(postId);
