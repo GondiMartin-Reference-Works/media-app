@@ -59,11 +59,12 @@
                                 <article>
                                     <div class="card">
                                         <div class="card-body profile">
-                                            <img alt="profile picture" title="{{post.user?.firstName}} {{post.user?.lastName}}"
+                                            <img alt="profile picture"
+                                                title="{{post.user?.firstName}} {{post.user?.lastName}}"
                                                 src="https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912">
                                             <a href="google.hu">
                                                 <h5 class="card-title"><b>{{post.user?.firstName}}
-                                                    {{post.user?.lastName}}</b></h5>
+                                                        {{post.user?.lastName}}</b></h5>
                                             </a>
                                         </div>
                                         <div class="card-body">
@@ -104,27 +105,30 @@
                                                     <div *ngFor="let comment of post.comments">
                                                         <div class="comment comment-profile">
                                                             <a href="google.hu">
-                                                                <img alt="profile picture" title="{{comment.user.firstName}} {{comment.user.lastName}}"
+                                                                <img alt="profile picture"
+                                                                    title="{{comment.user.firstName}} {{comment.user.lastName}}"
                                                                     src="https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912">
                                                             </a>
                                                             <div class="card text-white bg-secondary comment-text">
                                                                 <a href="google.hu">
                                                                     <h6 class="card-title"><b>{{comment.user.firstName}}
-                                                                        {{comment.user.lastName}}</b></h6>
-                                                                </a> 
+                                                                            {{comment.user.lastName}}</b></h6>
+                                                                </a>
                                                                 <p class="card-text">
                                                                     {{comment.text}}
                                                                 </p>
                                                             </div>
-                                                            <div *ngIf=!isCommentLikedByUser(comment) class="p-0">
-                                                                <a class="comment-like" href="like.hu"><i>Like </i></a>
-                                                                <i class="fa fa-thumbs-up pt-1 pr-3 float-right"> {{comment.likes.length}}</i>
-                                                            </div>
-                                                            <div *ngIf=isCommentLikedByUser(comment) class="p-0">
-                                                                <a class="comment-like" href="like.hu"><i>Unlike </i></a>
-                                                                <i class="fa fa-thumbs-up pt-1 pr-3 float-right"> {{comment.likes.length}}</i>
-                                                            </div>
-                                                            
+                                                            <a *ngIf=!isCommentLikedByUser(comment) class="comment-like"
+                                                                href="javascript:void(0)"
+                                                                (click)="likeComment(comment)"><i>Like</i></a>
+                                                            <a *ngIf=isCommentLikedByUser(comment) class="comment-like"
+                                                                href="javascript:void(0)"
+                                                                (click)="unlikeComment(comment)"><i>Unlike</i></a>
+                                                            <a *ngIf="isCurrentUserComment(comment)"
+                                                                class="comment-like" href="javascript:void(0)"
+                                                                (click)="deleteComment(comment)"><i>Delete</i></a>
+                                                            <i class="fa fa-thumbs-up pt-1 pr-3 float-right">
+                                                                {{comment.likes.length}}</i>
                                                         </div>
                                                     </div>
                                                 </div>

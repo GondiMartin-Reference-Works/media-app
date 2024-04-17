@@ -130,4 +130,56 @@ export class MainPageComponent implements OnInit {
     let like: Like | undefined = comment.likes.find(l => l.user.id === currentUser.id);
     return !!like;
   }
+
+  likeComment(comment: Comment){
+    const currentUser: User = JSON.parse(sessionStorage.getItem('current-user') ?? '');
+    const post = this.posts.find(p => 
+      p.comments.find(c => c.id === comment.id)
+    );
+    if (post){
+      this.postService.likeComment(post.id, comment.id, currentUser.id).subscribe(mp => {
+        const index = this.posts.findIndex(p => p.id === post.id);
+        const imgSrc = this.posts[index].imgSrc;
+        this.posts[index] = mp;
+        this.posts[index].imgSrc = imgSrc;
+        this.ngOnInit();
+      });
+    }
+  }
+
+  unlikeComment(comment: Comment){
+    const currentUser: User = JSON.parse(sessionStorage.getItem('current-user') ?? '');
+    const post = this.posts.find(p => 
+      p.comments.find(c => c.id === comment.id)
+    );
+    if (post){
+      this.postService.unlikeComment(post.id, comment.id, currentUser.id).subscribe(mp => {
+        const index = this.posts.findIndex(p => p.id === post.id);
+        const imgSrc = this.posts[index].imgSrc;
+        this.posts[index] = mp;
+        this.posts[index].imgSrc = imgSrc;
+        this.ngOnInit();
+      });
+    }
+  }
+
+  deleteComment(comment: Comment){
+    const currentUser: User = JSON.parse(sessionStorage.getItem('current-user') ?? '');
+    const post = this.posts.find(p => 
+      p.comments.find(c => c.id === comment.id)
+    );
+    if (post){
+      this.postService.deleteComment(post.id, comment.id, currentUser.id).subscribe(_ => {
+        const postIndex = this.posts.findIndex(p => p.id === post.id);
+        const commentIndex = this.posts[postIndex].comments.findIndex(c => c.id === comment.id);
+        this.posts[postIndex].comments.splice(commentIndex, 1);
+        this.ngOnInit();
+      });
+    }
+  }
+
+  isCurrentUserComment(comment: Comment){
+    const currentUser: User = JSON.parse(sessionStorage.getItem('current-user') ?? '');
+    return currentUser.id === comment.user.id;
+  }
 }

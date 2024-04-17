@@ -38,4 +38,26 @@ export class PostService extends BaseService{
       userId,
       { headers: this.getHeaders()});
   }
+
+  likeComment(postId: number, commentId: number, userId: number): Observable<Post>{
+    return this.http.post<Post>(
+      `${this.APIURL}/${postId}/comment/${commentId}/like`,
+      userId,
+      { headers: this.getHeaders()});
+  }
+
+  unlikeComment(postId: number, commentId: number, userId: number): Observable<Post>{
+    return this.http.post<Post>(
+      `${this.APIURL}/${postId}/comment/${commentId}/unlike`,
+      userId,
+      { headers: this.getHeaders()});
+  }
+
+  deleteComment(postId: number, commentId: number, userId: number): Observable<void>{
+    return this.http.delete<void>(
+      `${this.APIURL}/${postId}/comment/${commentId}`,
+      { headers: this.getHeaders(),
+        body: userId
+      });
+  }
 }
