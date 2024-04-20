@@ -23,7 +23,7 @@
                                     </div>
                                     <h2 style="text-align: center;"><u>New post</u></h2>
 
-                                    <form action="post" class="p-3">
+                                    <form class="p-3">
                                         <div class="form-group">
                                             <label for="postText">Add text:</label>
                                             <textarea class="form-control" id="postText" rows="3"
@@ -91,44 +91,53 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-6">
-                                                    <button type="button" class="btn btn-dark block-button"><i
-                                                            class="fa fa-comment-o"></i> Comment</button>
+                                                    <button type="button" class="btn btn-dark block-button" data-toggle="button"
+                                                            (click)="commentToggle(post)"><i class="fa fa-comment-o"></i> 
+                                                            Comment</button>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <!-- Comments -->
-                                        <div *ngIf="post.comments.length > 0">
+                                        <div *ngIf="isCommenting(post)">
                                             <hr>
-                                            <div class="card-body">
-                                                <div class="comments">
-                                                    <div *ngFor="let comment of post.comments">
-                                                        <div class="comment comment-profile">
-                                                            <a href="google.hu">
-                                                                <img alt="profile picture"
-                                                                    title="{{comment.user.firstName}} {{comment.user.lastName}}"
-                                                                    src="https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912">
-                                                            </a>
-                                                            <div class="card text-white bg-secondary comment-text">
+
+                                            <form class="p-3">
+                                                <input class="form-control form-control-sm" type="text" placeholder="Write a comment ..."
+                                                [(ngModel)]="newComment.text" name="text" (keyup.enter)="comment(post)">
+                                            </form>
+
+                                            <div *ngIf="post.comments.length > 0">
+                                                <div class="card-body">
+                                                    <div class="comments">
+                                                        <div *ngFor="let comment of post.comments">
+                                                            <div class="comment comment-profile">
                                                                 <a href="google.hu">
-                                                                    <h6 class="card-title"><b>{{comment.user.firstName}}
-                                                                            {{comment.user.lastName}}</b></h6>
+                                                                    <img alt="profile picture"
+                                                                        title="{{comment.user.firstName}} {{comment.user.lastName}}"
+                                                                        src="https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912">
                                                                 </a>
-                                                                <p class="card-text">
-                                                                    {{comment.text}}
-                                                                </p>
+                                                                <div class="card text-white bg-secondary comment-text">
+                                                                    <a href="google.hu">
+                                                                        <h6 class="card-title"><b>{{comment.user.firstName}}
+                                                                                {{comment.user.lastName}}</b></h6>
+                                                                    </a>
+                                                                    <p class="card-text">
+                                                                        {{comment.text}}
+                                                                    </p>
+                                                                </div>
+                                                                <a *ngIf=!isCommentLikedByUser(comment) class="comment-like"
+                                                                    href="javascript:void(0)"
+                                                                    (click)="likeComment(comment)"><i>Like</i></a>
+                                                                <a *ngIf=isCommentLikedByUser(comment) class="comment-like"
+                                                                    href="javascript:void(0)"
+                                                                    (click)="unlikeComment(comment)"><i>Unlike</i></a>
+                                                                <a *ngIf="isCurrentUserComment(comment)"
+                                                                    class="comment-like" href="javascript:void(0)"
+                                                                    (click)="deleteComment(comment)"><i>Delete</i></a>
+                                                                <i class="fa fa-thumbs-up pt-1 pr-3 float-right">
+                                                                    {{comment.likes.length}}</i>
                                                             </div>
-                                                            <a *ngIf=!isCommentLikedByUser(comment) class="comment-like"
-                                                                href="javascript:void(0)"
-                                                                (click)="likeComment(comment)"><i>Like</i></a>
-                                                            <a *ngIf=isCommentLikedByUser(comment) class="comment-like"
-                                                                href="javascript:void(0)"
-                                                                (click)="unlikeComment(comment)"><i>Unlike</i></a>
-                                                            <a *ngIf="isCurrentUserComment(comment)"
-                                                                class="comment-like" href="javascript:void(0)"
-                                                                (click)="deleteComment(comment)"><i>Delete</i></a>
-                                                            <i class="fa fa-thumbs-up pt-1 pr-3 float-right">
-                                                                {{comment.likes.length}}</i>
                                                         </div>
                                                     </div>
                                                 </div>

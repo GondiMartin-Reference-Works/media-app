@@ -12,6 +12,7 @@ export class Post {
     likes: Like[];
     comments: Comment[];
     imgSrc: string;
+    isCommenting: boolean;
 
     constructor(){
         this.id = 0;
@@ -22,6 +23,7 @@ export class Post {
         this.likes = [];
         this.comments = [];
         this.imgSrc = '';
+        this.isCommenting = false;
     }
 
     getImageSrc(): string{

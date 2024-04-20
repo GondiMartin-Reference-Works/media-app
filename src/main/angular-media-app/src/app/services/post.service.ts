@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Post } from '../models/post';
 import { BaseService } from './base-service';
+import { Like } from '../models/like';
+import { Comment } from '../models/comment';
 
 @Injectable({
   providedIn: 'root'
@@ -25,29 +27,29 @@ export class PostService extends BaseService{
     return this.http.get<Post[]>(this.APIURL, { headers: this.getHeaders()});
   }
 
-  likePost(postId: number, userId: number): Observable<Post>{
-    return this.http.post<Post>(
+  likePost(postId: number, userId: number): Observable<Like[]>{
+    return this.http.post<Like[]>(
       `${this.APIURL}/${postId}/like`,
       userId,
       { headers: this.getHeaders()})
   }
 
-  unLikePost(postId: number, userId: number): Observable<Post>{
-    return this.http.post<Post>(
+  unLikePost(postId: number, userId: number): Observable<Like[]>{
+    return this.http.post<Like[]>(
       `${this.APIURL}/${postId}/unlike`,
       userId,
       { headers: this.getHeaders()});
   }
 
-  likeComment(postId: number, commentId: number, userId: number): Observable<Post>{
-    return this.http.post<Post>(
+  likeComment(postId: number, commentId: number, userId: number): Observable<Comment[]>{
+    return this.http.post<Comment[]>(
       `${this.APIURL}/${postId}/comment/${commentId}/like`,
       userId,
       { headers: this.getHeaders()});
   }
 
-  unlikeComment(postId: number, commentId: number, userId: number): Observable<Post>{
-    return this.http.post<Post>(
+  unlikeComment(postId: number, commentId: number, userId: number): Observable<Comment[]>{
+    return this.http.post<Comment[]>(
       `${this.APIURL}/${postId}/comment/${commentId}/unlike`,
       userId,
       { headers: this.getHeaders()});
@@ -59,5 +61,12 @@ export class PostService extends BaseService{
       { headers: this.getHeaders(),
         body: userId
       });
+  }
+
+  createComment(postId: number, newComment: Comment): Observable<Comment>{
+    return this.http.post<Comment>(
+      `${this.APIURL}/${postId}/comment`, 
+      newComment, 
+      { headers: this.getHeaders()});
   }
 }

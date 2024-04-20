@@ -17,6 +17,7 @@ export class MainPageComponent implements OnInit {
   createFormButton: boolean;
   posts: Post[] = [];
   newPost: Post = new Post();
+  newComment: Comment = new Comment();
   selectedFile: string = "";
 
   constructor(
@@ -50,8 +51,9 @@ export class MainPageComponent implements OnInit {
       this.newPost.group = null;
       this.newPost.likes = [];
       this.newPost.comments = [];
-      this.postService.create(this.newPost).subscribe(_ => {
+      this.postService.create(this.newPost).subscribe(newPost => {
         this.createFormButton = false;
+        this.posts.unshift(newPost);
         this.ngOnInit();
       });
     }
@@ -99,22 +101,18 @@ export class MainPageComponent implements OnInit {
 
   likePost(post: Post) {
     const currentUser: User = JSON.parse(sessionStorage.getItem('current-user') ?? '');
-    this.postService.likePost(post.id, currentUser.id).subscribe(mp => {
+    this.postService.likePost(post.id, currentUser.id).subscribe(likes => {
       const index = this.posts.findIndex(p => p.id === post.id);
-      const imgSrc = this.posts[index].imgSrc;
-      this.posts[index] = mp;
-      this.posts[index].imgSrc = imgSrc;
+      this.posts[index].likes = likes;
       this.ngOnInit();
     });
   }
 
   unlikePost(post: Post) {
     const currentUser: User = JSON.parse(sessionStorage.getItem('current-user') ?? '');
-    this.postService.unLikePost(post.id, currentUser.id).subscribe(mp => {
+    this.postService.unLikePost(post.id, currentUser.id).subscribe(likes => {
       const index = this.posts.findIndex(p => p.id === post.id);
-      const imgSrc = this.posts[index].imgSrc;
-      this.posts[index] = mp;
-      this.posts[index].imgSrc = imgSrc;
+      this.posts[index].likes = likes;
       this.ngOnInit();
     });
   }
@@ -137,11 +135,9 @@ export class MainPageComponent implements OnInit {
       p.comments.find(c => c.id === comment.id)
     );
     if (post){
-      this.postService.likeComment(post.id, comment.id, currentUser.id).subscribe(mp => {
+      this.postService.likeComment(post.id, comment.id, currentUser.id).subscribe(comments => {
         const index = this.posts.findIndex(p => p.id === post.id);
-        const imgSrc = this.posts[index].imgSrc;
-        this.posts[index] = mp;
-        this.posts[index].imgSrc = imgSrc;
+        this.posts[index].comments = comments;
         this.ngOnInit();
       });
     }
@@ -153,11 +149,9 @@ export class MainPageComponent implements OnInit {
       p.comments.find(c => c.id === comment.id)
     );
     if (post){
-      this.postService.unlikeComment(post.id, comment.id, currentUser.id).subscribe(mp => {
+      this.postService.unlikeComment(post.id, comment.id, currentUser.id).subscribe(comments => {
         const index = this.posts.findIndex(p => p.id === post.id);
-        const imgSrc = this.posts[index].imgSrc;
-        this.posts[index] = mp;
-        this.posts[index].imgSrc = imgSrc;
+        this.posts[index].comments = comments;
         this.ngOnInit();
       });
     }
@@ -178,8 +172,32 @@ export class MainPageComponent implements OnInit {
     }
   }
 
+  commentToggle(post: Post): void{
+    post.isCommenting = !post.isCommenting;
+    if (post.isCommenting)
+      this.newComment = new Comment();
+    this.ngOnInit();
+  }
+
   isCurrentUserComment(comment: Comment){
     const currentUser: User = JSON.parse(sessionStorage.getItem('current-user') ?? '');
     return currentUser.id === comment.user.id;
+  }
+
+  isCommenting(post: Post): boolean{
+    return post.isCommenting;
+  }
+
+  comment(post: Post){
+    const currentUser: User = JSON.parse(sessionStorage.getItem('current-user') ?? '');
+    this.newComment.user = currentUser;
+    this.newComment.likes = [];
+
+    this.postService.createComment(post.id, this.newComment).subscribe(comment => {
+      const postIndex = this.posts.findIndex(p => p.id === post.id);
+      this.posts[postIndex].comments.unshift(comment);
+      this.newComment = new Comment();
+      this.ngOnInit();
+    });
   }
 }

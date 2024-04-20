@@ -1,7 +1,10 @@
 package com.example.mediaApp.controller;
 
+import com.example.mediaApp.converter.CommentConverter;
+import com.example.mediaApp.converter.LikeConverter;
 import com.example.mediaApp.converter.PostConverter;
 import com.example.mediaApp.model.dto.CommentDTO;
+import com.example.mediaApp.model.dto.LikeDTO;
 import com.example.mediaApp.model.dto.PostDTO;
 import com.example.mediaApp.model.entity.PostEntity;
 import com.example.mediaApp.model.enums.Liking;
@@ -17,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +31,8 @@ public class PostController{
 
     private final PostService service;
     private final PostConverter postConverter;
+    private final LikeConverter likeConverter;
+    private final CommentConverter commentConverter;
 
     @GetMapping(value = "/post")
     public ResponseEntity<List<PostDTO>> getAll(){
@@ -57,34 +61,32 @@ public class PostController{
     }
 
     @PostMapping(value = "/post/{postId}/like")
-    public ResponseEntity<PostDTO> likePostById(@PathVariable long postId,
-                                                @RequestBody long userId){
+    public ResponseEntity<List<LikeDTO>> likePostById(@PathVariable long postId,
+                                                      @RequestBody long userId){
+        Optional<PostEntity> post = service.likeOrUnlikePostById(postId, userId, Liking.LIKE);
 
-        Optional<PostEntity> postEntity = service.likeOrUnlikePostById(postId, userId, Liking.LIKE);
-
-        return postEntity.map(entity ->
-                ResponseEntity.ok(postConverter.convertFromEntityToDTO(entity)))
+        return post.map(postEntity ->
+                        ResponseEntity.ok(postEntity.getLikes().stream().map(likeConverter::convertFromEntityToDTO).toList()))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping(value = "/post/{postId}/unlike")
-    public ResponseEntity<PostDTO> unlikePostById(@PathVariable long postId,
-                                                  @RequestBody long userId){
+    public ResponseEntity<List<LikeDTO>> unlikePostById(@PathVariable long postId,
+                                                        @RequestBody long userId){
+        Optional<PostEntity> post = service.likeOrUnlikePostById(postId, userId, Liking.UNLIKE);
 
-        Optional<PostEntity> postEntity = service.likeOrUnlikePostById(postId, userId, Liking.UNLIKE);
-
-        return postEntity.map(entity ->
-                        ResponseEntity.ok(postConverter.convertFromEntityToDTO(entity)))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return post.map(postEntity ->
+                    ResponseEntity.ok(postEntity.getLikes().stream().map(likeConverter::convertFromEntityToDTO).toList()))
+                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping(value = "post/{postId}/comment")
-    public ResponseEntity<PostDTO> commentPostById(@PathVariable long postId,
+    public ResponseEntity<CommentDTO> commentPostById(@PathVariable long postId,
                                                    @RequestBody CommentDTO comment){
         Optional<PostEntity> postEntity = service.commentPostById(postId, comment);
 
         return postEntity.map(entity ->
-                ResponseEntity.ok(postConverter.convertFromEntityToDTO(entity)))
+                ResponseEntity.ok(commentConverter.convertFromEntityToDTO(entity.getComments().getLast())))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
@@ -100,24 +102,24 @@ public class PostController{
     }
 
     @PostMapping(value = "post/{postId}/comment/{commentId}/like")
-    public ResponseEntity<PostDTO> likeCommentById(@PathVariable long postId,
+    public ResponseEntity<List<CommentDTO>> likeCommentById(@PathVariable long postId,
                                                      @PathVariable long commentId,
                                                      @RequestBody long userId){
-        Optional<PostEntity> postEntity = service.likeOrUnlikeCommentById(postId, commentId, userId, Liking.LIKE);
+        Optional<PostEntity> post = service.likeOrUnlikeCommentById(postId, commentId, userId, Liking.LIKE);
 
-        return postEntity.map(entity ->
-                        ResponseEntity.ok(postConverter.convertFromEntityToDTO(entity)))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return post.map(postEntity ->
+                    ResponseEntity.ok(postEntity.getComments().stream().map(commentConverter::convertFromEntityToDTO).toList()))
+                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping(value = "post/{postId}/comment/{commentId}/unlike")
-    public ResponseEntity<PostDTO> unlikeCommentById(@PathVariable long postId,
+    public ResponseEntity<List<CommentDTO>> unlikeCommentById(@PathVariable long postId,
                                                    @PathVariable long commentId,
                                                    @RequestBody long userId){
-        Optional<PostEntity> postEntity = service.likeOrUnlikeCommentById(postId, commentId, userId, Liking.UNLIKE);
+        Optional<PostEntity> post = service.likeOrUnlikeCommentById(postId, commentId, userId, Liking.UNLIKE);
 
-        return postEntity.map(entity ->
-                        ResponseEntity.ok(postConverter.convertFromEntityToDTO(entity)))
+        return post.map(postEntity ->
+                        ResponseEntity.ok(postEntity.getComments().stream().map(commentConverter::convertFromEntityToDTO).toList()))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
