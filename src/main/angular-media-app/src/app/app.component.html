@@ -38,7 +38,7 @@
                         <div class="search-results ml-2" *ngIf="filteredUsers.length > 0">
                             <ul class="list-group">
                                 <li class="list-group-item" *ngFor="let user of filteredUsers">{{user.lastName}} {{user.firstName}}
-                                    <button *ngIf="!user.friend" (click)="requestService.addFriend(user.email)">Add friend</button>
+                                    <button *ngIf="!user.friend" (click)="addFriend(user.email)">Add friend</button>
                                 </li>
 
                             </ul>

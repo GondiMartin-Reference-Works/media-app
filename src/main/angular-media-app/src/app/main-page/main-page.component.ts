@@ -87,6 +87,7 @@ export class MainPageComponent implements OnInit {
       this.posts = posts.map(postData => {
         let post = Object.assign(new Post(), postData);
         post.imgSrc = post.getImageSrc();
+        post.comments = post.comments.reverse();
         return post;
       });
     });
@@ -131,13 +132,13 @@ export class MainPageComponent implements OnInit {
 
   likeComment(comment: Comment){
     const currentUser: User = JSON.parse(sessionStorage.getItem('current-user') ?? '');
-    const post = this.posts.find(p => 
+    const post = this.posts.find(p =>
       p.comments.find(c => c.id === comment.id)
     );
     if (post){
       this.postService.likeComment(post.id, comment.id, currentUser.id).subscribe(comments => {
         const index = this.posts.findIndex(p => p.id === post.id);
-        this.posts[index].comments = comments;
+        this.posts[index].comments = comments.reverse();
         this.ngOnInit();
       });
     }
@@ -145,13 +146,13 @@ export class MainPageComponent implements OnInit {
 
   unlikeComment(comment: Comment){
     const currentUser: User = JSON.parse(sessionStorage.getItem('current-user') ?? '');
-    const post = this.posts.find(p => 
+    const post = this.posts.find(p =>
       p.comments.find(c => c.id === comment.id)
     );
     if (post){
       this.postService.unlikeComment(post.id, comment.id, currentUser.id).subscribe(comments => {
         const index = this.posts.findIndex(p => p.id === post.id);
-        this.posts[index].comments = comments;
+        this.posts[index].comments = comments.reverse();
         this.ngOnInit();
       });
     }
@@ -159,7 +160,7 @@ export class MainPageComponent implements OnInit {
 
   deleteComment(comment: Comment){
     const currentUser: User = JSON.parse(sessionStorage.getItem('current-user') ?? '');
-    const post = this.posts.find(p => 
+    const post = this.posts.find(p =>
       p.comments.find(c => c.id === comment.id)
     );
     if (post){
@@ -189,8 +190,7 @@ export class MainPageComponent implements OnInit {
   }
 
   comment(post: Post){
-    const currentUser: User = JSON.parse(sessionStorage.getItem('current-user') ?? '');
-    this.newComment.user = currentUser;
+    this.newComment.user = JSON.parse(sessionStorage.getItem('current-user') ?? '');
     this.newComment.likes = [];
 
     this.postService.createComment(post.id, this.newComment).subscribe(comment => {

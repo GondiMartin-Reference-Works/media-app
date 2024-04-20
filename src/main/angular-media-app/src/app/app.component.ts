@@ -10,7 +10,6 @@ import { FriendRequestService } from './services/friend-request.service';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit{
-  title = 'angular-media-app';
   term: string = "";
 
   users: SearchedUser[] = [];
@@ -54,5 +53,12 @@ export class AppComponent implements OnInit{
       }
     )
     .filter(user => user.email != JSON.parse(sessionStorage.getItem('current-user-email') ?? ''))
+  }
+
+  addFriend(email: string): void{
+    this.requestService.addFriend(email);
+    this.term = "";
+    this.filteredUsers = [];
+    this.ngOnInit();
   }
 }

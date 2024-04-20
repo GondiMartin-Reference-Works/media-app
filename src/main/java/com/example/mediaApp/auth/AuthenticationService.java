@@ -44,7 +44,7 @@ public class AuthenticationService {
         return new AuthenticationResponse(jwtToken, appUserConverter.convertFromEntityToDTO(user), request.getEmail());
     }
 
-    public AuthenticationResponse authenticate(AuthencticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),

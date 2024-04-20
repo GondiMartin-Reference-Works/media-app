@@ -93,7 +93,7 @@ public class PostService {
             return Optional.empty();
 
         CommentEntity commentEntity = commentService.create(comment);
-        post.getComments().add(commentEntity);
+        post.getComments().addFirst(commentEntity);
 
         repository.save(post);
 

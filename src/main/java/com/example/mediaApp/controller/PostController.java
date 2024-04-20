@@ -86,7 +86,7 @@ public class PostController{
         Optional<PostEntity> postEntity = service.commentPostById(postId, comment);
 
         return postEntity.map(entity ->
-                ResponseEntity.ok(commentConverter.convertFromEntityToDTO(entity.getComments().getLast())))
+                ResponseEntity.ok(commentConverter.convertFromEntityToDTO(entity.getComments().getFirst())))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
