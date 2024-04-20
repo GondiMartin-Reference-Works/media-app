@@ -1,19 +1,17 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/onlab1
+    url: jdbc:mysql://localhost:3306/database
     username: root
     password: admin
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format-sql: true
       database: mysql
 base:
-  backend:
-    url: "/api/v1"
   frontend:
-    url: "http://localhost:4200/"
+    url: "http://localhost:4200"

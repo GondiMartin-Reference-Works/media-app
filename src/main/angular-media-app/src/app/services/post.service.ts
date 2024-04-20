@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Post } from '../models/post';
 import { BaseService } from './base-service';
+import { environment } from '../../environment';
 import { Like } from '../models/like';
 import { Comment } from '../models/comment';
 
@@ -11,7 +12,7 @@ import { Comment } from '../models/comment';
 })
 export class PostService extends BaseService{
 
-  private APIURL: string = "http://localhost:8080/api/v1/post";
+  private APIURL: string = environment.API_URL + "/post";
 
   constructor(
     private http: HttpClient
@@ -65,8 +66,8 @@ export class PostService extends BaseService{
 
   createComment(postId: number, newComment: Comment): Observable<Comment>{
     return this.http.post<Comment>(
-      `${this.APIURL}/${postId}/comment`, 
-      newComment, 
+      `${this.APIURL}/${postId}/comment`,
+      newComment,
       { headers: this.getHeaders()});
   }
 }

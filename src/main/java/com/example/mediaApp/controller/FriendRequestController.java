@@ -26,7 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/request")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins = "${base.frontend.url}")
 public class FriendRequestController {
 
     private final FriendRequestService service;

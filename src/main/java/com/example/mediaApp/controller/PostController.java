@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("${base.backend.url}")
+@RequestMapping("/post")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "${base.frontend.url}")
 public class PostController{
@@ -34,7 +34,7 @@ public class PostController{
     private final LikeConverter likeConverter;
     private final CommentConverter commentConverter;
 
-    @GetMapping(value = "/post")
+    @GetMapping()
     public ResponseEntity<List<PostDTO>> getAll(){
         return ResponseEntity.ok(service.getAll()
                 .stream().map(postConverter::convertFromEntityToDTO)
@@ -43,24 +43,24 @@ public class PostController{
         );
     }
 
-    @PostMapping("/post")
+    @PostMapping()
     public ResponseEntity<PostDTO> create(@RequestBody PostDTO post){
         PostEntity newPostEntity = service.create(post);
         PostDTO newPostDTO = postConverter.convertFromEntityToDTO(newPostEntity);
         return ResponseEntity.ok(newPostDTO);
     }
 
-    @DeleteMapping(value = "/post")
+    @DeleteMapping()
     public void deleteAll(){
         service.deleteAll();
     }
 
-    @DeleteMapping("/post/{postId}")
+    @DeleteMapping("/{postId}")
     public void delete(@PathVariable long postId){
         service.delete(postId);
     }
 
-    @PostMapping(value = "/post/{postId}/like")
+    @PostMapping(value = "/{postId}/like")
     public ResponseEntity<List<LikeDTO>> likePostById(@PathVariable long postId,
                                                       @RequestBody long userId){
         Optional<PostEntity> post = service.likeOrUnlikePostById(postId, userId, Liking.LIKE);
@@ -70,7 +70,7 @@ public class PostController{
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping(value = "/post/{postId}/unlike")
+    @PostMapping(value = "/{postId}/unlike")
     public ResponseEntity<List<LikeDTO>> unlikePostById(@PathVariable long postId,
                                                         @RequestBody long userId){
         Optional<PostEntity> post = service.likeOrUnlikePostById(postId, userId, Liking.UNLIKE);
@@ -80,7 +80,7 @@ public class PostController{
                     .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping(value = "post/{postId}/comment")
+    @PostMapping(value = "/{postId}/comment")
     public ResponseEntity<CommentDTO> commentPostById(@PathVariable long postId,
                                                    @RequestBody CommentDTO comment){
         Optional<PostEntity> postEntity = service.commentPostById(postId, comment);
@@ -90,7 +90,7 @@ public class PostController{
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping(value = "post/{postId}/comment/{commentId}")
+    @DeleteMapping(value = "/{postId}/comment/{commentId}")
     public ResponseEntity<PostDTO> deleteCommentById(@PathVariable long postId,
                                                     @PathVariable long commentId,
                                                     @RequestBody long userId){
@@ -101,7 +101,7 @@ public class PostController{
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping(value = "post/{postId}/comment/{commentId}/like")
+    @PostMapping(value = "/{postId}/comment/{commentId}/like")
     public ResponseEntity<List<CommentDTO>> likeCommentById(@PathVariable long postId,
                                                      @PathVariable long commentId,
                                                      @RequestBody long userId){
@@ -112,7 +112,7 @@ public class PostController{
                     .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping(value = "post/{postId}/comment/{commentId}/unlike")
+    @PostMapping(value = "/{postId}/comment/{commentId}/unlike")
     public ResponseEntity<List<CommentDTO>> unlikeCommentById(@PathVariable long postId,
                                                    @PathVariable long commentId,
                                                    @RequestBody long userId){
