@@ -10,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 public class PostDTO {
+    private long id;
     private AppUserDTO user;
     private GroupDTO group;
     private String text;

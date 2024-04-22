@@ -12,7 +12,8 @@ public class AppUserConverter implements IGenericConverter<AppUserEntity, AppUse
         return new AppUserDTO(
                 entity.getId(),
                 entity.getFirstName(),
-                entity.getLastName()
+                entity.getLastName(),
+                entity.getEmail()
         );
     }
 }

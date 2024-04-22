@@ -5,6 +5,7 @@ import { authGuard } from '../auth/guards/auth.guard';
 
 const routes: Routes = [
   { path: '',
+  title: "Friend Requests",
   component: FriendRequestComponent,
   canActivate: [authGuard]
   }

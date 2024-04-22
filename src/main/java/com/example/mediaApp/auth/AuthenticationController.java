@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "${base.frontend.url}")
-public class AuthencticationController {
+public class AuthenticationController {
 
     private final AuthenticationService service;
 
@@ -18,7 +18,7 @@ public class AuthencticationController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthencticationRequest request){
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
         return ResponseEntity.ok(service.authenticate(request));
     }
 }

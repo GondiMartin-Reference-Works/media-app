@@ -52,13 +52,40 @@ main{
     border-radius: 60px;
 }
 
+.comment-profile > a > img{
+    float: left;
+    display: inline;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 60px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+
+    opacity: 1;
+	-webkit-transition: .3s ease-in-out;
+	transition: .3s ease-in-out;
+}
+
+.comment-profile > a > img:hover {
+	opacity: .5;
+}
+
 .profile > a:link,
 .profile > a:visited,
-.profile > a:active{
+.profile > a:active,
+.comment-profile > a:link,
+.comment-profile > a:visited,
+.comment-profile > a:active,
+.comment-like:link,
+.comment-like:visited,
+.comment-like:active{
     text-decoration: none;
     color: black;
 }
-.profile > a:hover{
+.profile > a:hover,
+.comment-profile > a:hover,
+.comment-like:hover{
     text-decoration: underline;
     color: black;
 }
@@ -67,10 +94,41 @@ main{
     margin-bottom: 0;
 }
 
+.comment-profile > p{
+    margin-bottom: 0;
+}
+
 .profile{
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.comments > div{
+    padding-bottom: 20px;
+}
+
+.comments > div:last-child{
+    padding-bottom: 5px;
+}
+
+.comment > div{
+    padding: 10px;
+}
+
+.comment-like{
+    margin-left: 42px;
+}
+
+.comment-text > a:link,
+.comment-text > a:visited,
+.comment-text > a:active{
+    text-decoration: none;
+    color: white;
+}
+.comment-text > a:hover{
+    text-decoration: underline;
+    color: white;
 }
 
 @media only screen and (max-width: 1200px) {

@@ -16,6 +16,7 @@ public class PostConverter implements IGenericConverter<PostEntity, PostDTO>{
 
     public PostDTO convertFromEntityToDTO(PostEntity entity) {
         return new PostDTO(
+                entity.getId(),
                 entity.getUser() != null
                         ? appUserConverter.convertFromEntityToDTO(entity.getUser())
                         : null,
