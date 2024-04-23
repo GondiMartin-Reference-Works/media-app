@@ -11,35 +11,44 @@
 
                                 <div class="form-outline mb-4">
                                     <input name="first_name" type="text" id="label_first_name"
-                                        class="form-control form-control-lg" [(ngModel)]="user.firstName" />
+                                        [ngClass]="{'input-invalid': !isValidName(user.firstName), 'input-valid': isValidName(user.firstName)}" class="form-control form-control-lg" [(ngModel)]="user.firstName" />
                                     <label class="form-label" for="label_first_name">Your First Name</label>
+                                    <div *ngIf="!isValidName(user.firstName)" class="text-danger">Please select a valid first name.</div>
+                                    <div *ngIf="isValidName(user.firstName)" class="text-valid">Ok</div>
                                 </div>
 
                                 <div class="form-outline mb-4">
                                     <input name="last_name" type="text" id="label_last_name"
-                                        class="form-control form-control-lg" [(ngModel)]="user.lastName" />
+                                        [ngClass]="{'input-invalid': !isValidName(user.lastName), 'input-valid': isValidName(user.lastName)}" class="form-control form-control-lg" [(ngModel)]="user.lastName" />
                                     <label class="form-label" for="label_last_name">Your Last Name</label>
+                                    <div *ngIf="!isValidName(user.lastName)" class="text-danger">Please select a valid last name.</div>
+                                    <div *ngIf="isValidName(user.lastName)" class="text-valid">Ok</div>
                                 </div>
 
                                 <div class="form-outline mb-4">
                                     <input name="email" type="email" id="label_email"
-                                        class="form-control form-control-lg" [(ngModel)]="user.email" />
+                                        [ngClass]="{'input-invalid': !isValidEmail(), 'input-valid': isValidEmail()}" class="form-control form-control-lg" [(ngModel)]="user.email" />
                                     <label class="form-label" for="label_email">Your Email</label>
                                     <br>
                                     <label class="form-label text-danger" *ngIf="!validEmailAddress"
                                         for="label_email">This email has been already used.</label>
+                                    <div *ngIf="!isValidEmail()" class="text-danger">Please select a valid email.</div>
+                                    <div *ngIf="isValidEmail()" class="text-valid">Ok</div>
                                 </div>
 
                                 <div class="form-outline mb-4">
                                     <input name="password" type="password" id="label_password"
-                                        class="form-control form-control-lg" [(ngModel)]="user.password" />
+                                        [ngClass]="{'input-invalid': !isValidPassword(), 'input-valid': isValidPassword()}" class="form-control form-control-lg" [(ngModel)]="user.password" />
                                     <label class="form-label" for="label_password">Password</label>
+                                    <div *ngIf="!isValidPassword()" class="text-danger">Please select a valid password.</div>
+                                    <div *ngIf="isValidPassword()" class="text-valid">Ok</div>
                                 </div>
 
                                 <div class="d-flex justify-content-center">
                                     <button type="button"
                                         class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
-                                        (click)="createUser()">Register</button>
+                                        (click)="createUser()"
+                                        [disabled]="!isAllValid()">Register</button>
                                 </div>
 
                                 <p class="text-center text-muted mt-5 mb-0">Have already an account? <a

@@ -1,3 +1,17 @@
 .bimage{
     background: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp') center/cover;
 }
+
+.text-valid{
+    color: green;
+}
+
+.input-valid{
+    border-color: green;
+}
+
+.input-invalid{
+    border-color: red;
+}
+
+
