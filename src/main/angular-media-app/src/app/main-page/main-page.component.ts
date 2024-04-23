@@ -53,7 +53,9 @@ export class MainPageComponent implements OnInit {
       this.newPost.comments = [];
       this.postService.create(this.newPost).subscribe(newPost => {
         this.createFormButton = false;
-        this.posts.unshift(newPost);
+        this.selectedFile = '';
+        let np: Post = Post.convertNewPost(newPost);
+        this.posts.unshift(np);
         this.ngOnInit();
       });
     }
