@@ -26,6 +26,20 @@ export class Post {
         this.isCommenting = false;
     }
 
+    static convertNewPost(post: Post): Post{
+        let newPost: Post = new Post();
+        newPost.id = post.id;
+        newPost.user = post.user;
+        newPost.group = post.group;
+        newPost.text = post.text;
+        newPost.image = post.image;
+        newPost.likes = post.likes;
+        newPost.comments = post.comments;
+        newPost.imgSrc = newPost.getImageSrc();
+        newPost.isCommenting = false;
+        return newPost;
+    }
+
     getImageSrc(): string{
         if(this.image){
             return 'data:image/jpeg;base64,' + this.image;
