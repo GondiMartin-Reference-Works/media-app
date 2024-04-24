@@ -3,6 +3,7 @@ package com.example.mediaApp.friendrequest;
 import com.example.mediaApp.auth.AuthenticationService;
 import com.example.mediaApp.auth.RegisterRequest;
 import com.example.mediaApp.controller.FriendRequestController;
+import com.example.mediaApp.exception.UserAlreadyExistsExeption;
 import com.example.mediaApp.model.entity.AppUserEntity;
 import com.example.mediaApp.model.entity.FriendRequestEntity;
 import com.example.mediaApp.model.entity.Role;
@@ -55,7 +56,7 @@ public class FriendRequestTest {
 
     @Test
     @Transactional
-    void testAddRequest(){
+    void testAddRequest() throws UserAlreadyExistsExeption {
         authService.register(new RegisterRequest(sender.getFirstName(), sender.getLastName(), sender.getEmail(), sender.getPassword()));
         authService.register(new RegisterRequest(receiver.getFirstName(), receiver.getLastName(), receiver.getEmail(), receiver.getPassword()));
         request = requestService.create(new FriendRequestController.Emails(sender.getEmail(), receiver.getEmail())).orElse(new FriendRequestEntity());
