@@ -1,0 +1,143 @@
+.bimage{
+    background: url(
+     'https://media.istockphoto.com/id/1432417261/photo/abstract-blurry-grey-color-for-background-blur-festival-lights-outdoor-celebration-and-white.jpg?b=1&s=612x612&w=0&k=20&c=6e2xgjykeGVuEyFKMvfyL679BZI4tDSXAbu-GU0WfKM='
+     )
+     center/cover;
+}
+
+main{
+    border-radius: 20px;
+    padding: 40px;
+}
+
+.posts > article{
+    background-color: antiquewhite;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 30px;
+}
+
+.float-right{
+    float: right;
+}
+
+.block-button{
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+#user-page-col{
+    max-width: 60%;
+}
+
+.count-section{
+    padding-left: 24px;
+    padding-top: 10px;
+}
+
+.profile > img{
+    float: left;
+    display: inline;
+    width: 70px;
+    height: 70px;
+    margin-right: 10px;
+    border-radius: 60px;
+}
+
+.comment-profile > a > img{
+    float: left;
+    display: inline;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 60px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+
+    opacity: 1;
+	-webkit-transition: .3s ease-in-out;
+	transition: .3s ease-in-out;
+}
+
+.comment-profile > a > img:hover {
+	opacity: .5;
+}
+
+.profile > a:link,
+.profile > a:visited,
+.profile > a:active,
+.comment-profile > a:link,
+.comment-profile > a:visited,
+.comment-profile > a:active,
+.comment-like:link,
+.comment-like:visited,
+.comment-like:active{
+    text-decoration: none;
+    color: black;
+}
+.profile > a:hover,
+.comment-profile > a:hover,
+.comment-like:hover{
+    text-decoration: underline;
+    color: black;
+}
+
+.profile > a > h5{
+    margin-bottom: 0;
+}
+
+.comment-profile > p{
+    margin-bottom: 0;
+}
+
+.profile{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.comments > div{
+    padding-bottom: 20px;
+}
+
+.comments > div:last-child{
+    padding-bottom: 5px;
+}
+
+.comment > div{
+    padding: 10px;
+}
+
+.comment-like{
+    margin-left: 42px;
+}
+
+.comment-text > a:link,
+.comment-text > a:visited,
+.comment-text > a:active{
+    text-decoration: none;
+    color: white;
+}
+.comment-text > a:hover{
+    text-decoration: underline;
+    color: white;
+}
+
+@media only screen and (max-width: 1200px) {
+    #main-page-col{
+        max-width: 80%;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    #main-page-col{
+        max-width: 90%;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    #main-page-col{
+        max-width: 100%;
+    }
+}

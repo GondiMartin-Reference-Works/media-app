@@ -3,6 +3,7 @@ import { UserService } from './services/user.service';
 import { AuthService } from './auth/services/auth.service';
 import { SearchedUser } from './models/searched-user';
 import { FriendRequestService } from './services/friend-request.service';
+import { User } from './models/user';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +11,8 @@ import { FriendRequestService } from './services/friend-request.service';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit{
-  term: string = "";
 
+  term: string = "";
   users: SearchedUser[] = [];
   filteredUsers: SearchedUser[] = [];
 
@@ -60,5 +61,10 @@ export class AppComponent implements OnInit{
     this.term = "";
     this.filteredUsers = [];
     this.ngOnInit();
+  }
+
+  getUserId(): number{
+    const user: User = JSON.parse(sessionStorage.getItem('current-user') ?? '');
+    return user.id;
   }
 }
