@@ -10,10 +10,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { MainPageModule } from './main-page/main-page.module';
-import { FriendRequestComponent } from './friend-request/friend-request.component';
 import { FriendRequestModule } from './friend-request/friend-request.module';
-import { ManageFriendsComponent } from './manage-friends/manage-friends.component';
 import { ManageFriendsModule } from './manage-friends/manage-friends.module';
+import { UserPageModule } from './user-page/user-page.module';
 
 @NgModule({
   declarations: [
@@ -27,9 +26,10 @@ import { ManageFriendsModule } from './manage-friends/manage-friends.module';
     FormsModule,
     AuthModule,
     MainPageModule,
-    AppRoutingModule,
+    UserPageModule,
     FriendRequestModule,
-    ManageFriendsModule
+    ManageFriendsModule,
+    AppRoutingModule
   ],
   bootstrap: [ AppComponent ]
 })

@@ -24,6 +24,9 @@
                             <a class="nav-link" routerLink="/main">Main Page</a>
                         </li>
                         <li *ngIf="authService.isLoggedIn()" class="nav-item" routerLinkActive="active">
+                            <a class="nav-link" [routerLink]="['/user-page/', getUserId()]">My Page</a>
+                        </li>
+                        <li *ngIf="authService.isLoggedIn()" class="nav-item" routerLinkActive="active">
                             <a class="nav-link" routerLink="/friend-requests">Friend requests</a>
                         </li>
                         <li *ngIf="authService.isLoggedIn()" class="nav-item" routerLinkActive="active">

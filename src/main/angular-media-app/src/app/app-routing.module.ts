@@ -26,6 +26,10 @@ const routes: Routes = [
     loadChildren: () => import('./manage-friends/manage-friends.module').then(m => m.ManageFriendsModule),
     canMatch: [authGuard]
   },
+  { path: 'user-page/:userId',
+    loadChildren: () => import('./user-page/user-page.module').then(m => m.UserPageModule),
+    canMatch: [authGuard]
+  },
   {
     path: '**',
     title: "Page Not Found",
@@ -36,7 +40,8 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(
     routes,
     {
-      preloadingStrategy: PreloadAllModules
+      preloadingStrategy: PreloadAllModules,
+      onSameUrlNavigation: 'reload',
     })],
   exports: [RouterModule]
 })

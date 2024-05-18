@@ -2,56 +2,8 @@
     <div class="flex-parent-start">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-12" id="main-page-col">
+                <div class="col-12" id="user-page-col">
                     <main class="bg-dark">
-
-                        <div *ngIf="!createFormButton" class="row pb-3">
-                            <div class="mx-auto">
-                                <button class="btn btn-info" type="button" (click)="createForm()">+ Create new
-                                    post</button>
-                            </div>
-                        </div>
-
-                        <div *ngIf="createFormButton" id="create-form">
-                            <div class="row">
-                                <div class="col-12 mx-auto">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <button class="btn btn-danger float-right" type="button"
-                                                (click)="closeForm()">X</button>
-                                        </div>
-                                    </div>
-                                    <h2 style="text-align: center;"><u>New post</u></h2>
-
-                                    <form class="p-3">
-                                        <div class="form-group">
-                                            <label for="postText">Add text:</label>
-                                            <textarea class="form-control" id="postText" rows="3"
-                                                [(ngModel)]="newPost.text" name="text"></textarea>
-                                        </div>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">Upload image</span>
-                                            </div>
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="postImage"
-                                                    (change)="onFileSelected($event); onFileNameChanged($event)"
-                                                    name="image">
-                                                <label class="custom-file-label" for="postImage">{{selectedFile ||
-                                                    'Choose file'}}</label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class=" col mx-auto">
-                                                <button class="block-button btn btn-info" type="button"
-                                                    (click)="sendForm()">Submit</button>
-                                            </div>
-                                        </div>
-                                    </form>
-
-                                </div>
-                            </div>
-                        </div>
 
 
                         <div *ngIf="posts.length > 0">
@@ -62,7 +14,7 @@
                                             <img alt="profile picture"
                                                 title="{{post.user?.firstName}} {{post.user?.lastName}}"
                                                 src="https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912">
-                                            <a [routerLink]="['/user-page/', post.user?.id]">
+                                            <a href="google.hu">
                                                 <h5 class="card-title"><b>{{post.user?.firstName}}
                                                         {{post.user?.lastName}}</b></h5>
                                             </a>
@@ -112,13 +64,13 @@
                                                     <div class="comments">
                                                         <div *ngFor="let comment of post.comments">
                                                             <div class="comment comment-profile">
-                                                                <a [routerLink]="['/user-page/', comment.user.id]">
+                                                                <a href="google.hu">
                                                                     <img alt="profile picture"
                                                                         title="{{comment.user.firstName}} {{comment.user.lastName}}"
                                                                         src="https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912">
                                                                 </a>
                                                                 <div class="card text-white bg-secondary comment-text">
-                                                                    <a [routerLink]="['/user-page/', comment.user.id]">
+                                                                    <a href="google.hu">
                                                                         <h6 class="card-title"><b>{{comment.user.firstName}}
                                                                                 {{comment.user.lastName}}</b></h6>
                                                                     </a>
@@ -151,7 +103,7 @@
 
                         <div *ngIf="posts.length == 0">
                             <div class="card bg-warning text-white">
-                                <div class="card-body text-center">No current posts at this time.</div>
+                                <div class="card-body text-center">No posts available.</div>
                             </div>
                         </div>
                     </main>
