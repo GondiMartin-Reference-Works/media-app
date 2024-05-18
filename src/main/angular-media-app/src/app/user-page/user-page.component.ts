@@ -4,7 +4,6 @@ import { Like } from '../models/like';
 import { PostService } from '../services/post.service';
 import { User } from '../models/user';
 import { Comment } from "../models/comment";
-import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-user-page',
@@ -26,7 +25,7 @@ export class UserPageComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  
+
   loadPosts() {
     // TODO: Only load posts of the user given by userId
     // See property: userId at line 16.

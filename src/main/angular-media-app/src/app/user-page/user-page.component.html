@@ -14,7 +14,7 @@
                                             <img alt="profile picture"
                                                 title="{{post.user?.firstName}} {{post.user?.lastName}}"
                                                 src="https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912">
-                                            <a href="google.hu">
+                                            <a [routerLink]="['/user-page/', post.user?.id]">
                                                 <h5 class="card-title"><b>{{post.user?.firstName}}
                                                         {{post.user?.lastName}}</b></h5>
                                             </a>
@@ -64,13 +64,13 @@
                                                     <div class="comments">
                                                         <div *ngFor="let comment of post.comments">
                                                             <div class="comment comment-profile">
-                                                                <a href="google.hu">
+                                                                <a [routerLink]="['/user-page/', comment.user.id]">
                                                                     <img alt="profile picture"
                                                                         title="{{comment.user.firstName}} {{comment.user.lastName}}"
                                                                         src="https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912">
                                                                 </a>
                                                                 <div class="card text-white bg-secondary comment-text">
-                                                                    <a href="google.hu">
+                                                                    <a [routerLink]="['/user-page/', comment.user.id]">
                                                                         <h6 class="card-title"><b>{{comment.user.firstName}}
                                                                                 {{comment.user.lastName}}</b></h6>
                                                                     </a>
