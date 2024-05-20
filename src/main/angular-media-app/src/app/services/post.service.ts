@@ -28,6 +28,14 @@ export class PostService extends BaseService{
     return this.http.get<Post[]>(this.APIURL, { headers: this.getHeaders()});
   }
 
+  getById(postId: number): Observable<Post>{
+    return this.http.get<Post>(`${this.APIURL}/findone/${postId}`, { headers: this.getHeaders()});
+  }
+
+  getAllById(userId: number): Observable<Post[]>{
+    return this.http.get<Post[]>(`${this.APIURL}/${userId}`, { headers: this.getHeaders()});
+  }
+
   likePost(postId: number, userId: number): Observable<Like[]>{
     return this.http.post<Like[]>(
       `${this.APIURL}/${postId}/like`,
@@ -69,5 +77,19 @@ export class PostService extends BaseService{
       `${this.APIURL}/${postId}/comment`,
       newComment,
       { headers: this.getHeaders()});
+  }
+
+  deletePost(postId: number): Observable<void>{
+    return this.http.delete<void>(
+      `${this.APIURL}/${postId}`,
+      { headers: this.getHeaders()});
+  }
+
+  updatePost(post: Post): Observable<Post>{
+    return this.http.put<Post>(
+      `${this.APIURL}/${post.id}`,
+      post,
+      { headers: this.getHeaders()}
+    );
   }
 }

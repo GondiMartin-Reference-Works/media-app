@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,6 +42,18 @@ public class PostController{
                 .toList()
                 .reversed()
         );
+    }
+
+    @GetMapping("/findone/{postId}")
+    public ResponseEntity<PostDTO> getPostById(@PathVariable long postId){
+        PostDTO fetchedPost = postConverter.convertFromEntityToDTO(service.getPostById(postId));
+        return ResponseEntity.ok(fetchedPost);
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<PostDTO>> getPostsById(@PathVariable long userId){
+        List<PostDTO> userPosts = service.getAllPostsById(userId).stream().map(postConverter::convertFromEntityToDTO).toList();
+        return ResponseEntity.ok(userPosts);
     }
 
     @PostMapping()
@@ -121,5 +134,11 @@ public class PostController{
         return post.map(postEntity ->
                         ResponseEntity.ok(postEntity.getComments().stream().map(commentConverter::convertFromEntityToDTO).toList()))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PutMapping("/{postId}")
+    public ResponseEntity<PostDTO> changePost(@PathVariable long postId, @RequestBody PostDTO newPost){
+        PostDTO postDTO = service.changePost(postId, newPost);
+        return ResponseEntity.ok(postDTO);
     }
 }

@@ -1,9 +1,11 @@
-import { Component, OnInit, Input, numberAttribute } from '@angular/core';
+import { Component, OnInit, Input, numberAttribute, NgModule } from '@angular/core';
 import { Post } from '../models/post';
 import { Like } from '../models/like';
 import { PostService } from '../services/post.service';
 import { User } from '../models/user';
 import { Comment } from "../models/comment";
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-user-page',
@@ -12,23 +14,84 @@ import { Comment } from "../models/comment";
 })
 export class UserPageComponent implements OnInit{
 
-  @Input({transform: numberAttribute}) userId!: number;
+  @Input({
+    transform: numberAttribute,
+  }) userId: number;
   posts: Post[] = [];
   newComment: Comment = new Comment();
+  uiEditMode: boolean = false;
+  postToBeEdited: Post = new Post();
+  selectedFile: string = '';
+
 
   constructor(
-    private postService: PostService
+    private postService: PostService,
+    private route: ActivatedRoute
   ){
+    this.userId = +this.route.snapshot.params["userId"];
     this.loadPosts();
   }
 
   ngOnInit(): void {
   }
 
+  isEditing(post: Post): boolean{
+    return post.isEditing;
+  }
+
+  isMyPage(): boolean{
+    const loggedInUser: number = JSON.parse(sessionStorage.getItem('current-user') ?? '').id;
+    return loggedInUser === this.userId;
+  }
+
+  deletePost(post: Post){
+    this.postService.deletePost(post.id).subscribe(_ => {
+      const index = this.posts.findIndex(p => p.id === post.id);
+      this.posts.splice(index, 1);
+      this.ngOnInit();
+    });
+  }
+
+  editPost(post: Post){
+    if(post.isEditing){
+      post.isEditing = false;
+      this.uiEditMode = false;
+    }
+    else if(!post.isEditing && !this.uiEditMode){
+      post.isEditing = true;
+      this.uiEditMode = true;
+      this.postToBeEdited = Object.assign(new Post(), post);
+    }
+    this.ngOnInit();
+  }
+
+  updatePost(){
+    this.postService.updatePost(this.postToBeEdited).subscribe(_ => {
+      this.postService.getById(this.postToBeEdited.id).subscribe(post => {
+      
+        const index = this.posts.findIndex(p => p.id === this.postToBeEdited.id);
+        this.editPost(this.posts[index]);
+        this.posts[index] = Post.convertNewPost(post);
+        this.posts[index].imgSrc = post.getImageSrc()
+      })
+    })
+
+    this.ngOnInit();
+  }
+
+  removeImage(post: Post){
+    this.postToBeEdited.image = null;
+  }
 
   loadPosts() {
-    // TODO: Only load posts of the user given by userId
-    // See property: userId at line 16.
+    this.postService.getAllById(this.userId).subscribe(posts => {
+      this.posts = posts.map(postData => {
+        let post = Object.assign(new Post(), postData);
+        post.imgSrc = post.getImageSrc();
+        post.comments = post.comments.reverse();
+        return post;
+      });
+    });
   }
 
   likePost(post: Post) {
@@ -130,6 +193,28 @@ export class UserPageComponent implements OnInit{
       this.newComment = new Comment();
       this.ngOnInit();
     });
+  }
+
+  onFileNameChanged(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFile = file.name;
+    }
+  }
+
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        const arrayBuffer: ArrayBuffer = e.target.result;
+        const byteArray = new Uint8Array(arrayBuffer);
+        this.postToBeEdited.image = Array.from(byteArray);
+      };
+
+      reader.readAsArrayBuffer(file);
+    }
   }
 
 }

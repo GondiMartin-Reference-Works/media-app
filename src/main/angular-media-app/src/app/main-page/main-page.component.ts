@@ -202,4 +202,6 @@ export class MainPageComponent implements OnInit {
       this.ngOnInit();
     });
   }
+
+
 }
