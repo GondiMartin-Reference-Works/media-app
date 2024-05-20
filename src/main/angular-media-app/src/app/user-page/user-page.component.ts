@@ -5,6 +5,8 @@ import { PostService } from '../services/post.service';
 import { User } from '../models/user';
 import { Comment } from "../models/comment";
 import { ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 
 @Component({
@@ -16,7 +18,7 @@ export class UserPageComponent implements OnInit{
 
   @Input({
     transform: numberAttribute,
-  }) userId: number;
+  }) userId!: number;
   posts: Post[] = [];
   newComment: Comment = new Comment();
   uiEditMode: boolean = false;
@@ -28,8 +30,13 @@ export class UserPageComponent implements OnInit{
     private postService: PostService,
     private route: ActivatedRoute
   ){
-    this.userId = +this.route.snapshot.params["userId"];
-    this.loadPosts();
+    this.route.params.pipe(
+      switchMap(params => {
+        this.userId = params["userId"];
+        this.loadPosts();
+        return of(this.userId);
+      })
+    ).subscribe();
   }
 
   ngOnInit(): void {
@@ -41,7 +48,7 @@ export class UserPageComponent implements OnInit{
 
   isMyPage(): boolean{
     const loggedInUser: number = JSON.parse(sessionStorage.getItem('current-user') ?? '').id;
-    return loggedInUser === this.userId;
+    return loggedInUser == this.userId;
   }
 
   deletePost(post: Post){
@@ -68,7 +75,7 @@ export class UserPageComponent implements OnInit{
   updatePost(){
     this.postService.updatePost(this.postToBeEdited).subscribe(_ => {
       this.postService.getById(this.postToBeEdited.id).subscribe(post => {
-      
+
         const index = this.posts.findIndex(p => p.id === this.postToBeEdited.id);
         this.editPost(this.posts[index]);
         this.posts[index] = Post.convertNewPost(post);

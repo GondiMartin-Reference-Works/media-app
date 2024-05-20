@@ -42,6 +42,7 @@ const routes: Routes = [
     {
       preloadingStrategy: PreloadAllModules,
       onSameUrlNavigation: 'reload',
+      bindToComponentInputs: true
     })],
   exports: [RouterModule]
 })
