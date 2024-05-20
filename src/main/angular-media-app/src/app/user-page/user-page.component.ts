@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, numberAttribute, NgModule } from '@angular/core';
+import { Component, OnInit, Input, numberAttribute } from '@angular/core';
 import { Post } from '../models/post';
 import { Like } from '../models/like';
 import { PostService } from '../services/post.service';
@@ -86,7 +86,7 @@ export class UserPageComponent implements OnInit{
     this.ngOnInit();
   }
 
-  removeImage(post: Post){
+  removeImage(){
     this.postToBeEdited.image = null;
   }
 

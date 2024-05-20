@@ -18,7 +18,7 @@
                                                 <h5 class="card-title"><b>{{post.user?.firstName}}
                                                         {{post.user?.lastName}}</b></h5>
                                             </a>
-                                            
+
                                         </div>
                                         <a *ngIf="isMyPage()">
                                             <button (click)="deletePost(post)"><i>Delete Comment</i></button>
@@ -30,26 +30,26 @@
                                         <div *ngIf="isEditing(post)">
                                             <hr>
                                             <form class="p-3">
-                                                <input class="form-control form-control-sm" 
+                                                <input class="form-control form-control-sm"
                                                 type="text" placeholder="Edit your comment ..." [value]="post.text"
                                                 name="editPostText" [(ngModel)]="postToBeEdited.text">
                                             </form>
                                         </div>
                                         <div *ngIf="post.isEditing">
-                                            <button (click)="removeImage(post)">Delete image</button>
+                                            <button (click)="removeImage()">Delete image</button>
                                             <input type="file" id="postImage" placeholder="Upload image"
                                                     name="image" (change)="onFileSelected($event); onFileNameChanged($event)">
                                             <button (click)="updatePost()">Apply changes</button>
                                         </div>
-                                        
+
                                         <img *ngIf="post.image != null" class="card-img-bottom" title="Post's image"
                                             [src]="post.imgSrc" alt="Card image cap">
-                                            
+
                                         <div class="count-section">
                                             <i class="fa fa-thumbs-up pr-3"> {{post.likes.length}}</i>
                                             <i class="fa fa-comment"> {{post.comments.length}}</i>
                                         </div>
-                                        
+
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-12 col-md-6 pb-2">
@@ -66,7 +66,7 @@
                                                 </div>
                                                 <div class="col-12 col-md-6">
                                                     <button type="button" class="btn btn-dark block-button" data-toggle="button"
-                                                            (click)="commentToggle(post)"><i class="fa fa-comment-o"></i> 
+                                                            (click)="commentToggle(post)"><i class="fa fa-comment-o"></i>
                                                             Comment</button>
                                                 </div>
                                             </div>
