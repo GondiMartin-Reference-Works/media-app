@@ -1,12 +1,12 @@
 package com.example.mediaApp.service;
 
+import com.example.mediaApp.model.dto.AppUserDTO;
 import com.example.mediaApp.model.entity.AppUserEntity;
 import com.example.mediaApp.repository.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +15,6 @@ import java.util.Optional;
 public class AppUserService {
 
     private final AppUserRepository repository;
-
     private static final Logger LOGGER = LogManager.getLogger(AppUserService.class);
 
     public List<AppUserEntity> getAll(){
@@ -45,5 +44,23 @@ public class AppUserService {
         return repository
                 .findById(id)
                 .orElse(null);
+    }
+
+    public Optional<AppUserEntity> updateUser(Long id, AppUserDTO user) {
+        if (repository.existsById(id)){
+            AppUserEntity appUserEntity = repository.getReferenceById(id);
+
+            appUserEntity.setFirstName(user.getFirstName());
+            appUserEntity.setLastName(user.getLastName());
+            appUserEntity.setBirthDate(user.getBirthDate());
+            appUserEntity.setEmail(user.getEmail());
+            appUserEntity.setProfilePicture(user.getProfilePicture());
+
+            return Optional.of(
+                    repository.save(appUserEntity)
+            );
+        }
+
+        return Optional.empty();
     }
 }

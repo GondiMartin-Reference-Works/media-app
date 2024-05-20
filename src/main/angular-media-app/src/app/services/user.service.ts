@@ -8,6 +8,7 @@ import { SearchedUser } from '../models/searched-user';
 import { AuthResponse } from '../models/auth-response';
 import { BaseService } from './base-service';
 import { environment } from '../../environment';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class UserService extends BaseService implements IUserService{
 
   private APIURL: string = environment.API_URL + "/auth/";
   private FriendRequestButtonURL: string = environment.API_URL + "/request/friendListWithIsFriend";
+  private USER_CONTROLLER_APIURL: string = environment.API_URL + "/user";
 
   constructor(
     private http: HttpClient
@@ -29,6 +31,16 @@ export class UserService extends BaseService implements IUserService{
 
   login(user: LoginUser): Observable<AuthResponse>{
     return this.http.post<AuthResponse>(this.APIURL + "authenticate", user);
+  }
+
+  update(id: number, user: User): void{
+    this.http.put<void>(
+      `${this.USER_CONTROLLER_APIURL}/${id}`,
+      {
+        headers: this.getHeaders(),
+        body: user
+      }
+    );
   }
 
   logout(){
