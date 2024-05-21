@@ -13,6 +13,7 @@ export class Post {
     comments: Comment[];
     imgSrc: string;
     isCommenting: boolean;
+    isEditing: boolean;
 
     constructor(){
         this.id = 0;
@@ -24,6 +25,7 @@ export class Post {
         this.comments = [];
         this.imgSrc = '';
         this.isCommenting = false;
+        this.isEditing = false;
     }
 
     static convertNewPost(post: Post): Post{
@@ -37,12 +39,21 @@ export class Post {
         newPost.comments = post.comments;
         newPost.imgSrc = newPost.getImageSrc();
         newPost.isCommenting = false;
+        newPost.isEditing = false;
         return newPost;
     }
 
     getImageSrc(): string{
         if(this.image){
             return 'data:image/jpeg;base64,' + this.image;
+        }
+        return '';
+    }
+
+    getImageSrcFromInput(){
+        if(this.image){
+            const imgString = new TextDecoder().decode(new Uint8Array(this.image));
+            return 'data:image/jpeg;base64,' + btoa(imgString);
         }
         return '';
     }

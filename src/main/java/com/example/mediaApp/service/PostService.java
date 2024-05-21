@@ -1,6 +1,7 @@
 package com.example.mediaApp.service;
 
 import com.example.mediaApp.converter.AppUserConverter;
+import com.example.mediaApp.converter.PostConverter;
 import com.example.mediaApp.model.dto.CommentDTO;
 import com.example.mediaApp.model.dto.LikeDTO;
 import com.example.mediaApp.model.dto.PostDTO;
@@ -11,7 +12,10 @@ import com.example.mediaApp.model.entity.PostEntity;
 import com.example.mediaApp.model.enums.Liking;
 import com.example.mediaApp.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +31,20 @@ public class PostService {
     private final CommentService commentService;
     private final AppUserConverter userConverter;
 
+    private static final Logger LOGGER = LogManager.getLogger(PostService.class);
+    private final PostConverter postConverter;
+
     public List<PostEntity> getAll(){
         return repository.findAll();
+    }
+
+    public List<PostEntity> getAllPostsById(long userId) {
+
+        return repository.findByUserId(userId).reversed();
+    }
+
+    public PostEntity getPostById(long id){
+        return repository.findById(id).orElse(null);
     }
 
     public void deleteAll() { repository.deleteAll(); }
@@ -166,5 +182,18 @@ public class PostService {
                 .filter(like -> like.getUser().equals(user))
                 .findFirst()
                 .orElse(null);
+    }
+
+
+    public PostDTO changePost(long postId, PostDTO newPost) {
+        Optional<PostEntity> maybePostOriginal = repository.findById(postId);
+        if(maybePostOriginal.isEmpty()){
+            LOGGER.warn("No such post as id={}", postId);
+            return null;
+        }
+        PostEntity postOriginal = maybePostOriginal.get();
+        postOriginal.setText(newPost.getText());
+        postOriginal.setImage(newPost.getImage());
+        return postConverter.convertFromEntityToDTO(repository.save(postOriginal));
     }
 }
