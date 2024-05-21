@@ -21,8 +21,8 @@
                                             
                                         </div>
                                         <a *ngIf="isMyPage()">
-                                            <button (click)="deletePost(post)"><i>Delete Comment</i></button>
-                                            <button (click)="editPost(post)">Edit Comment</button>
+                                            <button (click)="deletePost(post)"><i>Delete</i></button>
+                                            <button (click)="editPost(post)">Edit</button>
                                         </a>
                                         <div *ngIf="!isEditing(post)" class="card-body">
                                             <p class="card-text">{{post.text}}</p>
@@ -31,12 +31,12 @@
                                             <hr>
                                             <form class="p-3">
                                                 <input class="form-control form-control-sm" 
-                                                type="text" placeholder="Edit your comment ..." [value]="post.text"
+                                                type="text" placeholder="Edit text..." [value]="post.text"
                                                 name="editPostText" [(ngModel)]="postToBeEdited.text">
                                             </form>
                                         </div>
                                         <div *ngIf="post.isEditing">
-                                            <button (click)="removeImage(post)">Delete image</button>
+                                            <button *ngIf="post.image !== null" (click)="removeImage(post)">Delete image</button>
                                             <input type="file" id="postImage" placeholder="Upload image"
                                                     name="image" (change)="onFileSelected($event); onFileNameChanged($event)">
                                             <button (click)="updatePost()">Apply changes</button>
