@@ -36,7 +36,7 @@
                                             </form>
                                         </div>
                                         <div *ngIf="post.isEditing">
-                                            <button *ngIf="post.image !== null" (click)="removeImage(post)">Delete image</button>
+                                            <button *ngIf="post.image !== null" (click)="removeImage()">Delete image</button>
                                             <input type="file" id="postImage" placeholder="Upload image"
                                                     name="image" (change)="onFileSelected($event); onFileNameChanged($event)">
                                             <button (click)="updatePost()">Apply changes</button>
