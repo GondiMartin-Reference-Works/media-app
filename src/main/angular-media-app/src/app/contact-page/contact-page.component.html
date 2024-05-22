@@ -1,0 +1,70 @@
+<div class="mediapp-viewport-w-h-full bimage container-fluid">
+    <div class="flex-parent-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="p-5">
+                            <h2 class="text-uppercase text-center mb-5">Change credentials</h2>
+
+                            <form>
+
+                                <div class="form-outline mb-4">
+                                    <input name="first_name" type="text" id="label_first_name"
+                                        [ngClass]="{'input-invalid': !isValidName(user.firstName), 'input-valid': isValidName(user.firstName)}" class="form-control form-control-lg" [(ngModel)]="user.firstName" />
+                                    <label class="form-label" for="label_first_name">Your First Name</label>
+                                    <div *ngIf="!isValidName(user.firstName)" class="text-danger">Please select a valid first name.</div>
+                                    <div *ngIf="isValidName(user.firstName)" class="text-valid">Ok</div>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <input name="last_name" type="text" id="label_last_name"
+                                        [ngClass]="{'input-invalid': !isValidName(user.lastName), 'input-valid': isValidName(user.lastName)}" class="form-control form-control-lg" [(ngModel)]="user.lastName" />
+                                    <label class="form-label" for="label_last_name">Your Last Name</label>
+                                    <div *ngIf="!isValidName(user.lastName)" class="text-danger">Please select a valid last name.</div>
+                                    <div *ngIf="isValidName(user.lastName)" class="text-valid">Ok</div>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <input name="email" type="email" id="label_email"
+                                        [ngClass]="{'input-invalid': !isValidEmail(), 'input-valid': isValidEmail()}" class="form-control form-control-lg" [(ngModel)]="user.email" />
+                                    <label class="form-label" for="label_email">Your Email</label>
+                                    <br>
+                                    <label class="form-label text-danger" *ngIf="!validEmailAddress"
+                                        for="label_email">This email has been already used.</label>
+                                    <div *ngIf="!isValidEmail()" class="text-danger">Please select a valid email.</div>
+                                    <div *ngIf="isValidEmail()" class="text-valid">Ok</div>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <input name="birth" type="date" id="label_email"
+                                        class="form-control form-control-lg" [ngModel]="user.birthdate | date:'yyyy-MM-dd'" (ngModelChange)="user.birthdate = $event" />
+                                    <label class="form-label" for="label_email">Your birth date</label>
+                                </div>
+
+                                <div>
+                                    
+                                </div>
+
+                                <div *ngFor="let address of user.addresses" class="form-outline mb-4">
+                                    <p>{{addressToString(address)}}</p>
+
+                                </div>
+
+                                
+
+                                <div class="d-flex justify-content-center">
+                                    <button type="button"
+                                        class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
+                                        (click)="updateUser()"
+                                        [disabled]="!isAllValid()">Update</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
