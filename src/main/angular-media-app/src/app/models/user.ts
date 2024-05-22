@@ -5,7 +5,7 @@ export class User {
     firstName: string;
     lastName: string;
     email: string;
-    birthdate: Date;
+    birthDate: Date;
     profilePicture: number[] | null;
     imgSrc: string;
     addresses: Address[];
@@ -15,7 +15,7 @@ export class User {
         this.firstName = "";
         this.lastName = "";
         this.email = "";
-        this.birthdate = new Date("2019-01-16");
+        this.birthDate = new Date("2019-01-16");
         this.profilePicture = null;
         this.imgSrc = '';
         this.addresses = [];
@@ -27,7 +27,7 @@ export class User {
         newUser.firstName = user.firstName;
         newUser.lastName = user.lastName;
         newUser.email = user.email;
-        newUser.birthdate = user.birthdate;
+        newUser.birthDate = user.birthDate;
         newUser.profilePicture = user.profilePicture;
         newUser.imgSrc = newUser.getImageSrc();
         newUser.addresses = user.addresses;

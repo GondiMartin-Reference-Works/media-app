@@ -27,6 +27,7 @@ export class LoginComponent{
     this.userService.login(this.user).subscribe((response) => {
       const tokenJson = JSON.stringify(response.token);
       sessionStorage.setItem('current-user-token', tokenJson);
+      response.user.birthDate = new Date(response.user.birthDate);
       const userJson = JSON.stringify(response.user);
       sessionStorage.setItem('current-user', userJson);
       sessionStorage.setItem('current-user-email', JSON.stringify(this.user.email));
