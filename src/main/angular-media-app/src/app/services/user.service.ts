@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IUserService } from '../auth/services/interfaces/iuser-service';
@@ -42,12 +42,13 @@ export class UserService extends BaseService implements IUserService{
     );
   }
 
-  update(id: number, user: User): Observable<void>{
+  update(id: number, user: User): Observable<HttpResponse<void>>{
     return this.http.put<void>(
       `${this.USER_CONTROLLER_APIURL}/${id}`,
       user,
       {
-        headers: this.getHeaders()
+        headers: this.getHeaders(),
+        observe: 'response'
       }
     );
   }

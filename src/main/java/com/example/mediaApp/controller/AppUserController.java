@@ -43,7 +43,6 @@ public class AppUserController {
 
     @PutMapping("/{id}")
     public HttpStatus putUser(@PathVariable Long id, @RequestBody AppUserDTO user){
-        System.out.println(user.getEmail());
         Optional<AppUserEntity> appUserEntity = service.updateUser(id, user);
         return appUserEntity.isPresent() ? HttpStatus.OK : HttpStatus.NO_CONTENT;
     }

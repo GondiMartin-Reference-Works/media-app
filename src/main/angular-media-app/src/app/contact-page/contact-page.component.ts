@@ -20,9 +20,10 @@ export class ContactPageComponent implements OnInit{
   constructor(
     private addressService: AddressService,
     private userService: UserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    
   ){
-    this.userService.getById(Number(this.userIdFromUrl)).subscribe(resp => this.user = resp)
+    this.userService.getById(Number(this.userIdFromUrl)).subscribe(resp => this.user = resp);
   }
 
   ngOnInit(): void {
@@ -31,15 +32,29 @@ export class ContactPageComponent implements OnInit{
 
   addressToString(address: Address): string{
     return address.country + ", " + address.zipCode + " " + address.city + ", " + address.street + " " + address.houseNum;
-}
+  }
 
   isOwnUserPage(): boolean{
     return this.currentUser.id === this.user.id;
   }
 
   updateUser(){
-    console.log(this.user.email)
-    this.userService.update(this.user.id, this.user).subscribe();
+    this.userService.update(this.user.id, this.user).subscribe(resp => {
+      if(resp.status != 200){
+        return;
+      }
+  
+      sessionStorage.setItem("current-user", JSON.stringify(this.user));
+      sessionStorage.setItem("current-user-email", this.user.email);
+  
+      if(this.isEmailChanged()){
+        this.userService.logout()
+      }
+    });
+  }
+
+  isEmailChanged(): boolean{
+    return this.user.email !== this.currentUser.email;
   }
 
   isValidName(name: string): boolean{

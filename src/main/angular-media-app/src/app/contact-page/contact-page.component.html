@@ -29,6 +29,7 @@
                                     <input name="email" type="email" id="label_email" [readOnly]="!isOwnUserPage()"
                                         [ngClass]="{'input-invalid': !isValidEmail(), 'input-valid': isValidEmail()}" class="form-control form-control-lg" [(ngModel)]="user.email" />
                                     <label class="form-label" for="label_email">Email</label>
+                                    <label *ngIf="isEmailChanged()" class="form-label" for="label-email">Attention: if you wish to change your email address, then you must log in again!</label>
                                     <br>
                                     <label class="form-label text-danger" *ngIf="!validEmailAddress"
                                         for="label_email">This email has been already used.</label>
