@@ -13,6 +13,7 @@ import com.example.mediaApp.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -49,6 +50,16 @@ public class GroupService {
         repository.save(groupEntity);
 
         return groupEntity;
+    }
+
+    public Optional<GroupEntity> updateById(Long id, GroupDTO group) {
+        if (repository.existsById(id) &&
+            appUserRepository.existsById(group.getAdminUser().getId())){
+            GroupEntity groupEntity = repository.getReferenceById(id);
+            updateEntityWithValuesFromDto(group, groupEntity);
+            return Optional.of(groupEntity);
+        }
+        return Optional.empty();
     }
 
     private void updateEntityWithValuesFromDto(GroupDTO newGroup, GroupEntity updatableGroup) {
