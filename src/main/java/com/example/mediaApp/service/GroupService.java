@@ -51,6 +51,10 @@ public class GroupService {
         return groupEntity;
     }
 
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
     private void updateEntityWithValuesFromDto(GroupDTO newGroup, GroupEntity updatableGroup) {
         updatableGroup.setName(newGroup.getName());
         updatableGroup.setDescription(newGroup.getDescription());
