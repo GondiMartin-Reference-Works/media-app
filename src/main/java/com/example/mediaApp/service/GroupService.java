@@ -13,6 +13,7 @@ import com.example.mediaApp.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,6 +29,14 @@ public class GroupService {
         return repository
                 .findById(id)
                 .orElse(null);
+    }
+
+    public List<GroupEntity> getAll() {
+        return repository.findAll();
+    }
+
+    public Optional<GroupEntity> getById(Long id) {
+        return repository.findById(id);
     }
 
     public GroupEntity create(GroupDTO groupDTO) {
@@ -60,6 +69,10 @@ public class GroupService {
             return Optional.of(groupEntity);
         }
         return Optional.empty();
+    }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 
     private void updateEntityWithValuesFromDto(GroupDTO newGroup, GroupEntity updatableGroup) {

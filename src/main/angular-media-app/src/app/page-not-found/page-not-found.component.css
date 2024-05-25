@@ -1,0 +1,13 @@
+.bimage{
+    background: url(
+     'https://media.istockphoto.com/id/1432417261/photo/abstract-blurry-grey-color-for-background-blur-festival-lights-outdoor-celebration-and-white.jpg?b=1&s=612x612&w=0&k=20&c=6e2xgjykeGVuEyFKMvfyL679BZI4tDSXAbu-GU0WfKM='
+     )
+     center/cover;
+}
+
+#looking{
+    margin-top: 30px;
+    float: right;
+    width: 170px;
+    border-radius: 38px;
+}
