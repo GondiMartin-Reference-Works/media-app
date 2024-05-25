@@ -45,9 +45,9 @@ export class UserService extends BaseService implements IUserService{
   update(id: number, user: User): Observable<void>{
     return this.http.put<void>(
       `${this.USER_CONTROLLER_APIURL}/${id}`,
+      user,
       {
-        headers: this.getHeaders(),
-        body: user
+        headers: this.getHeaders()
       }
     );
   }

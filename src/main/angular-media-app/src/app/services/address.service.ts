@@ -33,9 +33,9 @@ export class AddressService extends BaseService {
     const params: HttpParams = new HttpParams().set('userId', userId);
     return this.http.post<Address>(
       this.APIURL,
+      address,
       {
         headers: this.getHeaders(),
-        body: address,
         params: params
       }
     );
@@ -45,9 +45,9 @@ export class AddressService extends BaseService {
     const params: HttpParams = new HttpParams().set('userId', userId);
     this.http.put(
       `${this.APIURL}/${id}}`,
+      address,
       {
         headers: this.getHeaders(),
-        body: address,
         params: params
       }
     );
@@ -63,6 +63,5 @@ export class AddressService extends BaseService {
       }
     );
   }
-
 
 }

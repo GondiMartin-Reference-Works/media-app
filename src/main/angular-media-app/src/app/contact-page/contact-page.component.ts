@@ -15,7 +15,7 @@ export class ContactPageComponent implements OnInit{
   user: User = new User();
   currentUser: User = JSON.parse(sessionStorage.getItem("current-user") ?? '');
   validEmailAddress: boolean = true;
-  
+
 
   constructor(
     private addressService: AddressService,
@@ -26,7 +26,7 @@ export class ContactPageComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    
+
   }
 
   addressToString(address: Address): string{
