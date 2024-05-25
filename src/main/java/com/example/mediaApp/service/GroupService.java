@@ -61,6 +61,16 @@ public class GroupService {
         return groupEntity;
     }
 
+    public Optional<GroupEntity> updateById(Long id, GroupDTO group) {
+        if (repository.existsById(id) &&
+            appUserRepository.existsById(group.getAdminUser().getId())){
+            GroupEntity groupEntity = repository.getReferenceById(id);
+            updateEntityWithValuesFromDto(group, groupEntity);
+            return Optional.of(groupEntity);
+        }
+        return Optional.empty();
+    }
+
     public void delete(Long id) {
         repository.deleteById(id);
     }
