@@ -45,7 +45,7 @@ export class ContactPageComponent implements OnInit{
       }
   
       sessionStorage.setItem("current-user", JSON.stringify(this.user));
-      sessionStorage.setItem("current-user-email", this.user.email);
+      sessionStorage.setItem("current-user-email", JSON.stringify(this.user.email));
   
       if(this.isEmailChanged()){
         this.userService.logout()

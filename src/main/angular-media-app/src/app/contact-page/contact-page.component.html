@@ -43,13 +43,19 @@
                                     <label class="form-label" for="label_email">Birth date</label>
                                 </div>
 
-                                <div>
-                                    
-                                </div>
+                                
 
-                                <div *ngFor="let address of user.addresses" class="form-outline mb-4">
-                                    <p>{{addressToString(address)}}</p>
-                                    <a>Edit...</a>
+                                <div *ngFor="let address of user.addresses; let i = index" class="form-outline mb-4">
+                                    <div>
+                                        <p>Address {{i + 1}}</p>
+                                    </div>
+                                    <div>
+                                        <div class="form-outline mb-4">
+                                            <input name="country" type="text" id="address-country" [readOnly]="!isOwnUserPage()"
+                                                class="form-control form-control-lg" [(ngModel)]="address.country" />
+                                            <label class="form-label" for="address-country">Country</label>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div *ngIf="isOwnUserPage()" class="d-flex justify-content-center">
