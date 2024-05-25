@@ -16,7 +16,7 @@ public class GroupRequestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     // Bidirectional
     @ManyToOne(fetch = FetchType.LAZY)
