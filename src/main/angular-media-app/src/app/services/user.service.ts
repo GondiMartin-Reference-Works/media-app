@@ -33,8 +33,17 @@ export class UserService extends BaseService implements IUserService{
     return this.http.post<AuthResponse>(this.APIURL + "authenticate", user);
   }
 
-  update(id: number, user: User): void{
-    this.http.put<void>(
+  getById(userId: number): Observable<User>{
+    return this.http.get<User>(
+      `${this.USER_CONTROLLER_APIURL}/${userId}`,
+      {
+        headers: this.getHeaders()
+      }
+    );
+  }
+
+  update(id: number, user: User): Observable<void>{
+    return this.http.put<void>(
       `${this.USER_CONTROLLER_APIURL}/${id}`,
       {
         headers: this.getHeaders(),

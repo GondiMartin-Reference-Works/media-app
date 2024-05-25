@@ -3,6 +3,7 @@ import { AddressService } from '../services/address.service';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 import { Address } from '../models/address';
+import { ActivatedRoute, Route } from '@angular/router';
 
 @Component({
   selector: 'app-contact-page',
@@ -10,14 +11,18 @@ import { Address } from '../models/address';
   styleUrl: './contact-page.component.css'
 })
 export class ContactPageComponent implements OnInit{
-  user: User = JSON.parse(sessionStorage.getItem("current-user") ?? "");
+  userIdFromUrl: string | null = this.route.snapshot.paramMap.get("userId");
+  user: User = new User();
+  currentUser: User = JSON.parse(sessionStorage.getItem("current-user") ?? '');
   validEmailAddress: boolean = true;
+  
 
   constructor(
     private addressService: AddressService,
-    private userService: UserService
+    private userService: UserService,
+    private route: ActivatedRoute
   ){
-    
+    this.userService.getById(Number(this.userIdFromUrl)).subscribe(resp => this.user = resp)
   }
 
   ngOnInit(): void {
@@ -28,13 +33,13 @@ export class ContactPageComponent implements OnInit{
     return address.country + ", " + address.zipCode + " " + address.city + ", " + address.street + " " + address.houseNum;
 }
 
-// getDate(): Date{
-//   return new Date(this.user.birthdate);
-// }
-
+  isOwnUserPage(): boolean{
+    return this.currentUser.id === this.user.id;
+  }
 
   updateUser(){
-    this.userService.update(this.user.id, this.user);
+    console.log(this.user.email)
+    this.userService.update(this.user.id, this.user).subscribe();
   }
 
   isValidName(name: string): boolean{

@@ -41,6 +41,14 @@ public class AppUserService {
     }
 
     public AppUserEntity find(Long id){
+        if(id == null){
+            LOGGER.error("Id is null.");
+            return null;
+        }
+        if(!repository.existsById(id)){
+            LOGGER.error("No user was found with ID: {}", id);
+            return null;
+        }
         return repository
                 .findById(id)
                 .orElse(null);

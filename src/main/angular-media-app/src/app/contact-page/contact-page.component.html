@@ -10,25 +10,25 @@
                             <form>
 
                                 <div class="form-outline mb-4">
-                                    <input name="first_name" type="text" id="label_first_name"
+                                    <input name="first_name" type="text" id="label_first_name" [readOnly]="!isOwnUserPage()"
                                         [ngClass]="{'input-invalid': !isValidName(user.firstName), 'input-valid': isValidName(user.firstName)}" class="form-control form-control-lg" [(ngModel)]="user.firstName" />
-                                    <label class="form-label" for="label_first_name">Your First Name</label>
+                                    <label class="form-label" for="label_first_name">First Name</label>
                                     <div *ngIf="!isValidName(user.firstName)" class="text-danger">Please select a valid first name.</div>
                                     <div *ngIf="isValidName(user.firstName)" class="text-valid">Ok</div>
                                 </div>
 
                                 <div class="form-outline mb-4">
-                                    <input name="last_name" type="text" id="label_last_name"
+                                    <input name="last_name" type="text" id="label_last_name" [readOnly]="!isOwnUserPage()"
                                         [ngClass]="{'input-invalid': !isValidName(user.lastName), 'input-valid': isValidName(user.lastName)}" class="form-control form-control-lg" [(ngModel)]="user.lastName" />
-                                    <label class="form-label" for="label_last_name">Your Last Name</label>
+                                    <label class="form-label" for="label_last_name">Last Name</label>
                                     <div *ngIf="!isValidName(user.lastName)" class="text-danger">Please select a valid last name.</div>
                                     <div *ngIf="isValidName(user.lastName)" class="text-valid">Ok</div>
                                 </div>
 
                                 <div class="form-outline mb-4">
-                                    <input name="email" type="email" id="label_email"
+                                    <input name="email" type="email" id="label_email" [readOnly]="!isOwnUserPage()"
                                         [ngClass]="{'input-invalid': !isValidEmail(), 'input-valid': isValidEmail()}" class="form-control form-control-lg" [(ngModel)]="user.email" />
-                                    <label class="form-label" for="label_email">Your Email</label>
+                                    <label class="form-label" for="label_email">Email</label>
                                     <br>
                                     <label class="form-label text-danger" *ngIf="!validEmailAddress"
                                         for="label_email">This email has been already used.</label>
@@ -37,9 +37,9 @@
                                 </div>
 
                                 <div class="form-outline mb-4">
-                                    <input name="birth" type="date" id="label_email"
+                                    <input name="birth" type="date" id="label_email" [readOnly]="!isOwnUserPage()"
                                         class="form-control form-control-lg" [ngModel]="user.birthDate | date:'yyyy-MM-dd'" (ngModelChange)="user.birthDate = $event" />
-                                    <label class="form-label" for="label_email">Your birth date</label>
+                                    <label class="form-label" for="label_email">Birth date</label>
                                 </div>
 
                                 <div>
@@ -48,12 +48,10 @@
 
                                 <div *ngFor="let address of user.addresses" class="form-outline mb-4">
                                     <p>{{addressToString(address)}}</p>
-
+                                    <a>Edit...</a>
                                 </div>
 
-                                
-
-                                <div class="d-flex justify-content-center">
+                                <div *ngIf="isOwnUserPage()" class="d-flex justify-content-center">
                                     <button type="button"
                                         class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
                                         (click)="updateUser()"
