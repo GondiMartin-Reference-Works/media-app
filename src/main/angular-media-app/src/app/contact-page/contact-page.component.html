@@ -25,11 +25,11 @@
                                     <div *ngIf="isValidName(user.lastName)" class="text-valid">Ok</div>
                                 </div>
 
-                                <div class="form-outline mb-4">
+                                <div *ngIf="isOwnUserPage()" class="form-outline mb-4">
                                     <input name="email" type="email" id="label_email" [readOnly]="!isOwnUserPage()"
                                         [ngClass]="{'input-invalid': !isValidEmail(), 'input-valid': isValidEmail()}" class="form-control form-control-lg" [(ngModel)]="user.email" />
                                     <label class="form-label" for="label_email">Email</label>
-                                    <label *ngIf="isEmailChanged()" class="form-label" for="label-email">Attention: if you wish to change your email address, then you must log in again!</label>
+                                    <label style="color: red;" *ngIf="isEmailChanged()" class="form-label" for="label-email">Attention: you need to log in again after altering your email address!</label>
                                     <br>
                                     <label class="form-label text-danger" *ngIf="!validEmailAddress"
                                         for="label_email">This email has been already used.</label>
@@ -45,15 +45,39 @@
 
                                 
 
-                                <div *ngFor="let address of user.addresses; let i = index" class="form-outline mb-4">
+                                <div *ngFor="let address of currentUser.addresses; let i = index; trackBy: trackByIndex" class="form-outline mb-4">
                                     <div>
-                                        <p>Address {{i + 1}}</p>
+                                        <p><b>Address {{i + 1}}</b></p>
                                     </div>
                                     <div>
                                         <div class="form-outline mb-4">
-                                            <input name="country" type="text" id="address-country" [readOnly]="!isOwnUserPage()"
-                                                class="form-control form-control-lg" [(ngModel)]="address.country" />
-                                            <label class="form-label" for="address-country">Country</label>
+                                            <input name="country" type="text" id="address-country-{{i}}" [readOnly]="!isOwnUserPage()"
+                                                class="form-control form-control-lg" [(ngModel)]="currentUser.addresses[i].country" />
+                                            <label class="form-label" for="address-country-{{i}}">Country</label>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <input name="zip" type="text" id="address-zip-{{i}}" [readOnly]="!isOwnUserPage()"
+                                                class="form-control form-control-lg" [(ngModel)]="currentUser.addresses[i].zipCode" />
+                                            <label class="form-label" for="address-zip-{{i}}">Zip</label>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <input name="city" type="text" id="address-city-{{i}}" [readOnly]="!isOwnUserPage()"
+                                                class="form-control form-control-lg" [(ngModel)]="currentUser.addresses[i].city" />
+                                            <label class="form-label" for="address-city-{{i}}">City</label>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <input name="street" type="text" id="address-street-{{i}}" [readOnly]="!isOwnUserPage()"
+                                                class="form-control form-control-lg" [(ngModel)]="currentUser.addresses[i].street" />
+                                            <label class="form-label" for="address-street-{{i}}">Street</label>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <input name="house-num" type="text" id="address-house-num-{{i}}" [readOnly]="!isOwnUserPage()"
+                                                class="form-control form-control-lg" [(ngModel)]="currentUser.addresses[i].houseNum" />
+                                            <label class="form-label" for="address-house-num-{{i}}">House number</label>
                                         </div>
                                     </div>
                                 </div>

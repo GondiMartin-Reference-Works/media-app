@@ -20,7 +20,7 @@ export class ContactPageComponent implements OnInit{
   constructor(
     private addressService: AddressService,
     private userService: UserService,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
     
   ){
     this.userService.getById(Number(this.userIdFromUrl)).subscribe(resp => this.user = resp);
@@ -38,19 +38,52 @@ export class ContactPageComponent implements OnInit{
     return this.currentUser.id === this.user.id;
   }
 
+  trackByIndex(index: number, obj: any): any{
+    return index;
+  }
+
   updateUser(){
     this.userService.update(this.user.id, this.user).subscribe(resp => {
       if(resp.status != 200){
         return;
       }
   
+      
+
+      this.updateChanged();
+
+      // for(let i = 0; i < this.currentUser.addresses.length; i++){
+      //   var address = this.user.addresses[i];
+      //   this.addressService.update(address.id, address, this.currentUser.id);
+      // }
+      // for(let i = this.currentUser.addresses.length + 1; i < this.user.addresses.length; i++){
+      //   var address = this.user.addresses[i];
+      //   this.addressService.create(address, this.currentUser.id);
+      // }
       sessionStorage.setItem("current-user", JSON.stringify(this.user));
       sessionStorage.setItem("current-user-email", JSON.stringify(this.user.email));
-  
+      this.currentUser = this.user;
       if(this.isEmailChanged()){
         this.userService.logout()
       }
     });
+    this.ngOnInit();
+  }
+
+  updateChanged(){
+    for(let address of this.user.addresses){
+      for(let origAddress of this.currentUser.addresses){
+        if(address.id === origAddress.id && !this.addressEquals(origAddress, address)){
+          this.addressService.update(address.id, address, this.user.id);
+        }
+      }
+    }
+  }
+
+  addressEquals(addressOriginal: Address, addressNew: Address): boolean{
+    return addressOriginal.country === addressNew.country && addressOriginal.zipCode === addressNew.zipCode &&
+    addressOriginal.city === addressNew.city && addressOriginal.street === addressNew.street && 
+    addressOriginal.houseNum === addressNew.houseNum;
   }
 
   isEmailChanged(): boolean{

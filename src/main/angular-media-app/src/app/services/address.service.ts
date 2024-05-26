@@ -44,13 +44,13 @@ export class AddressService extends BaseService {
   update(id: number, address: Address, userId: number): void {
     const params: HttpParams = new HttpParams().set('userId', userId);
     this.http.put(
-      `${this.APIURL}/${id}}`,
+      `${this.APIURL}/${id}`,
       address,
       {
         headers: this.getHeaders(),
         params: params
       }
-    );
+    ).subscribe();
   }
 
   delete(id: number, userId: number): void {
