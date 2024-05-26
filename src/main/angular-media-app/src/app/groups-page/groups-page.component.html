@@ -1,0 +1,99 @@
+<div class="mediapp-viewport-w-h-full bimage container-fluid">
+
+    <div *ngIf="!createFormButton" class="row pt-3">
+        <div class="mx-auto">
+            <button class="btn btn-info" type="button" (click)="createForm()">
+                + Create new group</button>
+        </div>
+    </div>
+
+    <div *ngIf="createFormButton">
+        <br>
+    </div>
+
+    <div *ngIf="createFormButton" id="create-form">
+        <div class="row main">
+            <div class="col-12 second">
+                <button class="btn btn-danger float-right" type="button"
+                    (click)="closeForm()">X</button>
+            </div>
+        </div>
+        <h2 style="text-align: center;"><u>New group</u></h2>
+
+        <form class="p-3">
+            <div class="form-group">
+                <label for="groupName">Add name:</label>
+                <input type="text" class="form-control" id="groupName" 
+                    [(ngModel)]="newGroup.name"
+                    name="text">
+            </div>
+            <div class="form-group">
+                <label for="groupDesc">Add description:</label>
+                <input type="text" class="form-control" id="groupDesc"
+                    [(ngModel)]="newGroup.description"
+                    name="text">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Upload image</span>
+                </div>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="groupImage"
+                        (change)="onFileSelected($event); onFileNameChanged($event)" name="image">
+                    <label class="custom-file-label" for="groupImage">{{selectedFile ||
+                        'Choose file'}}</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class=" col mx-auto">
+                    <button class="block-button btn btn-info" type="button"
+                        (click)="sendForm()">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div *ngIf="groups.length > 0">
+        <div class="row main">
+            <div *ngFor="let group of groups" class="groups">
+                <div class="col-12 second">
+                    <div class="card">
+                        <div class="card-body profile">
+                            <img alt="profile picture" title="{{group.name}}"
+                                [src]="group.image != null ? group.imgSrc : exImg">
+                            <h5 class="card-title"><b>{{group.name}}</b></h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{group.description}}</p>
+                        </div>
+                        <div class="count-section">
+                            <i class="fa fa-child pr-3"> {{group.participantUsers.length}}</i>
+                            <i class="fa fa-sticky-note"> {{group.posts.length}}</i>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 pb-2">
+                                    <div *ngIf=!isJoinedByUser(group)>
+                                        <button type="button" class="btn btn-dark block-button"
+                                            (click)="goToGroupPage(group.id)">
+                                            Go to {{group.name}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="groups.length == 0">
+        <div class="row main">
+            <div class="card bg-warning text-white">
+                <div class="card-body text-center">No joined group.</div>
+            </div>
+        </div>
+    </div>
+
+</div>

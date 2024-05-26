@@ -1,0 +1,74 @@
+.bimage{
+    background: url(
+     'https://media.istockphoto.com/id/1432417261/photo/abstract-blurry-grey-color-for-background-blur-festival-lights-outdoor-celebration-and-white.jpg?b=1&s=612x612&w=0&k=20&c=6e2xgjykeGVuEyFKMvfyL679BZI4tDSXAbu-GU0WfKM='
+     )
+     center/cover;
+}
+
+main{
+    border-radius: 20px;
+    padding: 40px;
+}
+
+.groups > article{
+    background-color: antiquewhite;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 30px;
+}
+
+#group-page-col{
+    max-width: 60%;
+}
+
+.block-button{
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.count-section{
+    padding-left: 24px;
+    padding-top: 10px;
+}
+
+.profile > img{
+    float: left;
+    display: inline;
+    width: 70px;
+    height: 70px;
+    margin-right: 10px;
+    border-radius: 60px;
+}
+
+.card{
+    margin: 20px;
+    border: 1px solid black;
+}
+
+.main{
+    margin: auto;
+    padding-left: 0px;
+    padding-right: 0px;
+    justify-content: center;
+}
+
+.second{
+    margin: auto;
+}
+
+#create-form{
+    border: 3px solid darkcyan;
+    border-radius: 5px;
+    background-color: antiquewhite;
+    margin-bottom: 30px;
+    max-width: 60%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.profile{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

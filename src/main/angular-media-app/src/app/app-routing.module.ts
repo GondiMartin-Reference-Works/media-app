@@ -30,6 +30,10 @@ const routes: Routes = [
     loadChildren: () => import('./user-page/user-page.module').then(m => m.UserPageModule),
     canMatch: [authGuard]
   },
+  { path: 'groups',
+    loadChildren: () => import('./groups-page/groups-page.module').then(m => m.GroupsPageModule),
+    canMatch: [authGuard]
+  },
   {
     path: '**',
     title: "Page Not Found",
