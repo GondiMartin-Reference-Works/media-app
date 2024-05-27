@@ -94,25 +94,25 @@ public class GroupService {
         updatableGroup.setImage(newGroup.getImage());
         updatableGroup.setAdminUser(appUserRepository.getReferenceById(newGroup.getAdminUser().getId()));
         updatableGroup.setParticipantUsers(
-                newGroup.getParticipantUsers() != null
+                new ArrayList<>(newGroup.getParticipantUsers() != null
                         ? newGroup.getParticipantUsers().stream()
-                            .map(parti -> appUserRepository.getReferenceById(parti.getId()))
-                            .toList()
-                        : new ArrayList<>()
+                        .map(parti -> appUserRepository.getReferenceById(parti.getId()))
+                        .toList()
+                        : new ArrayList<>())
         );
         updatableGroup.setGroupRequests(
-                newGroup.getGroupRequests() != null
+                new ArrayList<>(newGroup.getGroupRequests() != null
                         ? newGroup.getGroupRequests().stream()
-                            .map(req -> groupRequestRepository.getReferenceById(req.getId()))
-                            .toList()
-                        : new ArrayList<>()
+                        .map(req -> groupRequestRepository.getReferenceById(req.getId()))
+                        .toList()
+                        : new ArrayList<>())
         );
         updatableGroup.setPosts(
-                newGroup.getPosts() != null
+                new ArrayList<>(newGroup.getPosts() != null
                         ? newGroup.getPosts().stream()
-                            .map(post -> postRepository.getReferenceById(post.getId()))
-                            .toList()
-                        : new ArrayList<>()
+                        .map(post -> postRepository.getReferenceById(post.getId()))
+                        .toList()
+                        : new ArrayList<>())
         );
     }
 }
