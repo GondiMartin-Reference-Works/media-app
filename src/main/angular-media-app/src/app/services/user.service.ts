@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom, lastValueFrom } from 'rxjs';
 import { IUserService } from '../auth/services/interfaces/iuser-service';
 import { RegisterUser } from '../models/register-user';
 import { LoginUser } from '../models/login-user';

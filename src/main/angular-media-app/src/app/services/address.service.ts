@@ -56,12 +56,12 @@ export class AddressService extends BaseService {
   delete(id: number, userId: number): void {
     const params: HttpParams = new HttpParams().set('userId', userId);
     this.http.delete(
-      `${this.APIURL}/${id}}`,
+      `${this.APIURL}/${id}`,
       {
         headers: this.getHeaders(),
         params: params
       }
-    );
+    ).subscribe();
   }
 
 }

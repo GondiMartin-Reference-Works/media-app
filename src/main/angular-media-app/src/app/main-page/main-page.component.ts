@@ -19,6 +19,7 @@ export class MainPageComponent implements OnInit {
   newPost: Post = new Post();
   newComment: Comment = new Comment();
   selectedFile: string = "";
+  staticProfileImage: string = "https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912";
 
   constructor(
     private appComponent: AppComponent,
@@ -35,6 +36,13 @@ export class MainPageComponent implements OnInit {
     if (this.authService.isLoggedIn()) {
       this.appComponent.getAllUser();
     }
+  }
+
+  getImage(imgSrc: string | undefined): string{
+    if(imgSrc === undefined){
+      return this.staticProfileImage;
+    }
+    return imgSrc === '' ? this.staticProfileImage : imgSrc;
   }
 
   // Shows a brand-new form
@@ -90,6 +98,7 @@ export class MainPageComponent implements OnInit {
         let post = Object.assign(new Post(), postData);
         post.imgSrc = post.getImageSrc();
         post.comments = post.comments.reverse();
+        post.user = User.convertNewUser(post.user);
         return post;
       });
     });

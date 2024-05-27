@@ -5,6 +5,7 @@ import { LoginUser } from '../../models/login-user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorLoginComponent } from '../registration/error-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-login',
@@ -28,9 +29,11 @@ export class LoginComponent{
       const tokenJson = JSON.stringify(response.token);
       sessionStorage.setItem('current-user-token', tokenJson);
       response.user.birthDate = response.user.birthDate ? new Date(response.user.birthDate): null;
+      response.user = User.convertNewUser(response.user);
       const userJson = JSON.stringify(response.user);
       sessionStorage.setItem('current-user', userJson);
       sessionStorage.setItem('current-user-email', JSON.stringify(this.user.email));
+      sessionStorage.setItem('current-user-id', JSON.stringify(response.user.id));
       this.goToMainPage();
     },
     (error: HttpErrorResponse) => {

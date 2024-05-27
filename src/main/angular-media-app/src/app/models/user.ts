@@ -21,7 +21,10 @@ export class User {
         this.addresses = [];
     }
 
-    static convertNewUser(user: User): User {
+    static convertNewUser(user: User | null): User {
+        if(user === null){
+            return new User();
+        }
         let newUser: User = new User();
         newUser.id = user.id;
         newUser.firstName = user.firstName;

@@ -8,6 +8,26 @@
                             <h2 class="text-uppercase text-center mb-5">Change credentials</h2>
 
                             <form>
+                                <div *ngIf="isOwnUserPage()" class="form-outline mb-4">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Upload image</span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="postImage"
+                                            (change)="onFileSelected($event); onFileNameChanged($event)"
+                                            name="image">
+                                        <label class="custom-file-label" for="postImage">{{selectedFile ||
+                                            'Choose file'}}</label>
+                                    </div>
+                                    
+                                </div>
+                                <div *ngIf="user.imgSrc !== '' && isOwnUserPage()" class="input-group mb-3">
+                                    
+                                    <button type="button" (click)="removeImage()" class="btn btn-outline-danger"><i>Delete Image</i></button>
+                                    <img *ngIf="user.imgSrc !== ''" [src]="user.imgSrc" alt="profile" class="card-img-bottom">
+                                </div>
+                                
+                                
 
                                 <div class="form-outline mb-4">
                                     <input name="first_name" type="text" id="label_first_name" [readOnly]="!isOwnUserPage()"
@@ -43,43 +63,110 @@
                                     <label class="form-label" for="label_email">Birth date</label>
                                 </div>
 
-                                
 
-                                <div *ngFor="let address of currentUser.addresses; let i = index; trackBy: trackByIndex" class="form-outline mb-4">
+
+                                <div class="d-flex justify-content-center ">
+                                    <button *ngIf="!uiCreationMode && isOwnUserPage()" (click)="addressCreationModeToggle()" style="margin: 0.5em;" type="button" class="btn btn-success">
+                                        Add address
+                                    </button>
+                                </div>
+
+                                <div *ngFor="let address of user.addresses; let i = index; trackBy: trackByIndex" class="form-outline mb-4">
                                     <div>
-                                        <p><b>Address {{i + 1}}</b></p>
+                                        <p>
+                                            <b style="padding-right: 1em;">Address {{i + 1}}</b>
+                                            <svg *ngIf="isOwnUserPage()" (click)="editAddress(address)"
+                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                                <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
+                                            </svg>
+
+                                            <button *ngIf="isOwnUserPage()" style="margin-left: 0.5em;" type="button" class="btn btn-outline-danger" (click)="deleteAddress(address)">
+                                                Delete address
+                                            </button>
+                                            
+                                        </p>
+
+                                        <p *ngIf="!address.isEditing">{{addressToString(address)}}</p>
+                                        <div *ngIf="address.isEditing">
+                                            <div class="form-outline mb-4">
+                                                <input name="country" type="text" id="address-country"
+                                                    class="form-control form-control-lg" [(ngModel)]="addressToBeEdited.country"/>
+                                                <label class="form-label" for="address-country">Country</label>
+                                            </div>
+    
+                                            <div class="form-outline mb-4">
+                                                <input name="zip" type="text" id="address-zip"
+                                                    class="form-control form-control-lg" [(ngModel)]="addressToBeEdited.zipCode" />
+                                                <label class="form-label" for="address-zip">Zip</label>
+                                            </div>
+    
+                                            <div class="form-outline mb-4">
+                                                <input name="city" type="text" id="address-city"
+                                                    class="form-control form-control-lg" [(ngModel)]="addressToBeEdited.city" />
+                                                <label class="form-label" for="address-city">City</label>
+                                            </div>
+    
+                                            <div class="form-outline mb-4">
+                                                <input name="street" type="text" id="address-street"
+                                                    class="form-control form-control-lg" [(ngModel)]="addressToBeEdited.street" />
+                                                <label class="form-label" for="address-street">Street</label>
+                                            </div>
+    
+                                            <div class="form-outline mb-4">
+                                                <input name="house-num" type="text" id="address-house-num"
+                                                    class="form-control form-control-lg" [(ngModel)]="addressToBeEdited.houseNum" />
+                                                <label class="form-label" for="address-house-num">House number</label>
+                                            </div>
+                                            <button type="button" class="btn btn-success" (click)="applyAddressChange(address)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"></path>
+                                                </svg>
+                                                Save changes
+                                              </button>
+                                        </div>
+
+                                        
+                                        
                                     </div>
-                                    <div>
-                                        <div class="form-outline mb-4">
-                                            <input name="country" type="text" id="address-country-{{i}}" [readOnly]="!isOwnUserPage()"
-                                                class="form-control form-control-lg" [(ngModel)]="currentUser.addresses[i].country" />
-                                            <label class="form-label" for="address-country-{{i}}">Country</label>
-                                        </div>
-
-                                        <div class="form-outline mb-4">
-                                            <input name="zip" type="text" id="address-zip-{{i}}" [readOnly]="!isOwnUserPage()"
-                                                class="form-control form-control-lg" [(ngModel)]="currentUser.addresses[i].zipCode" />
-                                            <label class="form-label" for="address-zip-{{i}}">Zip</label>
-                                        </div>
-
-                                        <div class="form-outline mb-4">
-                                            <input name="city" type="text" id="address-city-{{i}}" [readOnly]="!isOwnUserPage()"
-                                                class="form-control form-control-lg" [(ngModel)]="currentUser.addresses[i].city" />
-                                            <label class="form-label" for="address-city-{{i}}">City</label>
-                                        </div>
-
-                                        <div class="form-outline mb-4">
-                                            <input name="street" type="text" id="address-street-{{i}}" [readOnly]="!isOwnUserPage()"
-                                                class="form-control form-control-lg" [(ngModel)]="currentUser.addresses[i].street" />
-                                            <label class="form-label" for="address-street-{{i}}">Street</label>
-                                        </div>
-
-                                        <div class="form-outline mb-4">
-                                            <input name="house-num" type="text" id="address-house-num-{{i}}" [readOnly]="!isOwnUserPage()"
-                                                class="form-control form-control-lg" [(ngModel)]="currentUser.addresses[i].houseNum" />
-                                            <label class="form-label" for="address-house-num-{{i}}">House number</label>
-                                        </div>
+                                    
+                                </div>
+                                <div *ngIf="uiCreationMode">
+                                    <p><b>New Address</b></p>
+                                    <div class="form-outline mb-4">
+                                        <input name="country" type="text" id="address-country"
+                                            class="form-control form-control-lg" [(ngModel)]="addressToBeEdited.country"/>
+                                        <label class="form-label" for="address-country">Country</label>
                                     </div>
+
+                                    <div class="form-outline mb-4">
+                                        <input name="zip" type="text" id="address-zip"
+                                            class="form-control form-control-lg" [(ngModel)]="addressToBeEdited.zipCode" />
+                                        <label class="form-label" for="address-zip">Zip</label>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <input name="city" type="text" id="address-city"
+                                            class="form-control form-control-lg" [(ngModel)]="addressToBeEdited.city" />
+                                        <label class="form-label" for="address-city">City</label>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <input name="street" type="text" id="address-street"
+                                            class="form-control form-control-lg" [(ngModel)]="addressToBeEdited.street" />
+                                        <label class="form-label" for="address-street">Street</label>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <input name="house-num" type="text" id="address-house-num"
+                                            class="form-control form-control-lg" [(ngModel)]="addressToBeEdited.houseNum" />
+                                        <label class="form-label" for="address-house-num">House number</label>
+                                    </div>
+                                    <button *ngIf="uiCreationMode && isOwnUserPage()" (click)="addressCreationModeToggle()" style="margin-left: 0.5em;" type="button" class="btn btn-danger">
+                                        Cancel
+                                    </button>
+                                    <button *ngIf="uiCreationMode && isOwnUserPage()" (click)="addressCreationModeToggle(); createAddress(addressToBeEdited)" style="margin-left: 0.5em;" type="button" class="btn btn-outline-success">
+                                        Apply new 
+                                    </button>
                                 </div>
 
                                 <div *ngIf="isOwnUserPage()" class="d-flex justify-content-center">

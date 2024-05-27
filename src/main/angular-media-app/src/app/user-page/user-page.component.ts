@@ -24,7 +24,7 @@ export class UserPageComponent implements OnInit{
   uiEditMode: boolean = false;
   postToBeEdited: Post = new Post();
   selectedFile: string = '';
-
+  staticProfileImage: string = "https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912";
 
   constructor(
     private postService: PostService,
@@ -96,6 +96,7 @@ export class UserPageComponent implements OnInit{
         let post = Object.assign(new Post(), postData);
         post.imgSrc = post.getImageSrc();
         post.comments = post.comments.reverse();
+        post.user = User.convertNewUser(post.user);
         return post;
       });
     });
@@ -200,6 +201,13 @@ export class UserPageComponent implements OnInit{
       this.newComment = new Comment();
       this.ngOnInit();
     });
+  }
+
+  getImage(imgSrc: string | undefined): string{
+    if(imgSrc === undefined){
+      return this.staticProfileImage;
+    }
+    return imgSrc === '' ? this.staticProfileImage : imgSrc;
   }
 
   onFileNameChanged(event: any) {

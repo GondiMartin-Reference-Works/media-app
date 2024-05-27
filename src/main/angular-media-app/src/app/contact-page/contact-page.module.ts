@@ -14,8 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // import For
   imports: [
     CommonModule,
     ContactPageRoutingModule,
-    FormsModule,
-    ReactiveFormsModule
+    FormsModule
   ]
 })
 export class ContactPageModule { }
