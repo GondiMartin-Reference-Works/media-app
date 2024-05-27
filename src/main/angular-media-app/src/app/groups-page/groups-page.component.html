@@ -18,7 +18,7 @@
                     (click)="closeForm()">X</button>
             </div>
         </div>
-        <h2 style="text-align: center;"><u>New group</u></h2>
+        <h2 style="text-align: center;"><u>{{formTitleText}}</u></h2>
 
         <form class="p-3">
             <div class="form-group">
@@ -47,7 +47,7 @@
             <div class="row">
                 <div class=" col mx-auto">
                     <button class="block-button btn btn-info" type="button"
-                        (click)="sendForm()">Submit</button>
+                        (click)="sendForm()">{{formButtonText}}</button>
                 </div>
             </div>
         </form>
@@ -74,10 +74,22 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12 pb-2">
-                                    <div *ngIf=!isJoinedByUser(group)>
-                                        <button type="button" class="btn btn-dark block-button"
+                                    <button type="button" class="btn btn-dark block-button"
                                             (click)="goToGroupPage(group.id)">
                                             Go to {{group.name}}</button>
+                                </div>
+                            </div>
+                            <div *ngIf="isMyGroup(group)">
+                                <div class="row">
+                                    <div class="col-6 pb-2 pr-1">
+                                        <button type="button" class="btn btn-dark block-button"
+                                                (click)="editGroup(group)">
+                                                <i class="fa fa-edit"></i></button>
+                                    </div>
+                                    <div class="col-6 pb-2 pl-1">
+                                        <button type="button" class="btn btn-dark block-button"
+                                                (click)="deleteGroup(group.id)">
+                                                <i class="fa fa-trash"></i></button>
                                     </div>
                                 </div>
                             </div>

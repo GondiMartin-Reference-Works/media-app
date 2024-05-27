@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from './base-service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environment';
 import { Group } from '../models/group';
 import { Observable } from 'rxjs';
@@ -30,6 +30,17 @@ export class GroupService extends BaseService{
     return this.http.get<Group[]>(
       this.APIURL,
       { headers: this.getHeaders() }
+    );
+  }
+
+  getAllByUserId(userId: number): Observable<Group[]> {
+    const params: HttpParams = new HttpParams().set('userId', userId);
+    return this.http.get<Group[]>(
+      `${this.APIURL}/my`,
+      { 
+        headers: this.getHeaders(),
+        params: params
+      }
     );
   }
 

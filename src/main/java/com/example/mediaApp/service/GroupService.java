@@ -35,6 +35,15 @@ public class GroupService {
         return repository.findAll();
     }
 
+    public List<GroupEntity> getAllGroupByAdminUserId(Long userId) {
+        return repository.findGroupEntitiesByAdminUser_Id(userId);
+    }
+
+    public List<GroupEntity> getAllGroupByParticipantUserId(Long userId) {
+        AppUserEntity userEntity = appUserRepository.getReferenceById(userId);
+        return repository.findGroupEntitiesByParticipantUsersContaining(userEntity);
+    }
+
     public Optional<GroupEntity> getById(Long id) {
         return repository.findById(id);
     }
@@ -65,7 +74,11 @@ public class GroupService {
         if (repository.existsById(id) &&
             appUserRepository.existsById(group.getAdminUser().getId())){
             GroupEntity groupEntity = repository.getReferenceById(id);
+
             updateEntityWithValuesFromDto(group, groupEntity);
+
+            repository.save(groupEntity);
+
             return Optional.of(groupEntity);
         }
         return Optional.empty();
@@ -88,8 +101,8 @@ public class GroupService {
                         : new ArrayList<>()
         );
         updatableGroup.setGroupRequests(
-                newGroup.getGroupRequest() != null
-                        ? newGroup.getGroupRequest().stream()
+                newGroup.getGroupRequests() != null
+                        ? newGroup.getGroupRequests().stream()
                             .map(req -> groupRequestRepository.getReferenceById(req.getId()))
                             .toList()
                         : new ArrayList<>()

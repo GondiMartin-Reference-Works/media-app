@@ -10,6 +10,7 @@ import com.example.mediaApp.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,15 @@ public class GroupController {
     @GetMapping()
     public ResponseEntity<List<GroupDTO>> getAll(){
         List<GroupEntity> groupEntities = service.getAll();
+        return ResponseEntity.ok(groupEntities.stream()
+                .map(getGroupConverter()::convertFromEntityToDTO)
+                .toList());
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<List<GroupDTO>> getAllByUserId(@RequestParam Long userId){
+        List<GroupEntity> groupEntities = service.getAllGroupByAdminUserId(userId);
+        groupEntities.addAll(service.getAllGroupByParticipantUserId(userId));
         return ResponseEntity.ok(groupEntities.stream()
                 .map(getGroupConverter()::convertFromEntityToDTO)
                 .toList());
