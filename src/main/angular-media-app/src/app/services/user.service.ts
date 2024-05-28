@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom, lastValueFrom } from 'rxjs';
 import { IUserService } from '../auth/services/interfaces/iuser-service';
 import { RegisterUser } from '../models/register-user';
 import { LoginUser } from '../models/login-user';
@@ -33,12 +33,22 @@ export class UserService extends BaseService implements IUserService{
     return this.http.post<AuthResponse>(this.APIURL + "authenticate", user);
   }
 
-  update(id: number, user: User): void{
-    this.http.put<void>(
+  getById(userId: number): Observable<User>{
+    return this.http.get<User>(
+      `${this.USER_CONTROLLER_APIURL}/${userId}`,
+      {
+        headers: this.getHeaders()
+      }
+    );
+  }
+
+  update(id: number, user: User): Observable<HttpResponse<void>>{
+    return this.http.put<void>(
       `${this.USER_CONTROLLER_APIURL}/${id}`,
+      user,
       {
         headers: this.getHeaders(),
-        body: user
+        observe: 'response'
       }
     );
   }
@@ -46,6 +56,8 @@ export class UserService extends BaseService implements IUserService{
   logout(){
     sessionStorage.removeItem("current-user-token");
     sessionStorage.removeItem("current-user-email");
+    sessionStorage.removeItem("current-user-id");
+    sessionStorage.removeItem("current-user");
     window.location.reload();
   }
 

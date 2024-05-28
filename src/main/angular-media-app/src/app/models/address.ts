@@ -5,6 +5,7 @@ export class Address {
     zipCode: string;
     street: string;
     houseNum: string;
+    isEditing: boolean;
 
     constructor() {
         this.id = 0;
@@ -13,5 +14,8 @@ export class Address {
         this.zipCode = "";
         this.street = "";
         this.houseNum = "";
+        this.isEditing = false;
     }
+
+    
 }

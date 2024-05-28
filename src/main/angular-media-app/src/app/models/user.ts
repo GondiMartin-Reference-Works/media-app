@@ -5,7 +5,7 @@ export class User {
     firstName: string;
     lastName: string;
     email: string;
-    birthdate: Date;
+    birthDate: Date | null;
     profilePicture: number[] | null;
     imgSrc: string;
     addresses: Address[];
@@ -15,19 +15,22 @@ export class User {
         this.firstName = "";
         this.lastName = "";
         this.email = "";
-        this.birthdate = new Date("2019-01-16");
+        this.birthDate = null;
         this.profilePicture = null;
         this.imgSrc = '';
         this.addresses = [];
     }
 
-    static convertNewUser(user: User): User {
+    static convertNewUser(user: User | null): User {
+        if(user === null){
+            return new User();
+        }
         let newUser: User = new User();
         newUser.id = user.id;
         newUser.firstName = user.firstName;
         newUser.lastName = user.lastName;
         newUser.email = user.email;
-        newUser.birthdate = user.birthdate;
+        newUser.birthDate = user.birthDate;
         newUser.profilePicture = user.profilePicture;
         newUser.imgSrc = newUser.getImageSrc();
         newUser.addresses = user.addresses;
