@@ -30,6 +30,10 @@ const routes: Routes = [
     loadChildren: () => import('./user-page/user-page.module').then(m => m.UserPageModule),
     canMatch: [authGuard]
   },
+  { path: 'groups',
+    loadChildren: () => import('./groups-page/groups-page.module').then(m => m.GroupsPageModule),
+    canMatch: [authGuard]
+  },
   { path: 'contact-page/:userId', loadChildren: () => import('./contact-page/contact-page.module').then(m => m.ContactPageModule),
     canMatch: [authGuard]
    },

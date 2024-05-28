@@ -15,6 +15,6 @@ public class GroupDTO {
     private byte[] image;
     private AppUserDTO adminUser;
     private List<AppUserDTO> participantUsers;
-    private List<GroupRequestDTO> groupRequest;
+    private List<GroupRequestDTO> groupRequests;
     private List<PostDTO> posts;
 }

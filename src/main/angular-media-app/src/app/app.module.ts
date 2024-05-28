@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
 import { AppComponent } from './app.component';
@@ -13,6 +12,7 @@ import { MainPageModule } from './main-page/main-page.module';
 import { FriendRequestModule } from './friend-request/friend-request.module';
 import { ManageFriendsModule } from './manage-friends/manage-friends.module';
 import { UserPageModule } from './user-page/user-page.module';
+import { GroupsPageModule } from './groups-page/groups-page.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +29,7 @@ import { UserPageModule } from './user-page/user-page.module';
     UserPageModule,
     FriendRequestModule,
     ManageFriendsModule,
+    GroupsPageModule,
     AppRoutingModule
   ],
   bootstrap: [ AppComponent ]

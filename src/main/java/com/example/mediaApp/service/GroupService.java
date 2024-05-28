@@ -35,6 +35,15 @@ public class GroupService {
         return repository.findAll();
     }
 
+    public List<GroupEntity> getAllGroupByAdminUserId(Long userId) {
+        return repository.findGroupEntitiesByAdminUser_Id(userId);
+    }
+
+    public List<GroupEntity> getAllGroupByParticipantUserId(Long userId) {
+        AppUserEntity userEntity = appUserRepository.getReferenceById(userId);
+        return repository.findGroupEntitiesByParticipantUsersContaining(userEntity);
+    }
+
     public Optional<GroupEntity> getById(Long id) {
         return repository.findById(id);
     }
@@ -65,7 +74,11 @@ public class GroupService {
         if (repository.existsById(id) &&
             appUserRepository.existsById(group.getAdminUser().getId())){
             GroupEntity groupEntity = repository.getReferenceById(id);
+
             updateEntityWithValuesFromDto(group, groupEntity);
+
+            repository.save(groupEntity);
+
             return Optional.of(groupEntity);
         }
         return Optional.empty();
@@ -81,25 +94,25 @@ public class GroupService {
         updatableGroup.setImage(newGroup.getImage());
         updatableGroup.setAdminUser(appUserRepository.getReferenceById(newGroup.getAdminUser().getId()));
         updatableGroup.setParticipantUsers(
-                newGroup.getParticipantUsers() != null
+                new ArrayList<>(newGroup.getParticipantUsers() != null
                         ? newGroup.getParticipantUsers().stream()
-                            .map(parti -> appUserRepository.getReferenceById(parti.getId()))
-                            .toList()
-                        : new ArrayList<>()
+                        .map(parti -> appUserRepository.getReferenceById(parti.getId()))
+                        .toList()
+                        : new ArrayList<>())
         );
         updatableGroup.setGroupRequests(
-                newGroup.getGroupRequest() != null
-                        ? newGroup.getGroupRequest().stream()
-                            .map(req -> groupRequestRepository.getReferenceById(req.getId()))
-                            .toList()
-                        : new ArrayList<>()
+                new ArrayList<>(newGroup.getGroupRequests() != null
+                        ? newGroup.getGroupRequests().stream()
+                        .map(req -> groupRequestRepository.getReferenceById(req.getId()))
+                        .toList()
+                        : new ArrayList<>())
         );
         updatableGroup.setPosts(
-                newGroup.getPosts() != null
+                new ArrayList<>(newGroup.getPosts() != null
                         ? newGroup.getPosts().stream()
-                            .map(post -> postRepository.getReferenceById(post.getId()))
-                            .toList()
-                        : new ArrayList<>()
+                        .map(post -> postRepository.getReferenceById(post.getId()))
+                        .toList()
+                        : new ArrayList<>())
         );
     }
 }
