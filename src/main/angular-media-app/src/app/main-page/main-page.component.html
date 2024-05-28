@@ -59,9 +59,12 @@
                                 <article>
                                     <div class="card">
                                         <div class="card-body profile">
-                                            <img alt="profile picture"
+                                            <img *ngIf="post.user?.imgSrc === ''" alt="profile picture"
                                                 title="{{post.user?.firstName}} {{post.user?.lastName}}"
-                                                src="https://www.bankrate.com/2019/03/22142110/How-to-trade-stocks.jpg?auto=webp&optimize=high&width=912">
+                                                [src]="getImage(post.user?.imgSrc)">
+                                            <img *ngIf="post.user?.imgSrc !== ''" alt="profile picture"
+                                            title="{{post.user?.firstName}} {{post.user?.lastName}}"
+                                            [src]="post.user?.imgSrc">
                                             <a [routerLink]="['/user-page/', post.user?.id]">
                                                 <h5 class="card-title"><b>{{post.user?.firstName}}
                                                         {{post.user?.lastName}}</b></h5>

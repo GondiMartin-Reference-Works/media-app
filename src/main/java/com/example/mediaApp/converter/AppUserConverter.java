@@ -12,6 +12,9 @@ public class AppUserConverter implements IGenericConverter<AppUserEntity, AppUse
     private final AddressConverter addressConverter;
     @Override
     public AppUserDTO convertFromEntityToDTO(AppUserEntity entity) {
+        if(entity == null){
+            return null;
+        }
         return new AppUserDTO(
                 entity.getId(),
                 entity.getFirstName(),
