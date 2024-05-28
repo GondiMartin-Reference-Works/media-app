@@ -161,10 +161,10 @@
                                             class="form-control form-control-lg" [(ngModel)]="addressToBeEdited.houseNum" />
                                         <label class="form-label" for="address-house-num">House number</label>
                                     </div>
-                                    <button *ngIf="uiCreationMode && isOwnUserPage()" (click)="addressCreationModeToggle()" style="margin-left: 0.5em;" type="button" class="btn btn-danger">
+                                    <button *ngIf="uiCreationMode && isOwnUserPage()" (click)="addressCreationModeToggle()" style="margin-left: 0.5em; margin-bottom: 0.5em;" type="button" class="btn btn-danger">
                                         Cancel
                                     </button>
-                                    <button *ngIf="uiCreationMode && isOwnUserPage()" (click)="addressCreationModeToggle(); createAddress(addressToBeEdited)" style="margin-left: 0.5em;" type="button" class="btn btn-outline-success">
+                                    <button *ngIf="uiCreationMode && isOwnUserPage()" (click)="addressCreationModeToggle(); createAddress(addressToBeEdited)" style="margin-left: 0.5em; margin-bottom: 0.5em;" type="button" class="btn btn-outline-success">
                                         Apply new 
                                     </button>
                                 </div>

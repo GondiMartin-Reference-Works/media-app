@@ -56,6 +56,8 @@ export class UserService extends BaseService implements IUserService{
   logout(){
     sessionStorage.removeItem("current-user-token");
     sessionStorage.removeItem("current-user-email");
+    sessionStorage.removeItem("current-user-id");
+    sessionStorage.removeItem("current-user");
     window.location.reload();
   }
 

@@ -25,7 +25,7 @@ export class ContactPageComponent implements OnInit{
     private addressService: AddressService,
     private userService: UserService,
     private route: ActivatedRoute
-    
+
   ){
     this.userService.getById(Number(this.userIdFromUrl)).subscribe(resp => {
       this.user = User.convertNewUser(resp);
@@ -105,14 +105,16 @@ export class ContactPageComponent implements OnInit{
         return;
       }
 
-      sessionStorage.setItem("current-user", JSON.stringify(User.convertNewUser(this.user)));
-      sessionStorage.setItem("current-user-email", JSON.stringify(this.user.email));
-      this.currentUser = this.user;
       if(this.isEmailChanged()){
         this.userService.logout();
       }
+      
+      sessionStorage.setItem("current-user", JSON.stringify(User.convertNewUser(this.user)));
+      sessionStorage.setItem("current-user-email", JSON.stringify(this.user.email));
+
+      this.currentUser = this.user;
     });
-    window.location.reload();
+
   }
 
   // updateChanged(){
@@ -127,7 +129,7 @@ export class ContactPageComponent implements OnInit{
 
   addressEquals(addressOriginal: Address, addressNew: Address): boolean{
     return addressOriginal.country === addressNew.country && addressOriginal.zipCode === addressNew.zipCode &&
-    addressOriginal.city === addressNew.city && addressOriginal.street === addressNew.street && 
+    addressOriginal.city === addressNew.city && addressOriginal.street === addressNew.street &&
     addressOriginal.houseNum === addressNew.houseNum;
   }
 
